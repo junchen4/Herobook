@@ -63,7 +63,8 @@ see after logging in.
 
 ### Phase 5: Searching for Friends (~2 days)
 I'll add `search` routes to the Posts controller. On the
-Backbone side, there will be a `SearchResults` composite view that has a `PostsIndex` subview. These views will use a 'friends` collection, but they will fetch from the new `search` routes.
+Backbone side, there will be a `SearchResults` composite view that has a `PostsIndex` subview.
+These views will use a 'friends' collection, but they will fetch from the new `search` routes.
 Users can "add" friends.
 
 [Details][phase-five]
@@ -77,7 +78,6 @@ Users can "add" friends.
 - [ ] Activity history (e.g. likes, taggings)
 - [ ] Post types (image posts, quote posts, etc)
 - [ ] Multiple sessions/session management
-- [ ] User avatars
 - [ ] Typeahead search bar
 - [ ] OkCupid-like features
 

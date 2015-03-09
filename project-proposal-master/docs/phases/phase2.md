@@ -20,6 +20,6 @@ Api::PostsController (create, destroy, show)
 * PostsIndex (composite view, contains PostsIndexItem subviews)
 * PostsIndexItem
 * PostShow
-# PostForm
+* PostForm
 
 ## Gems/Libraries
