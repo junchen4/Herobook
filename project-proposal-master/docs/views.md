@@ -6,14 +6,8 @@
 ## Feed Show (landing page)
 ![feed-show]
 
-## Blog Show
-![blog-show]
-
-## Post Show
-![post-show]
-
-## Post Form
-![post-form]
+## User Show
+![user-show]
 
 ## Search Results
 ![search-results]

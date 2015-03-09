@@ -2,7 +2,7 @@
 
 [Heroku link][heroku]
 
-[heroku]: http://facebook_clone.herokuapp.com
+[heroku]: http://my-facebook.herokuapp.com/
 
 ## Minimum Viable Product
 MyFacebook is a clone of Facebook built on Rails and Backbone. Users can:
