@@ -5,6 +5,9 @@ column name     | data type | details
 ----------------|-----------|-----------------------
 id              | integer   | not null, primary key
 email           | string    | not null, unique
+DOB             | string    | not null
+sex             | string    | not null
+city            | string    | not null
 password_digest | string    | not null
 session_token   | string    | not null, unique
 <!-- include information here such as gender, DOB, etc? -->
@@ -31,5 +34,3 @@ column name | data type | details
 id          | integer   | not null, primary key
 author_id   | integer   | not null, foreign key (references users)
 body        | string    | not null
-
-
