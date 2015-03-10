@@ -1,6 +1,6 @@
-<h1> Sign Up Page </h1>
+<h1> Login </h1>
 
-<form class="" action="<%=users_url%>" method="post">
+<form class="" action="<%=session_url%>" method="post">
   <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
 
   <label>Email
@@ -10,7 +10,7 @@
   <label>Password
   <input type="text" name="user[password]" value="">
   </label>
-  <button>Sign Up</button>
+  <button>Sign In</button>
   <br>
-  Already a user? <%=link_to "Login", new_session_url%>
+  Not a user? <%= link_to "Sign Up", new_user_url %>
 </form>

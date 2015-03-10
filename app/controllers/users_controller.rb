@@ -10,12 +10,13 @@ class UsersController < ApplicationController
       login(@user)
       redirect_to user_url(@user)
     else
-      flash.now << @user.errors.full_messages
+      flash.now[:errors] = @user.errors.full_messages
       render :new
     end
   end
 
   def show
+    require_logged_in if
     @user = User.find(params[:id])
   end
 
