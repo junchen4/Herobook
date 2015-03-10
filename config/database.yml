@@ -19,13 +19,13 @@ development:
   encoding: unicode
   database: FinalProject_development
   pool: 5
-  username: FinalProject
+  username: appacademy
   password:
 
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have
   # domain sockets, so uncomment these lines.
-  #host: localhost
+  host: localhost
 
   # The TCP port the server listens on. Defaults to 5432.
   # If your server runs on a different port number, change accordingly.
@@ -48,7 +48,7 @@ test:
   encoding: unicode
   database: FinalProject_test
   pool: 5
-  username: FinalProject
+  username: appacademy
   password:
 
 production:
@@ -56,5 +56,5 @@ production:
   encoding: unicode
   database: FinalProject_production
   pool: 5
-  username: FinalProject
+  username: appacademy
   password:
