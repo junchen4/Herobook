@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature "Sign up" dp
+feature "Sign up" do
   before :each do
     visit "users/new"
   end
@@ -39,6 +39,7 @@ feature "Sign up" dp
     click_button "Sign Up"
     expect(page.to have_content "hobo_bill@allday.com")
   end
+end
 
 feature "Logout" do
   before :each do
