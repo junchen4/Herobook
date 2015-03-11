@@ -10,17 +10,55 @@ class User < ActiveRecord::Base
     :foreign_key => :author_id
   )
 
-  has_many(
-    :friendships,
-    :class_name => "Friendship",
-    :foreign_key => :user_id
-  )
+  #"pending_requests" refers to requests that have been made to the current user
+  # has_many(
+  #   :pending_requests,
+  #   :class_name => "Request",
+  #   :foreign_key => :requestee_id
+  # )
+  #
+  # has_many(
+  #   :inverse_requests,
+  #   :class_name => "Friendship",
+  #   :foreign_key => :requestee_id
+  # )
+  #
+  # has_many(
+  #   :friends,
+  #   :through => :requests,
+  #   :source => :inverse_user
+  # )
 
-  has_many(
-    :friends,
-    :through => :friendships,
-    :source => 
-  )
+  def pending_requests
+    binds = {id: self.id}
+    Request.find_by_sql([<<-SQL, binds])
+      SELECT requests.*
+      FROM requests
+      WHERE requests.requestee_id = :id AND requests.status = 'pending'
+    SQL
+  end
+
+  def all_friends
+    binds = {id: self.id}
+    User.find_by_sql([<<-SQL, binds])
+      SELECT users.*
+      FROM requests AS incoming
+      JOIN requests AS outgoing ON incoming.requestee_id = outgoing.requestor_id
+      JOIN users ON outgoing.requestee_id = users.id OR incoming.requestor_id = users.id
+      WHERE incoming.requestee_id = :id AND incoming.status = 'accepted'
+      UNION
+      SELECT users.*
+      FROM requests
+      JOIN users ON requests.requestee_id = users.id
+      WHERE requests.requestor_id = :id AND requests.status = 'accepted'
+      UNION
+      SELECT users.*
+      FROM requests
+      JOIN users ON requests.requestor_id = users.id
+      WHERE requests.requestee_id = :id AND requests.status = 'accepted'
+    SQL
+  end
+
 
   def self.find_by_credentials(email, password)
     user = User.find_by(email: email)

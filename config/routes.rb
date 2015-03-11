@@ -3,6 +3,7 @@ FinalProject::Application.routes.draw do
   resources :posts, only: [:new, :create, :show, :edit, :update, :destroy]
 
   resource :session, only: [:new, :create, :destroy]
+  resources :requests
 
   root to: redirect("session/new")
 end
