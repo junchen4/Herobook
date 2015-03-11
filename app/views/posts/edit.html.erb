@@ -1,0 +1,10 @@
+<h1> Edit Post </h1>
+
+<form class="" action="<%= post_url(@post) %>" method="post">
+  <input type="hidden" name="_method" value="patch">
+  <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+
+  <textarea name="post[body]" value="<%=@post.body%>"></textarea>
+  <br>
+  <button>Edit Post!</button>
+</form>
