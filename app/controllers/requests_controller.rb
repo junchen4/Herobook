@@ -8,11 +8,11 @@ class RequestsController < ApplicationController
   def create
     @request = Request.new
     @request.requestor_id = current_user.id
-    @request.requestee_id = params[:requestee][:id]
+    @request.requestee_id = params[:request][:requestee_id]
     @request.status = "pending"
 
     if @request.save
-      redirect_to user_url(@request.requestee_id)
+      render json: @request
     else
       flash.now[:errors] = @user.errors.full_messages
       redirect_to user_url(current_user)

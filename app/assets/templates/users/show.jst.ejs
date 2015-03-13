@@ -1,10 +1,25 @@
 <h1> <%=user.escape('email')%>'s Profile Page </h1>
-
-<label for='body'>Post</label>
+<button class="request-friend">Add Friend</button>
 <br>
-<textarea name='body' id='body'></textarea>
 <br>
-<button>Submit</button>
+<br>
+<br>
+<label>Friend Requests
+  <ul>
+  <%user.requests().each(function(request) {%>
+    <li> <%=FacebookApp.Collections.users.get(request.get('requestor_id')).escape('email')%> </li>
+  <% }); %>
+  </ul>
+</label>
+<br>
+<br>
+<label>New Post
+  <form>
+    <input type="text" name="post[body]">
+    <br>
+    <button class="add-post">Add Post</button>
+  </form>
+</label>
 
 <ul>
   <% user.posts().each(function(post) { %>

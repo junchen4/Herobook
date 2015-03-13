@@ -14,7 +14,7 @@ class UsersController < ApplicationController
 
     if @user.save
       login(@user)
-      redirect_to user_url(@user)
+      redirect_to "#/users/#{@user.id}"
     else
       flash.now[:errors] = @user.errors.full_messages
       render :new
@@ -23,7 +23,11 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    render json: @user
+    if @user.nil?
+      render json: {error: "No User Found"}, status: :unprocessable_entity
+    else
+      render json: @user
+    end
   end
 
   private

@@ -17,7 +17,7 @@ class PostsController < ApplicationController
       render json: @post
     else
       flash.now[:errors] = @post.errors.full_messages
-      render :new
+      render json: {error: "invalid"}, status: :unprocessable_entity
     end
 
   end
