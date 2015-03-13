@@ -1,4 +1,5 @@
 class RequestsController < ApplicationController
+  before_filter :require_logged_in
 
   def new
     @request = Request.new

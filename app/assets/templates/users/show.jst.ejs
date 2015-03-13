@@ -1,0 +1,13 @@
+<h1> <%=user.escape('email')%>'s Profile Page </h1>
+
+<label for='body'>Post</label>
+<br>
+<textarea name='body' id='body'></textarea>
+<br>
+<button>Submit</button>
+
+<ul>
+  <% user.posts().each(function(post) { %>
+  <li> <%= post.escape('body') %> </li>
+  <% }); %>
+</ul>

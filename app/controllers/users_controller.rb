@@ -1,4 +1,10 @@
 class UsersController < ApplicationController
+  before_filter :require_logged_in, :except => [:new, :create]
+
+  def index
+    render json: User.all
+  end
+
   def new
     @user = User.new
   end
@@ -16,8 +22,8 @@ class UsersController < ApplicationController
   end
 
   def show
-    require_logged_in if
     @user = User.find(params[:id])
+    render json: @user
   end
 
   private

@@ -1,6 +1,10 @@
 class PostsController < ApplicationController
   before_filter :require_logged_in
 
+  def index
+    render json: Post.all
+  end
+
   def new
     @post = Post.new
   end
@@ -10,7 +14,7 @@ class PostsController < ApplicationController
     @post.author_id = current_user.id
 
     if @post.save
-        redirect_to user_url(current_user)
+      render json: @post
     else
       flash.now[:errors] = @post.errors.full_messages
       render :new
@@ -29,7 +33,7 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
 
     if @post.update_attributes(post_params)
-      redirect_to user_url(@post.author_id)
+      render json: @post
     else
       flash.now[:errors] = @post.errors.full_messages
       render :edit
