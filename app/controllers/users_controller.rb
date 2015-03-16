@@ -22,11 +22,11 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    @user = User.includes(:authored_posts, :received_posts).find(params[:id])
     if @user.nil?
       render json: {error: "No User Found"}, status: :unprocessable_entity
     else
-      render json: @user
+      render :show
     end
   end
 

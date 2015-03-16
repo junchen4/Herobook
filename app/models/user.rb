@@ -5,9 +5,15 @@ class User < ActiveRecord::Base
   after_initialize :ensure_session_token
 
   has_many(
-    :posts,
+    :authored_posts,
     :class_name => "Post",
     :foreign_key => :author_id
+  )
+
+  has_many(
+    :received_posts,
+    :class_name => "Post",
+    :foreign_key => :receiver_id
   )
 
   #"pending_requests" refers to requests that have been made to the current user

@@ -1,0 +1,15 @@
+<ul>
+  <% posts.each(function(post) { %>
+	<% if(post !== undefined && FacebookApp.Collections.users !== undefined) { %>
+		<% if(post.get('receiver_id') === user.get('id')) { %>
+		  <li> 
+		  	<%= post.escape('body') %> 
+		  	<br>
+		  	<% console.log(post.get('author_id')) %>
+		  	<% console.log(FacebookApp.Collections.users) %>
+		  	Added by: <%= FacebookApp.Collections.users.get(post.get('author_id')).escape('email') %>
+		  </li>
+		 <% } %>
+	<% } %>
+  <% }); %>
+</ul>

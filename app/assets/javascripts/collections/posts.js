@@ -5,13 +5,14 @@ FacebookApp.Collections.Posts = Backbone.Collection.extend({
 
   initialize: function(models, options) {
     this.user = options.user;
+   
   },
 
   getOrFetch: function(id) {
       var post = this.get(id)
 
       if(!post) {
-        post = new FacebookApp.Models.Post({id: id});
+        post = new FacebookApp.Models.post({id: id});
         var collections = this;
         post.fetch({
           success: function() {
@@ -25,3 +26,4 @@ FacebookApp.Collections.Posts = Backbone.Collection.extend({
       return post;
   }
 })
+

@@ -17,6 +17,10 @@ class SessionsController < ApplicationController
     end
   end
 
+  def show
+    render json: current_user
+  end
+
   def destroy
     logout
     redirect_to new_session_url

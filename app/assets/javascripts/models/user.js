@@ -5,6 +5,14 @@ FacebookApp.Models.User = Backbone.Model.extend({
     if(!this._posts) {
       this._posts = new FacebookApp.Collections.Posts([], {user: this});
     }
+    // var that = this;
+    // this._posts.fetch({
+    //   success: function() {
+    //     // console.log(that._posts)
+    //     that._posts = that._posts.where({author_id: 1});
+    //     // console.log(that._posts[0]);
+    //   }
+    // });
     return this._posts;
   },
 
@@ -16,9 +24,14 @@ FacebookApp.Models.User = Backbone.Model.extend({
   },
 
   parse: function(response) {
-    if(response.posts) {
-      this.posts().set(response.posts, {parse: true});
-      delete response.posts;
+    if(response.authoredPosts) {
+      this.posts().set(response.authoredPosts, {parse: true});
+      delete response.authoredPosts;
+    }
+
+    if(response.receivedPosts) {
+      this.posts().set(response.receivedPosts, {remove: false, parse: true});
+      delete response.receivedPosts;
     }
 
     if(response.requests) {

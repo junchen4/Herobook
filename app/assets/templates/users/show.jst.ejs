@@ -1,28 +1,28 @@
 <h1> <%=user.escape('email')%>'s Profile Page </h1>
-<button class="request-friend">Add Friend</button>
+<% if(FacebookApp.Models.currentUser.get('id') !== user.get('id')) { %>
+  <button class="request-friend">Add Friend</button>
+<% } %>
 <br>
 <br>
 <br>
 <br>
 <label>Friend Requests
   <ul>
-  <%user.requests().each(function(request) {%>
-    <li> <%=FacebookApp.Collections.users.get(request.get('requestor_id')).escape('email')%> </li>
-  <% }); %>
+  <% if (FacebookApp.Collections.users !== undefined) { %>
+    <%user.requests().each(function(request) {%>
+      <li> <%=FacebookApp.Collections.users.get(request.get('requestor_id')).escape('email')%> </li>
+    <% }); %>
+    <% } %>
   </ul>
 </label>
 <br>
 <br>
-<label>New Post
-  <form>
-    <input type="text" name="post[body]">
-    <br>
-    <button class="add-post">Add Post</button>
-  </form>
+<section id="post-form">
+</section>
+<br>
+<br>
+<br>
+<label>Ghetto News Feed:
+  <section id="posts">
+  </section>
 </label>
-
-<ul>
-  <% user.posts().each(function(post) { %>
-  <li> <%= post.escape('body') %> </li>
-  <% }); %>
-</ul>
