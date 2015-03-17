@@ -1,0 +1,7 @@
+<% if(request.get('status') === 'pending' && (request.get('requestor_id') !== user.get('id'))) {%>
+  <li>
+    <%= request.get('requestor').email %> wants to add you as a friend
+    <button class='accept-friend' data-id="<%=request.get('id')%>">Accept</button>
+    <button class='decline-friend' data-id="<%=request.get('id')%>">Decline</button>
+  </li>
+<% } %>

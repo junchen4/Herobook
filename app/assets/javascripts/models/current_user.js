@@ -1,3 +1,3 @@
-FacebookApp.Models.CurrentUser = Backbone.Model.extend({
+FacebookApp.Models.CurrentUser = FacebookApp.Models.User.extend({
   urlRoot: "/session"
 })

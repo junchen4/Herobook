@@ -6,16 +6,13 @@ class RequestsController < ApplicationController
   end
 
   def create
-    @request = Request.new
-    @request.requestor_id = current_user.id
-    @request.requestee_id = params[:request][:requestee_id]
-    @request.status = "pending"
+    @request = Request.new(request_params)
 
     if @request.save
-      render json: @request
+      render :create
     else
-      flash.now[:errors] = @user.errors.full_messages
-      redirect_to user_url(current_user)
+      #flash.now[:errors] = @user.errors.full_messages
+      render json: {error: "Request Can't be saved"}, status: :unprocessable_entity
     end
   end
 
@@ -27,18 +24,18 @@ class RequestsController < ApplicationController
     @request = Request.find(params[:id])
     @request.status = "accepted"
     @request.save!
-    redirect_to user_url(current_user)
+    render json: @request
   end
 
   def destroy
     @request = Request.find(params[:id])
     @request.destroy!
-    redirect_to user_url(current_user)
+    render json: {}
   end
 
   private
-  def user_params
-    params.require(:user).permit(:email, :password)
+  def request_params
+    params.require(:request).permit(:requestor_id, :requestee_id, :status)
   end
 
 end

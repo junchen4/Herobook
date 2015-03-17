@@ -7,4 +7,8 @@ class Comment < ActiveRecord::Base
     :foreign_key => :post_id
   )
 
+  def find_author
+    User.find(self.author_id)
+  end
+
 end

@@ -16,6 +16,19 @@ class User < ActiveRecord::Base
     :foreign_key => :receiver_id
   )
 
+  has_many(
+    :outgoing_requests,
+    :class_name => "Request",
+    :foreign_key => :requestor_id
+  )
+
+  has_many(
+    :incoming_requests,
+    :class_name => "Request",
+    :foreign_key => :requestee_id
+  )
+
+
   #"pending_requests" refers to requests that have been made to the current user
   # has_many(
   #   :pending_requests,
@@ -34,6 +47,25 @@ class User < ActiveRecord::Base
   #   :through => :requests,
   #   :source => :inverse_user
   # )
+  def friendStatus(user)
+    request = self.requests.find do |request|
+      user.id == request.requestor_id || user.id == request.requestee_id
+    end
+    if request
+      request.status
+    else
+      nil
+    end
+  end
+
+  def requests
+    binds = {id: self.id}
+    Request.find_by_sql([<<-SQL, binds])
+      SELECT requests.*
+      FROM requests
+      WHERE requests.requestee_id = :id OR requests.requestor_id = :id
+    SQL
+  end
 
   def pending_requests
     binds = {id: self.id}

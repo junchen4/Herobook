@@ -24,7 +24,6 @@ class PostsController < ApplicationController
   end
 
   def show
-    @author = User.find(params[:author_id]) #to pass as JSON the author of the post
     @post = Post.includes(:comments).find(params[:id])
     if @post.nil?
       render json: {error: "No User Found"}, status: :unprocessable_entity

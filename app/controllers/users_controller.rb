@@ -22,12 +22,17 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.includes(:authored_posts, :received_posts).find(params[:id])
+    @user = User.includes(:authored_posts, :received_posts, :incoming_requests, :outgoing_requests).find(params[:id])
+    @all_friends = @user.all_friends
     if @user.nil?
       render json: {error: "No User Found"}, status: :unprocessable_entity
     else
       render :show
     end
+  end
+
+  def update
+
   end
 
   private

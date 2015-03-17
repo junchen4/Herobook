@@ -18,7 +18,6 @@ FacebookApp.Routers.Router = Backbone.Router.extend({
   show: function(id) {
     var user = FacebookApp.Collections.users.getOrFetch(id);
     console.log("shown user is:  " + user.get('id'));
-    console.log(user === undefined);
     var userShowView = new FacebookApp.Views.UserShow({model: user});
     this._swapView(userShowView);
   },

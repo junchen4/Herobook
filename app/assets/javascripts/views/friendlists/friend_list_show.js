@@ -1,4 +1,4 @@
-FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
+FacebookApp.Views.FriendListShow = Backbone.CompositeView.extend({
   template: JST['posts/show'],
 
   events: {

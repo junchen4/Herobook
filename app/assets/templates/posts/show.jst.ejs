@@ -2,7 +2,7 @@
   <li>
     <%= post.escape('body') %>
     <br>
-    Added by: <%= post.escape('email') %>
+    Posted by: <a href="#/users/<%=post.get('author_id')%>"> <%= post.get('author').email %> </a>
     <button class="delete-post" data-id="<%= post.get('id') %>">Delete Post</button>
     <ul id="comments"></ul>
     <div id="comment-form"></div>

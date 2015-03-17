@@ -18,7 +18,9 @@ class SessionsController < ApplicationController
   end
 
   def show
-    render json: current_user
+    @current_user = current_user
+    @all_friends = current_user.all_friends
+    render :show
   end
 
   def destroy
