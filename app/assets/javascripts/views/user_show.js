@@ -1,15 +1,22 @@
-FacebookApp.Views.UserShow = Backbone.View.extend({
+FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
   template: JST['users/show'],
 
   events: {
-    'click .add':'submit',
-    'click .request-friend':'requestFriend'
+    'click button.add':'submit',
+    'click .request-friend':'requestFriend',
+    'click button.delete-post': 'destroyPost'
   },
+
+  // orderOptions: {
+  //   modelElement:
+  //   modelName: 'post',
+  //   subviewContainer: '#posts'
+  // },
 
   initialize: function() {
     this.listenTo(this.model, 'sync', this.render);
     this.collection = this.model.posts();
-    this.listenTo(this.collection, 'add', this.renderPosts);
+    this.listenTo(this.collection, 'add remove', this.renderPosts);
   },
 
   render: function() {
@@ -25,9 +32,14 @@ FacebookApp.Views.UserShow = Backbone.View.extend({
     this.$('#post-form').html(postFormView.render().$el);
   },
 
+  addPost: function(post) {
+    var postShowView = new FacebookApp.Views.PostShow({model: post, user: this.model});
+    this.addSubview('#posts', postShowView);
+  },
+
   renderPosts: function() {
-    var postsView = new FacebookApp.Views.PostsShow({collection: this.collection, model: this.model}); 
-    this.$('#posts').html(postsView.render().$el);
+    this.emptySubviewContainer('#posts');
+    this.model.posts().each(this.addPost.bind(this));
   },
 
   submit: function(event) {
@@ -38,7 +50,6 @@ FacebookApp.Views.UserShow = Backbone.View.extend({
     post.save({},{
       success: function() {
         that.model.posts().add(post, {merge: true}); //Add to the posts of the user who owns the current show page
-        that.render();
       }
     })
   },
@@ -53,6 +64,17 @@ FacebookApp.Views.UserShow = Backbone.View.extend({
         that.render();
       }
     })
+  },
+
+  destroyPost: function(event) {
+    event.preventDefault();
+    $target = $(event.currentTarget);
+    var id = $target.attr('data-id');
+    var post = this.model.posts().get(id);
+    var that = this;
+    post.destroy();
   }
 
 })
+
+// _.extend(FacebookApp.Views.UserShow.prototype, FacebookApp.Utils.OrdView);

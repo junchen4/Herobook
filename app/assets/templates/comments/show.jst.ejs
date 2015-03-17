@@ -1,0 +1,6 @@
+<li>
+  <%= comment.escape('body') %>
+  <br>
+  Added by: <%= FacebookApp.Collections.users.get(comment.get('author_id')).escape('email') %>
+  <button class="delete-comment" data-id="<%= comment.get('id') %>">Remove Comment</button>
+</li>

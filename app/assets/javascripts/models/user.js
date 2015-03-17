@@ -5,14 +5,6 @@ FacebookApp.Models.User = Backbone.Model.extend({
     if(!this._posts) {
       this._posts = new FacebookApp.Collections.Posts([], {user: this});
     }
-    // var that = this;
-    // this._posts.fetch({
-    //   success: function() {
-    //     // console.log(that._posts)
-    //     that._posts = that._posts.where({author_id: 1});
-    //     // console.log(that._posts[0]);
-    //   }
-    // });
     return this._posts;
   },
 

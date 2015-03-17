@@ -11,10 +11,11 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
+    @author = User.find(params[:author_id])
     #@post.author_id = current_user.id
 
     if @post.save
-      render json: @post
+      render :create
     else
       flash.now[:errors] = @post.errors.full_messages
       render json: {error: "invalid"}, status: :unprocessable_entity
@@ -23,6 +24,13 @@ class PostsController < ApplicationController
   end
 
   def show
+    @author = User.find(params[:author_id]) #to pass as JSON the author of the post
+    @post = Post.includes(:comments).find(params[:id])
+    if @post.nil?
+      render json: {error: "No User Found"}, status: :unprocessable_entity
+    else
+      render :show
+    end
   end
 
   def edit
@@ -44,7 +52,7 @@ class PostsController < ApplicationController
   def destroy
     @post = Post.find(params[:id])
     @post.destroy
-    redirect_to user_url(current_user)
+    render json: @post
   end
 
   private
