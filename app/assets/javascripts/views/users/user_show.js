@@ -79,11 +79,11 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
                         collection: this.model.friends(),
                         user: this.model
                         });
-      this.addSubview('#friend-list', friendListShowView);
+      this.addSubview('.friend-list', friendListShowView);
   },
 
   renderFriendList: function() {
-    this.emptySubviewContainer('#friend-list');
+    this.emptySubviewContainer('.friend-list');
     this.model.friends().each(this.addFriendListLink.bind(this));
   },
 //////////////////
