@@ -1,8 +1,11 @@
   <li>
-    <%= post.escape('body') %>
-    <br>
-    Posted by: <a href="#/users/<%=post.get('author_id')%>"> <%= post.get('author').email %> </a>
-    <button class="delete-post" data-id="<%= post.get('id') %>">Delete Post</button>
+    <div class="post-body">
+      <a href="#/users/<%=post.get('author_id')%>"> <%= post.get('author').email %> </a>
+      <%= post.escape('body') %>
+    </div>
+    <button class="delete-post" data-id="<%= post.get('id') %>">Remove</button>
     <ul id="comments"></ul>
-    <div id="comment-form"></div>
+    <div class="comment-form group"></div>
+    <br>
+    <br>
   </li>

@@ -23,7 +23,7 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
 
   renderCommentForm: function() {
     var commentFormView = new FacebookApp.Views.CommentForm({model: this.model});
-    this.$('#comment-form').html(commentFormView.render().$el);
+    this.$('.comment-form').html(commentFormView.render().$el);
   },
 
   addComment: function(comment) {

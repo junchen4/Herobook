@@ -1,3 +1,53 @@
 // Place all the styles related to the Posts controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+// Add a status update or post
+.form-post {
+  background: #f7f7f7;
+}
+
+.form-post input {
+  width: 600px;
+  border: solid 1px #8b9dc3;
+}
+
+.add-post {
+  color: white;
+  background: #3b5998;
+  float: right;
+  padding: 5px;
+}
+
+// Show post
+li {
+  border-bottom: solid 1px grey;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background: white;
+
+}
+
+.post-body {
+}
+
+.post-body a {
+  color: #3b5998;
+  font-weight: 600;
+}
+
+.delete-post {
+  font-size: 12px;
+  background: #3b5998;
+  color: white;
+  font-weight: 500;
+  padding: 3px;
+}
+
+ul #comments{
+  background: grey;
+}
+
+.comment-form {
+  float: right;
+}

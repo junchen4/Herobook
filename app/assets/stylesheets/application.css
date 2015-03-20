@@ -88,3 +88,10 @@
    float: left;
    margin-right: 10px;
  }
+
+ .logout {
+   background: #3b5998;
+   color: white;
+   padding: 3px 4px;
+   border-radius: 8%;
+ }
