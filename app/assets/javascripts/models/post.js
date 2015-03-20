@@ -9,7 +9,6 @@ FacebookApp.Models.Post = Backbone.Model.extend({
   },
 
   parse: function(response) {
-    console.log("response: ", response);
     if(response.comments) {
       this.comments().set(response.comments, {parse: true});
       delete response.comments;

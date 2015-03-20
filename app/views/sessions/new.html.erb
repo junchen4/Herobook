@@ -1,16 +1,51 @@
-<h1> Login </h1>
+<header class="header group">
+    <h1 class="header-logo">
+      facebook
+    </h1>
 
-<form class="" action="<%=session_url%>" method="post">
-  <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+  <form class="login" action="<%=session_url%>" method="post">
+    <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
 
-  <label>Email
-  <input type="text" name="user[email]" value="">
-  </label>
-  <br>
-  <label>Password
-  <input type="text" name="user[password]" value="">
-  </label>
-  <button>Sign In</button>
-  <br>
-  Not a user? <%= link_to "Sign Up", new_user_url %>
-</form>
+    <ul class="login-list group">
+        <li class="form-email"> <label id="form-email">Email</label>
+          <input id="form-email" type="email" name="user[email]" value="">
+        </li>
+
+        <li class="form-password"> <label id="form-password">Password</label>
+          <input id="form-password" type="password" name="user[password]" value="">
+        </li>
+
+        <li class="form-login">
+          <button>Log In</button>
+        </li>
+    </ul>
+  </form>
+</header>
+
+<main class="content group">
+  <section class="content-introduction">
+
+  </section>
+
+  <section class="content-signup">
+    <h1 class="signup-logo">Sign Up</h1>
+    <form class="signup" action="<%=users_url%>" method="post">
+      <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+
+      <ul class="signup-list group">
+          <li class="form-email"> <label id="form-email">Email</label>
+            <input id="form-email" type="email" name="user[email]" value="">
+          </li>
+
+          <li class="form-password"> <label id="form-password">Password</label>
+            <input id="form-password" type="password" name="user[password]" value="">
+          </li>
+
+          <li class="form-signup">
+            <button class="signup-button">Sign Up</button>
+          </li>
+      </ul>
+    </form>
+  </section>
+
+</main>

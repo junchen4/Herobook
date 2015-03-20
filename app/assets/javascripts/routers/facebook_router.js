@@ -12,34 +12,20 @@ FacebookApp.Routers.Router = Backbone.Router.extend({
   },
 
   routes: {
+    'newsfeed': 'newsFeed',
     'users/:id': 'show'
+  },
+
+  newsFeed: function() {
+    var userFeedView = new FacebookApp.Views.NewsFeedShow({model: FacebookApp.Models.currentUser});
+    this._swapView(userFeedView);
   },
 
   show: function(id) {
     var user = FacebookApp.Collections.users.getOrFetch(id);
-    console.log("shown user is:  " + user.get('id'));
     var userShowView = new FacebookApp.Views.UserShow({model: user});
     this._swapView(userShowView);
   },
-
-  // _getUser: function (id, callback) {
-  //   var that = this;
-  //   var user = .posts.get(id);
-  //   if (!post) {
-  //     post = new PostApp.Models.Post({
-  //       id: id
-  //     });
-  //     post.collection = this.posts;
-  //     post.fetch({
-  //       success: function () {
-  //         that.posts.add(post);
-  //         callback(post);
-  //       }
-  //     });
-  //   } else {
-  //     callback(post);
-  //   }
-  // },
 
   _swapView: function(view) {
     this._currentView && this._currentView.remove();

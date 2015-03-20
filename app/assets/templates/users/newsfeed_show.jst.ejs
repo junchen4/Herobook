@@ -1,0 +1,32 @@
+<header class="header">
+  <nav class="header-nav group">
+
+    <h1 class="header-logo">
+      <a href="#/newsfeed">facebook</a>
+    </h1>
+
+    <ul class="header-list group">
+      <li>
+        <a href="#/newsfeed">Home</a>
+      </li>
+      <li><a href="#/users/<%=current_user.id%>">Profile</a></li>
+      <li><a href="#">Account</a></li>
+    </ul>
+
+  </nav>
+</header>
+
+<main class="content group">
+  <section class="content-sidebar">
+    <h1> User: <%=user.escape('email')%> </h1>
+  </section>
+
+  <section id="post-form"></section>
+
+  <section class="content-main group">
+    <h1>Feed</h1>
+      <ul id="feed-items"></ul>
+  </section>
+
+
+</main>

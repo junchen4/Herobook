@@ -31,6 +31,25 @@ end
 
 json.allFriends @all_friends do |friend|
 	json.extract! friend, :id, :email, :password_digest, :session_token, :created_at, :updated_at
+	json.receivedPosts friend.received_posts do |post|
+		json.extract! post, :id, :body, :author_id, :receiver_id, :created_at, :updated_at
+		json.author post.find_author, :email
+	end
+	json.authoredPosts friend.authored_posts do |post|
+		json.extract! post, :id, :body, :author_id, :receiver_id, :created_at, :updated_at
+		json.author post.find_author, :email
+	end
 end
+
+# json.allFriendsPosts @all_friends do |friend|
+# 	json.array! friend.received_posts, :id, :body, :author_id, :receiver_id, :created_at, :updated_at
+#
+# 	# json.receivedPosts friend.received_posts do |post|
+# 	# 	json.extract! post, :id, :body, :author_id, :receiver_id, :created_at, :updated_at
+# 	# end
+# 	# json.authoredPosts friend.authored_posts do |post|
+# 	# 	json.extract! post, :id, :body, :author_id, :receiver_id, :created_at, :updated_at
+# 	# end
+# end
 
 json.friendStatus @user.friendStatus(current_user)

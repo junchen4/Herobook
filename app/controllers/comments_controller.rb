@@ -11,10 +11,9 @@ class CommentsController < ApplicationController
 
   def create
     @comment = Comment.new(comment_params)
-    #@comment.author_id = current_user.id
-
+    @comment.author_id = current_user.id
     if @comment.save
-      render json: @comment
+      render :create
     else
       flash.now[:errors] = @comment.errors.full_messages
       render json: {error: "invalid"}, status: :unprocessable_entity
@@ -33,7 +32,7 @@ class CommentsController < ApplicationController
     @comment = Comment.find(params[:id])
 
     if @comment.update_attributes(comment_params)
-      render json: @comment
+      render :update
     else
       flash.now[:errors] = @comment.errors.full_messages
       render :edit
@@ -49,6 +48,6 @@ class CommentsController < ApplicationController
 
   private
   def comment_params
-    params.require(:comment).permit(:author_id, :body, :post_id)
+    params.require(:comment).permit(:body, :post_id)
   end
 end

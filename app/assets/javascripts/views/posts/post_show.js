@@ -40,12 +40,12 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
     event.preventDefault();
     var that = this;
     var commentBody = this.$('input').val();
-    var comment = new FacebookApp.Models.Comment({'author_id': FacebookApp.Models.currentUser.get('id'), 'body': commentBody, 'post_id': this.model.get('id')});
-    comment.save({},{
+    var comment = new FacebookApp.Models.Comment({'body': commentBody, 'post_id': this.model.get('id')});
+    comment.save({}, {
       success: function() {
         that.model.comments().add(comment, {merge: true}); //Add to the comments of the user who owns the current show page
       }
-    })
+    });
   },
 
   destroyComment: function(event) {

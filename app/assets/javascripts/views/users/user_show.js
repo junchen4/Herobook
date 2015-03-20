@@ -38,8 +38,10 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
   },
 
   addPost: function(post) {
-    var postShowView = new FacebookApp.Views.PostShow({model: post, user: this.model});
-    this.addSubview('#posts', postShowView);
+    if(post.get('receiver_id') === this.model.get('id')) {
+      var postShowView = new FacebookApp.Views.PostShow({model: post, user: this.model});
+      this.addSubview('#posts', postShowView);
+    }
   },
 
   renderPosts: function() {
@@ -130,7 +132,6 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
     event.preventDefault();
     $target = $(event.currentTarget);
     var id = $target.attr('data-id');
-
     //Remove from each others' friends collections
     this.model.friends().remove(FacebookApp.Models.currentUser);
     FacebookApp.Models.currentUser.friends().remove(this.model);
@@ -144,7 +145,7 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
     for(var i = 0; i < all_requests.length; i++) {
       all_requests[i].destroy();
     }
-
+    this.model.set('friendStatus', 'none');
   }
 
 })

@@ -6,14 +6,14 @@ class SessionsController < ApplicationController
   end
 
   def create
-    @user = User.find_by_credentials(params[:user][:email], params[:user][:password])
+    @current_user = User.find_by_credentials(params[:user][:email], params[:user][:password])
 
-    if @user.nil?
+    if @current_user.nil?
       flash.now[:errors] = ["Account with login details not found. Try again please"]
       render :new
     else
-      login(@user)
-      redirect_to "#/users/#{@user.id}"
+      login(@current_user)
+      redirect_to "#/newsfeed"
     end
   end
 
