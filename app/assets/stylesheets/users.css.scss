@@ -52,13 +52,10 @@
 
 }
 
-li .home {
-
-}
 
 .content-sidebar {
   float: left;
-  // width: 400px;
+  margin-right: 50px;
 }
 
 .content-sidebar h1{
@@ -71,6 +68,7 @@ li .home {
   width: 602px;
   height: 900px;
   float: right;
+  margin-left: 70px;
 }
 
 .home {
@@ -97,4 +95,12 @@ li .home {
 
 #posts {
   background: white;
+}
+
+.friend-requests {
+  border: solid 2px black;
+}
+
+.friend-list {
+  border: solid 2px black;
 }

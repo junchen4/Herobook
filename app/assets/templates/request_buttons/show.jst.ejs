@@ -1,6 +1,6 @@
 <% if (FacebookApp.Models.currentUser.get('id') !== user.get('id')) { %>
   <% if(user.get('friendStatus') === 'pending') { %>
-    Pending Friend Request
+      <label>Pending Friend Request</label> 
   <% } else if(user.get('friendStatus') === 'accepted' ) { %>
     <button class="remove-friend" data-id="<%=user.get('id')%>">Remove Friend</button>
   <% } else { %>

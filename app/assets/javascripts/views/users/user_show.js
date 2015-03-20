@@ -55,22 +55,22 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
                       collection: this.model.requests(),
                       user: this.model
                       });
-    this.addSubview('#friend-requests', requestShowView);
+    this.addSubview('.friend-requests', requestShowView);
   },
 
   renderRequests: function() {
-    this.emptySubviewContainer('#friend-requests');
+    this.emptySubviewContainer('.friend-requests');
     this.model.requests().each(this.addRequest.bind(this));
   },
 //////////////////
   renderRequestButtons: function(request) {
-    this.emptySubviewContainer('#request-buttons');
+    this.emptySubviewContainer('.request-buttons');
     var requestButtonView = new FacebookApp.Views.RequestButton({
       model: request,
       collection: this.model.requests(),
       user: this.model
     });
-    this.addSubview('#request-buttons', requestButtonView);
+    this.addSubview('.request-buttons', requestButtonView);
   },
 //////////////////
   addFriendListLink: function(friend) {

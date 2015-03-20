@@ -2,7 +2,32 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+label {
+  font-weight: 600;
+}
+
 .remove-friend {
+  background: #3b5998;
+  color: white;
+  padding: 3px 4px;
+  border-radius: 8%;
+}
+
+.request-friend {
+  background: #3b5998;
+  color: white;
+  padding: 3px 4px;
+  border-radius: 8%;
+}
+
+.accept-friend {
+  background: #3b5998;
+  color: white;
+  padding: 3px 4px;
+  border-radius: 8%;
+}
+
+.decline-friend {
   background: #3b5998;
   color: white;
   padding: 3px 4px;
