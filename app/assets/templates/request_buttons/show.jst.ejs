@@ -1,9 +1,7 @@
-<% if (FacebookApp.Models.currentUser.get('id') !== user.get('id')) { %>
-  <% if(user.get('friendStatus') === 'pending') { %>
-      <label>Pending Friend Request</label> 
-  <% } else if(user.get('friendStatus') === 'accepted' ) { %>
-    <button class="remove-friend" data-id="<%=user.get('id')%>">Remove Friend</button>
-  <% } else { %>
-    <button class="request-friend">Add Friend</button>
-  <% } %>
+<% if(user.get('friendStatus') === 'pending') { %>
+    <label>Pending Friend Request</label>
+<% } else if(user.get('friendStatus') === 'accepted' ) { %>
+  <button class="remove-friend" data-id="<%=user.get('id')%>">Remove Friend</button>
+<% } else { %>
+  <button class="request-friend">Add Friend</button>
 <% } %>

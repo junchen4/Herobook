@@ -2,6 +2,7 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
   template: JST['posts/show'],
 
   events: {
+    'click button.delete-post': 'destroyPost',
     'click button.add-comment':'submitComment',
     'click button.delete-comment':'destroyComment'
   },
@@ -55,6 +56,14 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
     var comment = this.model.comments().get(id);
     var that = this;
     comment.destroy();
+  },
+
+  destroyPost: function(event) {
+    event.preventDefault();
+    // $target = $(event.currentTarget);
+    // var id = $target.attr('data-id');
+    // var post = this.model.posts().get(id);
+    this.model.destroy();
   }
 
 

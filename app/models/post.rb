@@ -24,4 +24,7 @@ class Post < ActiveRecord::Base
     User.find(self.author_id)
   end
 
+  def find_receiver
+    User.find(self.receiver_id)
+  end
 end

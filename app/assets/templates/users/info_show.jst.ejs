@@ -22,9 +22,6 @@
   <section class="content-sidebar group">
     <h1> <%=user.escape('email')%>'s Profile Page </h1>
     <section class="request-buttons"></section>
-    <div class="user-info">
-      <a href="#/users/<%=user.get('id')%>/info">Info</a>
-    </div>
 
       Friend Requests:
       <ul class="friend-requests"></ul>
@@ -34,12 +31,6 @@
 
     </section>
   <section class="content-main group">
-
-    <section class="wall">
-      <section id="post-form"></section>
-      <label for="posts">"Wall"</label>
-        <br>
-        <br>
         <ul id="posts"></ul>
     </section>
   </section>

@@ -1,8 +1,7 @@
-FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
-  template: JST['users/show'],
+FacebookApp.Views.InfoShow = Backbone.CompositeView.extend({
+  template: JST['users/info_show'],
 
   events: {
-    // 'click button.add-post':'submitPost',
     'click .request-friend':'requestFriend',
     // 'click button.delete-post': 'destroyPost',
     'click button.remove-friend': 'removeFriend'
@@ -16,7 +15,6 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
 
   initialize: function() {
     this.listenTo(this.model, 'sync', this.render);
-    this.listenTo(this.model.posts(), 'add remove', this.renderPosts);
     if (FacebookApp.Models.currentUser.get('id') === this.model.get('id')) {
       this.listenTo(this.model.requests(), 'add remove', this.renderRequests);
     }
@@ -26,8 +24,6 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
   render: function() {
     var content = this.template({user: this.model});
     this.$el.html(content);
-    this.renderPostForm();
-    this.renderPosts();
     this.renderFriendList();
     if (FacebookApp.Models.currentUser.get('id') === this.model.get('id')) {
       this.renderRequests();
@@ -38,23 +34,6 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
     return this;
   },
 
-  renderPostForm: function() {
-    var postFormView = new FacebookApp.Views.PostForm({model: this.model});
-    this.$('#post-form').html(postFormView.render().$el);
-  },
-///////////////////
-  addPost: function(post) {
-    // if(post.get('receiver_id') === this.model.get('id')) {
-    console.log(post);
-      var postShowView = new FacebookApp.Views.PostShow({model: post, user: this.model});
-      this.addSubview('#posts', postShowView);
-    // }
-  },
-
-  renderPosts: function() {
-    this.emptySubviewContainer('#posts');
-    this.model.posts().each(this.addPost.bind(this));
-  },
 //////////////////
   addRequest: function(request) {
     var requestShowView = new FacebookApp.Views.RequestShow({
@@ -94,21 +73,6 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
     this.model.friends().each(this.addFriendListLink.bind(this));
   },
 //////////////////
-  // submitPost: function(event) {
-  //   event.preventDefault();
-  //   var that = this;
-  //   var postBody = this.$('input').val();
-  //   var post = new FacebookApp.Models.Post({
-  //                   'author_id': FacebookApp.Models.currentUser.get('id'),
-  //                   'body': postBody,
-  //                   'receiver_id': this.model.get('id')
-  //                   });
-  //   post.save({},{
-  //     success: function() {
-  //       that.model.posts().add(post, {merge: true});
-  //     }
-  //   })
-  // },
 
   requestFriend: function(event) {
     event.preventDefault();

@@ -48,16 +48,6 @@ FacebookApp.Models.User = Backbone.Model.extend({
       delete response.allFriends;
     }
 
-    // if(response.allFriendsPosts) {
-    //   this.friendsPosts().set(response.allFriendsPosts, {remove: false, parse: true});
-    //   delete response.allFriends.receivedPosts;
-    // }
-    //
-    // // if(response.allFriendsPosts.authoredPosts) {
-    // //   this.friendsPosts().set(response.allFriendsPosts.authoredPosts, {remove: false, parse: true});
-    // //   delete response.allFriends.authoredPosts;
-    // // }
-
     return response;
   }
 

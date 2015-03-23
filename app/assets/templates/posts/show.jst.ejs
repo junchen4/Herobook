@@ -1,11 +1,43 @@
-  <li>
-    <div class="post-body">
-      <a href="#/users/<%=post.get('author_id')%>"> <%= post.get('author').email %> </a>
-      <%= post.escape('body') %>
-    </div>
-    <button class="delete-post" data-id="<%= post.get('id') %>">Remove</button>
-    <ul id="comments"></ul>
-    <div class="comment-form group"></div>
-    <br>
-    <br>
-  </li>
+<li>
+  <div class="post-body">
+    <% if(FacebookApp.Models.currentUser.get('id') === user.get('id')) { %>
+      <% if(post.get('author_id') === post.get('receiver_id')) { %>
+          You posted:
+      <% } else if(post.get('author_id') === user.get('id')){%>
+          You wrote on <%= post.get('receiver_id') %>'s wall:
+      <% } else{ %>
+          <a href="#/users/<%=post.get('author_id')%>"><%= post.get('author').email %></a> wrote:
+      <% } %>
+    <% } else {%>
+      <% if(post.get('receiver_id') === post.get('author_id')) { %>
+        <a href="#/users/<%=post.get('author_id')%>"> <%= post.get('author').email %> </a>
+      <% } else if (post.get('author_id') === user.get('id')) { %>
+        <a href="#/users/<%=post.get('author_id')%>"> <%= post.get('author').email %> </a>
+        wrote on
+          <% if (post.get('receiver_id') === FacebookApp.Models.currentUser.get('id')) { %>
+            <a href="#/users/<%=FacebookApp.Models.currentUser.get('id')%>">your</a> wall:
+          <% } else { %>
+            <a href="#/users/<%=post.get('receiver_id')%>"> <%= post.get('receiver_id') %> </a>'s wall:
+          <% } %>
+      <% } else{%>
+          <% if(post.get('author_id') === FacebookApp.Models.currentUser.get('id')) { %>
+            <a href="#/users/<%=FacebookApp.Models.currentUser.get('id')%>">You</a> wrote:
+          <% } else { %>
+            <a href="#/users/<%=post.get('author_id')%>"><%=post.get('author').email%></a> wrote on
+            <a href="#/users/<%=post.get('receiver_id')%>"><%=post.get('receiver_id')%></a>'s wall:
+          <% } %>
+      <% } %>
+    <% } %>
+
+    <%= post.escape('body') %>
+  </div>
+
+  <button class="delete-post" data-id="<%= post.get('id') %>">Remove</button>
+
+  <ul id="comments"></ul>
+
+  <div class="comment-form group"></div>
+
+  <br>
+  <br>
+</li>

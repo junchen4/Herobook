@@ -11,4 +11,7 @@ class Comment < ActiveRecord::Base
     User.find(self.author_id)
   end
 
+  def find_post
+    Post.find(self.post_id)
+  end
 end

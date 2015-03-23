@@ -13,7 +13,8 @@ FacebookApp.Routers.Router = Backbone.Router.extend({
 
   routes: {
     'newsfeed': 'newsFeed',
-    'users/:id': 'show'
+    'users/:id': 'show',
+    'users/:id/info': 'info'
   },
 
   newsFeed: function() {
@@ -22,9 +23,25 @@ FacebookApp.Routers.Router = Backbone.Router.extend({
   },
 
   show: function(id) {
+    var that = this;
+    //setTimeout() allows for current user to fetch completely.
+    //Look into more effective way of writing this
+    window.setTimeout(function() {
+      console.log(FacebookApp.Models.currentUser.get('id') == id); //Must use double = here, not triple =
+      if(FacebookApp.Models.currentUser.get('id') == id) {
+        var userShowView = new FacebookApp.Views.UserShow({model: FacebookApp.Models.currentUser});
+      }
+      else {
+        var userShowView = new FacebookApp.Views.UserShow({model: FacebookApp.Collections.users.getOrFetch(id)});
+      }
+      that._swapView(userShowView);
+    }, 150);
+  },
+
+  info: function(id) {
     var user = FacebookApp.Collections.users.getOrFetch(id);
-    var userShowView = new FacebookApp.Views.UserShow({model: user});
-    this._swapView(userShowView);
+    var userInfoView = new FacebookApp.Views.InfoShow({model: user});
+    this._swapView(userInfoView);
   },
 
   _swapView: function(view) {
