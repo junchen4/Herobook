@@ -3,20 +3,30 @@ FacebookApp.Collections.Users = Backbone.Collection.extend({
 
   model: FacebookApp.Models.User,
 
-  getOrFetch: function(id) {
+  //Callback implemented specifically for RequestShow view to get the friend-requestor's model and update its friends
+  //Otherwise, we only have access to the current user
+  getOrFetch: function(id, callback) {
       var user = this.get(id)
-
       if(!user) {
         user = new FacebookApp.Models.User({id: id});
         var collections = this;
         user.fetch({
           success: function() {
             collections.add(user);
+            if(callback) {
+              callback(user);
+            }
           }
         })
       }
       else {
-        user.fetch();
+        user.fetch({
+          success: function() {
+            if(callback) {
+              callback(user);
+            }
+          }
+        });
       }
       return user;
   }

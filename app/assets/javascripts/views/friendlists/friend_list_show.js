@@ -57,5 +57,4 @@ FacebookApp.Views.FriendListShow = Backbone.CompositeView.extend({
     comment.destroy();
   }
 
-
 })

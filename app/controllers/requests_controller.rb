@@ -24,7 +24,7 @@ class RequestsController < ApplicationController
     @request = Request.find(params[:id])
     @request.status = "accepted"
     @request.save!
-    render json: @request
+    render :update
   end
 
   def destroy

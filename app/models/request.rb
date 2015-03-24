@@ -17,6 +17,10 @@ class Request < ActiveRecord::Base
     User.find(self.requestor_id)
   end
 
+  def find_requestee
+    User.find(self.requestee_id)
+  end
+
   # belongs_to(
   #   :requested_user,
   #   :class_name => "User",
