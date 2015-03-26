@@ -31,10 +31,15 @@
 
     <%= post.escape('body') %>
   </div>
-  <%= post.get('likesCount') %>
+  <%= post.likes().length %>
   <br>
   <button class="delete-post" data-id="<%= post.get('id') %>">Remove</button>
-  <button class="like-post">Like</button>
+
+  <% if(post.get('likeStatus') === 'unliked') {%>
+    <button class="like-post">Like</button>
+  <% } else{ %>
+    <button class="unlike-post">Unlike</button>
+  <% } %>
 
   <ul id="comments"></ul>
 

@@ -5,7 +5,8 @@ class Post < ActiveRecord::Base
   has_many(
     :comments,
     :class_name => 'Comment',
-    :foreign_key => :post_id
+    :foreign_key => :post_id,
+    :dependent => :destroy
   )
 
   belongs_to(
@@ -28,4 +29,14 @@ class Post < ActiveRecord::Base
   def find_receiver
     User.find(self.receiver_id)
   end
+
+  def like_status(user)
+    self.likes.each do |like|
+      if like.author_id == user.id
+        return "liked"
+      end
+    end
+    "unliked"
+  end
+
 end

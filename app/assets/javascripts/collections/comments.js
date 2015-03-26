@@ -4,6 +4,7 @@ FacebookApp.Collections.Comments = Backbone.Collection.extend({
   model: FacebookApp.Models.Comment,
 
   initialize: function(models, options) {
+    this.user = options.user;
     this.post = options.post;
   },
 

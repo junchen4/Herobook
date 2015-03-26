@@ -8,6 +8,13 @@ FacebookApp.Models.User = Backbone.Model.extend({
     return this._posts;
   },
 
+  comments: function() {
+    if(!this._comments) {
+      this._comments = new FacebookApp.Collections.Comments([], {user: this});
+    }
+    return this._comments;
+  },
+
   requests: function() {
     if(!this._requests) {
       this._requests = new FacebookApp.Collections.Requests([], {user: this});
@@ -28,6 +35,22 @@ FacebookApp.Models.User = Backbone.Model.extend({
     }
     return this._likes;
   },
+
+  newsfeedPosts: function() {
+    if(!this._newsfeedPosts) {
+      this._newsfeedPosts = new FacebookApp.Collections.Posts([], {user: this});
+    }
+    return this._newsfeedPosts;
+  },
+
+  newsfeedComments: function() {
+    if(!this._newsfeedComments) {
+      this._newsfeedComments = new FacebookApp.Collections.Comments([], {user: this});
+    }
+    return this._newsfeedComments;
+  },
+
+///////////////////////////
 
   parse: function(response) {
     if(response.authoredPosts) {
@@ -58,6 +81,21 @@ FacebookApp.Models.User = Backbone.Model.extend({
     if(response.likes) {
       this.likes().set(response.likes, {parse: true});
       delete response.likes;
+    }
+
+    if(response.comments) {
+      this.comments().set(response.comments, {parse: true});
+      delete response.comments;
+    }
+
+    if(response.newsfeedPosts) {
+      this.newsfeedPosts().set(response.newsfeedPosts, {parse: true});
+      delete response.newsfeedPosts;
+    }
+
+    if(response.newsfeedComments) {
+      this.newsfeedComments().set(response.newsfeedComments, {parse: true});
+      delete response.newsfeedComments;
     }
 
     return response;

@@ -7,31 +7,43 @@ class User < ActiveRecord::Base
   has_many(
     :authored_posts,
     :class_name => "Post",
-    :foreign_key => :author_id
+    :foreign_key => :author_id,
+    :dependent => :destroy
   )
 
   has_many(
     :received_posts,
     :class_name => "Post",
-    :foreign_key => :receiver_id
+    :foreign_key => :receiver_id,
+    :dependent => :destroy
+  )
+
+  has_many(
+    :comments,
+    :class_name => "Comment",
+    :foreign_key => :author_id,
+    :dependent => :destroy
   )
 
   has_many(
     :outgoing_requests,
     :class_name => "Request",
-    :foreign_key => :requestor_id
+    :foreign_key => :requestor_id,
+    :dependent => :destroy
   )
 
   has_many(
     :incoming_requests,
     :class_name => "Request",
-    :foreign_key => :requestee_id
+    :foreign_key => :requestee_id,
+    :dependent => :destroy
   )
 
   has_many(
     :likes,
     :class_name => "Like",
-    :foreign_key => :author_id
+    :foreign_key => :author_id,
+    :dependent => :destroy
   )
 
 
@@ -53,6 +65,48 @@ class User < ActiveRecord::Base
   #   :through => :requests,
   #   :source => :inverse_user
   # )
+  def newsfeed_posts
+    posts = []
+
+    self.all_friends.each do |friend|
+      friend.authored_posts.each do |post|
+        posts << post
+        # posts << post if post.include?(friend.received_posts)
+      end
+      friend.received_posts.each do |post|
+        posts << post
+      end
+    end
+
+    self.authored_posts.each do |post|
+      posts << post
+    end
+
+    self.received_posts.each do |post|
+      posts << post
+    end
+
+    posts.uniq!
+    posts
+  end
+
+  def newsfeed_commented_posts
+    posts = []
+
+    self.comments.each do |comment|
+      posts << Post.find(comment.post_id)
+    end
+
+    self.all_friends.each do |friend|
+      friend.comments.each do |comment|
+        posts << Post.find(comment.post_id) if self.all_friends.include?(User.find(comment.post_id))
+      end
+    end
+
+    posts.uniq!
+    posts
+  end
+
   def friendStatus(user)
     request = self.requests.find do |request|
       user.id == request.requestor_id || user.id == request.requestee_id

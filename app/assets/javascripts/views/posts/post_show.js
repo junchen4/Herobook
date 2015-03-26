@@ -4,16 +4,17 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
   events: {
     'click button.delete-post': 'destroyPost',
     'click button.add-comment':'submitComment',
-    'click button.delete-comment':'destroyComment',
-    'click button.like-post':'likePost'
+    'click button.like-post':'likePost',
+    'click button.unlike-post':'unlikePost'
 
   },
 
   initialize: function(options) {
     this.user = options.user;
     this.listenTo(this.model, 'sync', this.render);
-    this.collection = this.model.comments();
-    this.listenTo(this.collection, 'add remove', this.renderComments);
+    this.listenTo(this.model.likes(), 'add remove', this.render);
+    // this.collection = this.model.comments();
+    this.listenTo(this.model.comments(), 'add remove', this.renderComments);
   },
 
   render: function() {
@@ -30,7 +31,7 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
   },
 
   addComment: function(comment) {
-    var commentShowView = new FacebookApp.Views.CommentShow({model: comment, user: this.user});
+    var commentShowView = new FacebookApp.Views.CommentShow({model: comment, collection: this.model.comments(), user: this.user, post: this.model});
     this.addSubview('#comments', commentShowView);
   },
 
@@ -47,38 +48,40 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
     comment.save({}, {
       success: function() {
         that.model.comments().add(comment, {merge: true}); //Add to the comments of the user who owns the current show page
+        FacebookApp.Models.currentUser.comments().add(comment, {merge: true});
       }
     });
+  },
+
+  destroyPost: function(event) {
+    event.preventDefault();
+    this.model.destroy();
   },
 
   likePost: function(event) {
     event.preventDefault();
     var like = new FacebookApp.Models.Like({'author_id': FacebookApp.Models.currentUser.get('id'), 'likeable_id': this.model.get('id'), 'likeable_type': 'Post'});
     var that = this;
-    console.log(like);
     like.save({}, {
       success: function() {
         that.model.likes().add(like, {merge: true});
         FacebookApp.Models.currentUser.likes().add(like, {merge: true});
+        that.model.set('likeStatus', 'liked');
+        that.render();
       }
     });
   },
 
-  destroyComment: function(event) {
+  unlikePost: function(event) {
     event.preventDefault();
-    $target = $(event.currentTarget);
-    var id = $target.attr('data-id');
-    var comment = this.model.comments().get(id);
+    var like = this.model.likes().findWhere({author_id: FacebookApp.Models.currentUser.get('id')});
     var that = this;
-    comment.destroy();
-  },
-
-  destroyPost: function(event) {
-    event.preventDefault();
-    // $target = $(event.currentTarget);
-    // var id = $target.attr('data-id');
-    // var post = this.model.posts().get(id);
-    this.model.destroy();
+    like.destroy({
+      success: function() {
+          that.model.set('likeStatus', 'unliked');
+          that.render();
+      }
+    });
   }
 
 

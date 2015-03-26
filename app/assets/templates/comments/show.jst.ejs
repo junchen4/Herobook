@@ -2,5 +2,14 @@
   <%= comment.escape('body') %>
   <br>
   Added by: <%= comment.get('author').email %>
+  <br>
+  <%= comment.likes().length %>
+  <br>
+  <% if(comment.get('likeStatus') === 'unliked') {%>
+    <button class="like-comment">Like</button>
+  <% } else{ %>
+    <button class="unlike-comment">Unlike</button>
+  <% } %>
+
   <button class="delete-comment" data-id="<%= comment.get('id') %>">Remove Comment</button>
 </li>

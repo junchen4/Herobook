@@ -5,7 +5,7 @@ FacebookApp.Views.NewsFeedShow = Backbone.CompositeView.extend({
     this.listenTo(this.model, 'sync', this.render);
     this.listenTo(this.model.posts(), 'add remove sync', this.renderPosts);
     this.listenTo(this.model.friends(), 'add remove sync', this.renderPosts);
-
+    this.listenTo(this.model.newsfeedPosts(), 'add remove', this.renderPosts);
     var that = this;
     this.model.friends().each(function(friend) {
       that.listenTo(friend.posts(), 'add remove sync', that.renderPosts);
@@ -35,11 +35,7 @@ FacebookApp.Views.NewsFeedShow = Backbone.CompositeView.extend({
 
   renderPosts: function() {
     this.emptySubviewContainer('.feed-items');
-    var that = this;
-    this.model.friends().each(function(friend) {
-      friend.posts().each(that.addPost.bind(that));
-    })
-    this.model.posts().each(this.addPost.bind(this));
+    this.model.newsfeedPosts().each(this.addPost.bind(this));
   }
 
 })

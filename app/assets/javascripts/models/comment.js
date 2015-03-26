@@ -1,5 +1,5 @@
 FacebookApp.Models.Comment = Backbone.Model.extend({
-  urlRoot: '/likes',
+  urlRoot: '/comments',
 
   likes: function() {
     if(!this._likes) {
