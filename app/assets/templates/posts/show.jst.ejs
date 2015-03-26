@@ -31,8 +31,10 @@
 
     <%= post.escape('body') %>
   </div>
-
+  <%= post.get('likesCount') %>
+  <br>
   <button class="delete-post" data-id="<%= post.get('id') %>">Remove</button>
+  <button class="like-post">Like</button>
 
   <ul id="comments"></ul>
 

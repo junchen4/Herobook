@@ -27,7 +27,8 @@ FacebookApp.Views.NewsFeedShow = Backbone.CompositeView.extend({
   },
 
   addPost: function(post) {
-    console.log("adding post: " + post);
+    console.log("adding post: ", post);
+    console.log("this user",this.model);
     var postShowView = new FacebookApp.Views.PostShow({model: post, user: this.model});
     this.addSubview('.feed-items', postShowView);
   },
@@ -36,10 +37,8 @@ FacebookApp.Views.NewsFeedShow = Backbone.CompositeView.extend({
     this.emptySubviewContainer('.feed-items');
     var that = this;
     this.model.friends().each(function(friend) {
-      console.log("here now");
       friend.posts().each(that.addPost.bind(that));
     })
-    console.log(this.model.posts());
     this.model.posts().each(this.addPost.bind(this));
   }
 

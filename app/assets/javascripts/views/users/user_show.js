@@ -15,6 +15,7 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
   // },
 
   initialize: function() {
+    console.log("shown user is", this.model);
     this.listenTo(this.model, 'sync', this.render);
     this.listenTo(this.model.posts(), 'add remove', this.renderPosts);
     if (FacebookApp.Models.currentUser.get('id') === this.model.get('id')) {

@@ -28,6 +28,12 @@ class User < ActiveRecord::Base
     :foreign_key => :requestee_id
   )
 
+  has_many(
+    :likes,
+    :class_name => "Like",
+    :foreign_key => :author_id
+  )
+
 
   #"pending_requests" refers to requests that have been made to the current user
   # has_many(

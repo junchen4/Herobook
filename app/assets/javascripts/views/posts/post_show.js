@@ -4,7 +4,9 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
   events: {
     'click button.delete-post': 'destroyPost',
     'click button.add-comment':'submitComment',
-    'click button.delete-comment':'destroyComment'
+    'click button.delete-comment':'destroyComment',
+    'click button.like-post':'likePost'
+
   },
 
   initialize: function(options) {
@@ -45,6 +47,19 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
     comment.save({}, {
       success: function() {
         that.model.comments().add(comment, {merge: true}); //Add to the comments of the user who owns the current show page
+      }
+    });
+  },
+
+  likePost: function(event) {
+    event.preventDefault();
+    var like = new FacebookApp.Models.Like({'author_id': FacebookApp.Models.currentUser.get('id'), 'likeable_id': this.model.get('id'), 'likeable_type': 'Post'});
+    var that = this;
+    console.log(like);
+    like.save({}, {
+      success: function() {
+        that.model.likes().add(like, {merge: true});
+        FacebookApp.Models.currentUser.likes().add(like, {merge: true});
       }
     });
   },

@@ -5,6 +5,7 @@ FacebookApp.Routers.Router = Backbone.Router.extend({
     FacebookApp.Models.currentUser = new FacebookApp.Models.CurrentUser();
     FacebookApp.Models.currentUser.fetch({
       success: function() {
+        console.log("current user", FacebookApp.Models.currentUser);
         console.log("current user's ID is:  " + FacebookApp.Models.currentUser.get('id'));
       }
     });

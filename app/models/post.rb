@@ -1,4 +1,5 @@
 class Post < ActiveRecord::Base
+  include Likeable
   validates :body, :author_id, :receiver_id, presence: true
 
   has_many(

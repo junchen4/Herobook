@@ -4,6 +4,7 @@ json.authoredPosts @current_user.authored_posts do |post|
 	json.extract! post, :id, :body, :author_id, :receiver_id, :created_at, :updated_at
 	json.author post.find_author, :email
 	json.receiver post.find_receiver, :email
+	json.likesCount post.likes_count
 	json.comments post.comments do |comment|
 		json.extract! comment, :id, :body, :author_id, :post_id, :created_at, :updated_at
 		json.author comment.find_author, :email
@@ -15,6 +16,7 @@ json.receivedPosts @current_user.received_posts do |post|
 	json.extract! post, :id, :body, :author_id, :receiver_id, :created_at, :updated_at
 	json.author post.find_author, :email
 	json.receiver post.find_receiver, :email
+	json.likesCount post.likes_count
 	json.comments post.comments do |comment|
 		json.extract! comment, :id, :body, :author_id, :post_id, :created_at, :updated_at
 		json.author comment.find_author, :email
@@ -38,10 +40,16 @@ json.allFriends @all_friends do |friend|
 		json.extract! post, :id, :body, :author_id, :receiver_id, :created_at, :updated_at
 		json.author post.find_author, :email
 		json.receiver post.find_receiver, :email
+		json.likesCount post.likes_count
 	end
 	json.authoredPosts friend.authored_posts do |post|
 		json.extract! post, :id, :body, :author_id, :receiver_id, :created_at, :updated_at
 		json.author post.find_author, :email
 		json.receiver post.find_receiver, :email
+		json.likesCount post.likes_count
 	end
+end
+
+json.likes @current_user.likes do |like|
+	json.extract! like, :id, :author_id, :likeable_id, :likeable_type, :created_at, :updated_at
 end

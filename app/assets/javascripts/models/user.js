@@ -22,6 +22,13 @@ FacebookApp.Models.User = Backbone.Model.extend({
     return this._friends;
   },
 
+  likes: function() {
+    if(!this._likes) {
+      this._likes = new FacebookApp.Collections.Likes([], {user: this});
+    }
+    return this._likes;
+  },
+
   parse: function(response) {
     if(response.authoredPosts) {
       this.posts().set(response.authoredPosts, {parse: true});
@@ -46,6 +53,11 @@ FacebookApp.Models.User = Backbone.Model.extend({
     if(response.allFriends) {
       this.friends().set(response.allFriends, {remove: false, parse: true});
       delete response.allFriends;
+    }
+
+    if(response.likes) {
+      this.likes().set(response.likes, {parse: true});
+      delete response.likes;
     }
 
     return response;

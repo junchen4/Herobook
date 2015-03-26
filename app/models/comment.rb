@@ -1,4 +1,5 @@
 class Comment < ActiveRecord::Base
+  include Likeable
   validates :body, :author_id, :post_id, presence: true
 
   belongs_to(
