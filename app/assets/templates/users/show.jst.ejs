@@ -1,7 +1,10 @@
 <header class="header group">
-  <h1 class="header-logo"> <a href="#/newsfeed">facebook</a></h1>
 
-  <section class="header-nav group">
+  <nav class="header-nav group">
+    <h1 class="header-logo">
+      <a href="#/newsfeed">facebook</a>
+    </h1>
+
     <ul class="header-nav-links group">
         <li class="home">
           <a href="#/newsfeed">Home</a>
@@ -18,8 +21,8 @@
   </section>
 </header>
 
-<main class="content group">
-  <section class="content-sidebar group">
+<main class="content-profile group">
+  <section class="content-profile-sidebar group">
     <h1> <%=user.escape('email')%>'s Profile Page </h1>
     <section class="request-buttons"></section>
     <div class="user-info">
@@ -28,12 +31,14 @@
 
       Friend Requests:
       <ul class="friend-requests"></ul>
-
+      <br>
+      <br>
       Friend List:
       <ul class="friend-list"></ul>
 
-    </section>
-  <section class="content-main group">
+  </section>
+
+  <section class="content-profile-main group">
 
     <section class="wall">
       <section id="post-form"></section>

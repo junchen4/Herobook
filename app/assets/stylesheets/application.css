@@ -62,10 +62,16 @@
    display: block;
  }
 
- /*header and nav bar*/
- /* .header {
+/* header and nav bar */
+ .header {
    background: #3B5998;
    padding-top: 10px;
+
+ }
+
+ .header-nav {
+   width: 900px;
+   margin: 0 auto;
  }
 
  .header-logo {
@@ -77,16 +83,17 @@
    font-weight: 500;
  }
 
- .header-list {
+ .header-nav-links {
    float: right;
    margin-top: 7px;
    color: white;
    margin-right: 10px;
  }
 
- .header-list li {
+ .header-nav-links li {
+   background: #3B5998;
    float: left;
-   margin-right: 10px;
+   margin-right: 20px;
  }
 
  .logout {
@@ -95,4 +102,18 @@
    padding: 3px 4px;
    border-radius: 8%;
  }
- */
+
+.content-newsfeed {
+  width: 900px;
+  margin: 0 auto;
+}
+
+.content-newsfeed-sidebar {
+  float: left;
+  width: 200px;
+}
+
+.content-newsfeed-main {
+  width: 650px;
+  float: right;
+}

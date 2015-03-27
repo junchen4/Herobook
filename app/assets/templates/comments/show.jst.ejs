@@ -6,9 +6,9 @@
   <%= comment.likes().length %>
   <br>
   <% if(comment.get('likeStatus') === 'unliked') {%>
-    <button class="like-comment">Like</button>
+    <button class="like-comment">Like Comment</button>
   <% } else{ %>
-    <button class="unlike-comment">Unlike</button>
+    <button class="unlike-comment">Unlike Comment</button>
   <% } %>
 
   <button class="delete-comment" data-id="<%= comment.get('id') %>">Remove Comment</button>

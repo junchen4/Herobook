@@ -32,11 +32,11 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
 
   addComment: function(comment) {
     var commentShowView = new FacebookApp.Views.CommentShow({model: comment, collection: this.model.comments(), user: this.user, post: this.model});
-    this.addSubview('#comments', commentShowView);
+    this.addSubview('.comments', commentShowView);
   },
 
   renderComments: function() {
-    this.emptySubviewContainer('#comments');
+    this.emptySubviewContainer('.comments');
     this.model.comments().each(this.addComment.bind(this));
   },
 

@@ -3,18 +3,18 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 
-.header {
+.header-login {
   background: #3B5998;
   padding-top: 12px;
   border: solid 1px;
 }
 
-.header-nav {
+.header-login-nav {
   width: 900px;
   margin: 0 auto;
 }
 
-.header-logo {
+.header-login-logo {
   float: left;
   margin-left: 20px;
   color: white;
@@ -79,7 +79,7 @@ label #form-password {
 
 // Introduction and Sign Up
 
-.content {
+.content-login {
   margin: 0 auto;
   width: 900px;
   background: #d4dae8;
