@@ -30,6 +30,8 @@
     <% } %>
 
     <%= post.escape('body') %>
+    <br>
+    Created at: <%= post.escape('created_at') %>
   </div>
   <%= post.likes().length %>
   <br>
