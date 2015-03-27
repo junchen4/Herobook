@@ -1,25 +1,27 @@
-<header class="header group">
+<header class="header">
+  <nav class="header-nav group">
     <h1 class="header-logo">
       facebook
     </h1>
 
-  <form class="login" action="<%=session_url%>" method="post">
-    <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+    <form class="login" action="<%=session_url%>" method="post">
+      <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
 
-    <ul class="login-list group">
-        <li class="form-email"> <label id="form-email">Email</label>
-          <input id="form-email" type="email" name="user[email]" value="">
-        </li>
+      <ul class="login-list group">
+          <li class="form-email"> <label id="form-email">Email</label>
+            <input id="form-email" type="email" name="user[email]" value="">
+          </li>
 
-        <li class="form-password"> <label id="form-password">Password</label>
-          <input id="form-password" type="password" name="user[password]" value="">
-        </li>
+          <li class="form-password"> <label id="form-password">Password</label>
+            <input id="form-password" type="password" name="user[password]" value="">
+          </li>
 
-        <li class="form-login">
-          <button>Log In</button>
-        </li>
-    </ul>
-  </form>
+          <li class="form-login">
+            <button>Log In</button>
+          </li>
+      </ul>
+    </form>
+  </nav>
 </header>
 
 <main class="content group">

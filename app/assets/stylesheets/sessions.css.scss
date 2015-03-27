@@ -2,10 +2,16 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+
 .header {
   background: #3B5998;
-  padding-top: 10px;
+  padding-top: 12px;
   border: solid 1px;
+}
+
+.header-nav {
+  width: 900px;
+  margin: 0 auto;
 }
 
 .header-logo {
@@ -24,6 +30,7 @@
 }
 
 .login-list li{
+  background: #3B5998;
   float: left;
 }
 
@@ -31,16 +38,19 @@
   font-size: 14px;
   width: 50px;
   margin-right: 110px;
+  height: 20px;
 }
 
 .form-password {
   font-size: 14px;
   width: 50px;
   margin-right: 110px;
+  height: 20px;
 }
 
 .form-login {
   margin-right: 70px;
+  height: 20px;
 }
 
 label #form-email {
@@ -54,7 +64,6 @@ label #form-password {
 }
 
 .login-list input {
-  background: white;
   border: solid 1px black;
 }
 
@@ -71,8 +80,9 @@ label #form-password {
 // Introduction and Sign Up
 
 .content {
-  background: aliceblue;
-  height: 250px;
+  margin: 0 auto;
+  width: 900px;
+  background: #d4dae8;
 }
 
 .content-introduction {
@@ -82,12 +92,16 @@ label #form-password {
 .content-signup {
   margin-top: 15px;
   float: right;
-  margin-right: 270px;
+  margin-right: 215px;
 }
 
 .signup-logo {
   font-size: 40px;
   font-weight: 500;
+}
+
+.signup-list > li {
+  background: #d4dae8;
 }
 
 .signup-list .form-email {

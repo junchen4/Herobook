@@ -34,7 +34,7 @@
    font-family: sans-serif;
    font-size: 16px;
    line-height: 1.1666666666666;
-   background: white;
+   background: #d4dae8;
  }
 
  ul {
@@ -63,7 +63,7 @@
  }
 
  /*header and nav bar*/
- .header {
+ /* .header {
    background: #3B5998;
    padding-top: 10px;
  }
@@ -95,3 +95,4 @@
    padding: 3px 4px;
    border-radius: 8%;
  }
+ */
