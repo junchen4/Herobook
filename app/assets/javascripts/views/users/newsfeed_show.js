@@ -17,8 +17,14 @@ FacebookApp.Views.NewsFeedShow = Backbone.CompositeView.extend({
     this.$el.html(content);
     this.renderPostForm();
     this.renderPosts();
+    this.renderSearch();
     //this.renderRequests();
     return this;
+  },
+
+  renderSearch: function() {
+    var searchShowView = new FacebookApp.Views.SearchShow();
+    this.$('.content-search').html(searchShowView.render().$el);
   },
 
   renderPostForm: function() {
