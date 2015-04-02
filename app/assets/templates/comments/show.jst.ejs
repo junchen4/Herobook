@@ -1,7 +1,15 @@
 <li>
   <%= comment.escape('body') %>
   <br>
-  Added by: <%= comment.get('author').email %>
+  <div class="comment-added-by">
+    Added by
+    <% if(FacebookApp.Models.currentUser.get('id') === comment.get('author_id')) { %>
+        <a href="#/users/<%=comment.get('author_id')%>"> you </a>
+      <%} else { %>
+        <a href="#/users/<%=comment.get('author_id')%>"> <%= comment.get('author').email %> </a>
+      <% } %>
+  </div>
+
   <br>
   <%= comment.likes().length %>
   <br>

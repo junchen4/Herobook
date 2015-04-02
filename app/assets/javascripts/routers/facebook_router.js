@@ -9,7 +9,6 @@ FacebookApp.Routers.Router = Backbone.Router.extend({
         console.log("current user's ID is:  " + FacebookApp.Models.currentUser.get('id'));
       }
     });
-    console.log("router initialized");
   },
 
   routes: {
@@ -19,8 +18,10 @@ FacebookApp.Routers.Router = Backbone.Router.extend({
   },
 
   newsFeed: function() {
+    var that = this;
     var userFeedView = new FacebookApp.Views.NewsFeedShow({model: FacebookApp.Models.currentUser});
-    this._swapView(userFeedView);
+    that._swapView(userFeedView);
+
   },
 
   show: function(id) {

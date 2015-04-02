@@ -24,7 +24,7 @@ FacebookApp.Views.PostForm = Backbone.View.extend({
       success: function() {
         FacebookApp.Models.currentUser.posts().add(post, {merge: true});
         that.model.posts().add(post, {merge: true});
-        console.log(that.model.posts());
+        FacebookApp.Models.currentUser.newsfeedPosts().add(post, {merge: true});
       }
     });
   }

@@ -2,9 +2,7 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
   template: JST['users/show'],
 
   events: {
-    // 'click button.add-post':'submitPost',
     'click .request-friend':'requestFriend',
-    // 'click button.delete-post': 'destroyPost',
     'click button.remove-friend': 'removeFriend'
   },
 
@@ -17,7 +15,8 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
   initialize: function() {
     console.log("shown user is", this.model);
     this.listenTo(this.model, 'sync', this.render);
-    this.listenTo(this.model.posts(), 'add remove', this.renderPosts);
+    this.listenTo(this.model.posts(), 'add', this.addPost);
+    this.listenTo(this.model.posts(), 'remove', this.removePost);
     if (FacebookApp.Models.currentUser.get('id') === this.model.get('id')) {
       this.listenTo(this.model.requests(), 'add remove', this.renderRequests);
     }
@@ -30,6 +29,7 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
     this.renderPostForm();
     this.renderPosts();
     this.renderFriendList();
+    this.renderSearch();
     if (FacebookApp.Models.currentUser.get('id') === this.model.get('id')) {
       this.renderRequests();
     }
@@ -39,21 +39,28 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
     return this;
   },
 
+  renderSearch: function() {
+    var searchShowView = new FacebookApp.Views.SearchShow();
+    this.$('.content-search').html(searchShowView.render().$el);
+  },
+
   renderPostForm: function() {
     var postFormView = new FacebookApp.Views.PostForm({model: this.model});
     this.$('#post-form').html(postFormView.render().$el);
   },
 ///////////////////
+  removePost: function(post) {
+    var subviewToRemove = _.findWhere(this.subviews('.posts'), {model: post});
+    this.removeSubview('.posts', subviewToRemove);
+  },
+
   addPost: function(post) {
-    // if(post.get('receiver_id') === this.model.get('id')) {
-    console.log(post);
-      var postShowView = new FacebookApp.Views.PostShow({model: post, user: this.model});
-      this.addSubview('#posts', postShowView);
-    // }
+    var postShowView = new FacebookApp.Views.PostShow({model: post, user: this.model});
+    this.addSubview('.posts', postShowView, true);
   },
 
   renderPosts: function() {
-    this.emptySubviewContainer('#posts');
+    this.emptySubviewContainer('.posts');
     this.model.posts().each(this.addPost.bind(this));
   },
 //////////////////
@@ -99,22 +106,6 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
     this.emptySubviewContainer('.friend-list');
     this.model.friends().each(this.addFriendListLink.bind(this));
   },
-//////////////////
-  // submitPost: function(event) {
-  //   event.preventDefault();
-  //   var that = this;
-  //   var postBody = this.$('input').val();
-  //   var post = new FacebookApp.Models.Post({
-  //                   'author_id': FacebookApp.Models.currentUser.get('id'),
-  //                   'body': postBody,
-  //                   'receiver_id': this.model.get('id')
-  //                   });
-  //   post.save({},{
-  //     success: function() {
-  //       that.model.posts().add(post, {merge: true});
-  //     }
-  //   })
-  // },
 
   requestFriend: function(event) {
     event.preventDefault();
@@ -132,14 +123,6 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
       }
     })
   },
-
-  // destroyPost: function(event) {
-  //   event.preventDefault();
-  //   $target = $(event.currentTarget);
-  //   var id = $target.attr('data-id');
-  //   var post = this.model.posts().get(id);
-  //   post.destroy();
-  // },
 
   removeFriend: function(event) {
     event.preventDefault();

@@ -21,22 +21,29 @@
   </section>
 </header>
 
+<section class="content-search"> </section>
+
 <main class="content-profile group">
-  <section class="content-profile-sidebar group">
-    <h1> <%=user.escape('email')%>'s Profile Page </h1>
-    <section class="request-buttons"></section>
-    <div class="user-info">
-      <a href="#/users/<%=user.get('id')%>/info">Info</a>
-    </div>
+    <section class="content-profile-sidebar group">
+      <h1> <%=user.escape('email')%>'s Profile Page </h1>
+      <section class="request-buttons"></section>
 
-      Friend Requests:
-      <ul class="friend-requests"></ul>
-      <br>
-      <br>
-      Friend List:
-      <ul class="friend-list"></ul>
+      <ul class="content-profile-sidebar-links">
+        <li> <a href="#/users/<%=user.get('id')%>">Wall</a> </li>
+        <li> <a href="#/users/<%=user.get('id')%>/info">About</a> </li>
+        <li> <a href="#/users/<%=user.get('id')%>/info">Friends</a> </li>
+        <li> <a href="#/users/<%=user.get('id')%>/info">Photos</a> </li>
+      </ul>
 
-  </section>
+
+        Friend Requests:
+        <ul class="friend-requests"></ul>
+        <br>
+        <br>
+        Friend List:
+        <ul class="friend-list"></ul>
+
+    </section>
 
   <section class="content-profile-main group">
 
@@ -45,7 +52,7 @@
       <label for="posts">"Wall"</label>
         <br>
         <br>
-        <ul id="posts"></ul>
+        <ul class="posts"></ul>
     </section>
   </section>
 

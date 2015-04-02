@@ -1,4 +1,4 @@
-// Place all the styles related to the Posts controller here.
+/* // Place all the styles related to the Posts controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
@@ -20,12 +20,12 @@
 }
 
 // Show post
-li {
-  border-bottom: solid 1px grey;
+.feed-items li {
+  border: solid 1px grey;
   padding-top: 10px;
   padding-bottom: 10px;
   background: white;
-
+  margin-top: 20px;
 }
 
 .post-body {
@@ -44,8 +44,10 @@ li {
   padding: 3px;
 }
 
-ul #comments{
-  background: grey;
+.comments li {
+  border-top: solid 1px grey;
+  border-bottom: solid 1px grey;
+  background: #eceff6;
 }
 
 .comment-form {
@@ -71,3 +73,4 @@ ul #comments{
   margin-top: 14px;
   cursor: pointer;
 }
+ */

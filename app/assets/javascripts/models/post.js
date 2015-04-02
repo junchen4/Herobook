@@ -26,6 +26,9 @@ FacebookApp.Models.Post = Backbone.Model.extend({
       delete response.likes;
     }
 
+    var d = new Date(Date.parse(response.created_at));
+
+    response.myDate = d;
     return response;
   }
 

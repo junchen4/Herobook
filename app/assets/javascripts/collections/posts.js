@@ -3,9 +3,12 @@ FacebookApp.Collections.Posts = Backbone.Collection.extend({
 
   model: FacebookApp.Models.Post,
 
+  comparator: function(model) {
+    return -model.get('myDate');
+  },
+
   initialize: function(models, options) {
     this.user = options.user;
-   
   },
 
   getOrFetch: function(id) {
@@ -26,4 +29,3 @@ FacebookApp.Collections.Posts = Backbone.Collection.extend({
       return post;
   }
 })
-

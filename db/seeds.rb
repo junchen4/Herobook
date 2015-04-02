@@ -17,7 +17,3 @@ Post.create(body: "hi", author_id: 2, receiver_id: 4)
 
 Request.create(requestor_id: 1, requestee_id: 2, status: "accepted")
 Request.create(requestor_id: 2, requestee_id: 4, status: "accepted")
-
-
-Comment.create(body: "this should be not displayed", author_id: 2, post_id: 3)
-Comment.create(body: "this should be displayed", author_id: 2, post_id: 2)

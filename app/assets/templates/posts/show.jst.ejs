@@ -31,7 +31,7 @@
 
     <%= post.escape('body') %>
     <br>
-    Created at: <%= post.escape('created_at') %>
+    Posted on: <%= post.escape('myDate') %>
   </div>
   <%= post.likes().length %>
   <br>
@@ -45,7 +45,7 @@
 
   <ul class="comments"></ul>
 
-  <div class="comment-form group"></div>
+  <section class="comment-form group"></div>
 
   <br>
   <br>

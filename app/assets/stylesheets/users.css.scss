@@ -1,6 +1,50 @@
-// Place all the styles related to the Users controller here.
+/* // Place all the styles related to the Users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.header {
+  background: #3B5998;
+  padding-top: 12px;
+  border: solid 1px;
+}
+
+.header-nav {
+  width: 900px;
+  margin: 0 auto;
+}
+
+.header-logo {
+  float: left;
+  margin-left: 20px;
+  color: white;
+  font-size: 30px;
+  font: klavika;
+  font-weight: 800;
+  margin-top: 12px;
+  padding-bottom: 8px;
+}
+
+.header-nav-links {
+  float: right;
+}
+
+.header-nav-links li{
+  background: #3B5998;
+  float: left;
+  margin-right: 20px;
+}
+
+.content-search {
+  position: absolute;
+  top: 10px;
+  left: 450px;
+}
+
+.content-search input {
+  background: white;
+  border: solid 1px black;
+  border-radius: 8%;
+}
 
 .content-profile {
   width: 900px;
@@ -41,21 +85,23 @@
   margin-right: 70px;
 }
 
-
 .wall label {
   padding-top: 50px;
 }
 
-#posts {
+.posts li{
   background: white;
+  margin-top: 40px;
+  border: solid 2px grey;
+}
+
+.comments li {
+  border-top: solid 1px grey;
+  border-bottom: solid 1px grey;
+  background: #eceff6;
 }
 
 .friend-requests {
   border: solid 2px black;
 }
-
-.content-search input {
-  background: white;
-  border: solid 1px black;
-  border-radius: 8%;
-}
+ */

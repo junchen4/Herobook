@@ -25,7 +25,12 @@ FacebookApp.Views.CommentShow = Backbone.CompositeView.extend({
     $target = $(event.currentTarget);
     var id = $target.attr('data-id');
     var comment = this.collection.get(id);
-    comment.destroy();
+    comment.destroy({
+      success: function() {
+        FacebookApp.Models.currentUser.comments().remove(comment);
+        FacebookApp.Models.currentUser.posts().get(comment.get('post_id')).comments().remove(comment); //Remove comment from current user's post that contains the comment
+      }
+    });
   },
 
   likeComment: function() {
@@ -36,6 +41,7 @@ FacebookApp.Views.CommentShow = Backbone.CompositeView.extend({
       success: function() {
         that.model.likes().add(like, {merge: true});
         FacebookApp.Models.currentUser.likes().add(like, {merge: true});
+        FacebookApp.Models.currentUser.comments().get(like.get('likeable_id')).set('likeStatus', 'liked');
         that.model.set('likeStatus', "liked");
         that.render();
       }
@@ -46,12 +52,12 @@ FacebookApp.Views.CommentShow = Backbone.CompositeView.extend({
     event.preventDefault();
     var like = this.model.likes().findWhere({author_id: FacebookApp.Models.currentUser.get('id')});
     var that = this;
-    like.destroy({
-      success: function() {
-          that.model.set('likeStatus', "unliked");
-          that.render();
-      }
-    });
+    like.destroy();
+    //   success: function() {
+    //       that.model.set('likeStatus', "unliked");
+    //       that.render();
+    //   }
+    // });
   }
 
 })

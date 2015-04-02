@@ -3,20 +3,19 @@ FacebookApp.Views.NewsFeedShow = Backbone.CompositeView.extend({
 
   initialize: function() {
     this.listenTo(this.model, 'sync', this.render);
-    this.listenTo(this.model.posts(), 'add remove sync', this.renderPosts);
+    this.listenTo(this.model.newsfeedPosts(), 'add', this.addItem);
+    this.listenTo(this.model.newsfeedPosts(), 'remove', this.removeItem);
+    this.listenTo(this.model.newsfeedCommentedPosts(), 'add', this.addItem);
+    this.listenTo(this.model.newsfeedCommentedPosts(), 'remove', this.removeItem);
     this.listenTo(this.model.friends(), 'add remove sync', this.renderPosts);
-    this.listenTo(this.model.newsfeedPosts(), 'add remove', this.renderPosts);
-    var that = this;
-    this.model.friends().each(function(friend) {
-      that.listenTo(friend.posts(), 'add remove sync', that.renderPosts);
-    })
+
   },
 
   render: function() {
     var content = this.template({user: this.model});
     this.$el.html(content);
     this.renderPostForm();
-    this.renderPosts();
+    this.renderItems();
     this.renderSearch();
     //this.renderRequests();
     return this;
@@ -32,16 +31,39 @@ FacebookApp.Views.NewsFeedShow = Backbone.CompositeView.extend({
     this.$('#post-form').html(postFormView.render().$el);
   },
 
-  addPost: function(post) {
-    console.log("adding post: ", post);
-    console.log("this user",this.model);
-    var postShowView = new FacebookApp.Views.PostShow({model: post, user: this.model});
-    this.addSubview('.feed-items', postShowView);
+//////////////////////////////////////////
+
+  removeItem: function(item) {
+    var subviewToRemove = _.findWhere(this.subviews('.feed-items'), {model: item});
+    this.removeSubview('.feed-items', subviewToRemove);
   },
 
-  renderPosts: function() {
+  addItem: function(item) {
+    var lastComment = new FacebookApp.Models.Comment();
+
+    //Set the last comment in a post, if the last comment exists
+    if (item.comments().length !== 0) {
+      lastComment.set(item.comments().at(item.comments().length - 1).attributes);
+    }
+    console.log("last comment", lastComment.attributes);
+    if (item.url() === "/posts/" + item.get('id')) {
+      var showView = new FacebookApp.Views.ItemShow({model: item, user: this.model, lastComment: lastComment});
+    }
+
+    this.addSubview('.feed-items', showView, true);
+  },
+
+  renderItems: function() {
     this.emptySubviewContainer('.feed-items');
-    this.model.newsfeedPosts().each(this.addPost.bind(this));
+    var newsfeedItems = new FacebookApp.Collections.NewsfeedItems([], {user: this.model});
+    newsfeedItems.add(this.model.newsfeedPosts().models);
+    newsfeedItems.add(this.model.newsfeedCommentedPosts().models);
+    newsfeedItems.sort();
+    console.log("newsfeed posts", this.model.newsfeedPosts());
+    console.log("newsfeed commented posts", this.model.newsfeedCommentedPosts());
+    console.log("newsfeed items", newsfeedItems);
+
+    newsfeedItems.each(this.addItem.bind(this));
   }
 
 })
