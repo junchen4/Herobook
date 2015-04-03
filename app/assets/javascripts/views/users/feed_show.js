@@ -1,14 +1,12 @@
-FacebookApp.Views.NewsFeedShow = Backbone.CompositeView.extend({
-  template: JST['users/newsfeed_show'],
+FacebookApp.Views.FeedShow = Backbone.CompositeView.extend({
+  template: JST['users/feed_show'],
 
   initialize: function() {
     this.listenTo(this.model, 'sync', this.render);
-    this.listenTo(this.model.newsfeedPosts(), 'add', this.addItem);
-    this.listenTo(this.model.newsfeedPosts(), 'remove', this.removeItem);
-    this.listenTo(this.model.newsfeedCommentedPosts(), 'add', this.addItem);
-    this.listenTo(this.model.newsfeedCommentedPosts(), 'remove', this.removeItem);
-    this.listenTo(this.model.friends(), 'add remove sync', this.renderPosts);
-
+    this.listenTo(this.model.feedPosts(), 'add', this.addItem);
+    this.listenTo(this.model.feedPosts(), 'remove', this.removeItem);
+    this.listenTo(this.model.feedCommentedPosts(), 'add', this.addItem);
+    this.listenTo(this.model.feedCommentedPosts(), 'remove', this.removeItem);
   },
 
   render: function() {
@@ -46,21 +44,27 @@ FacebookApp.Views.NewsFeedShow = Backbone.CompositeView.extend({
       lastComment.set(item.comments().at(item.comments().length - 1).attributes);
     }
     console.log("last comment", lastComment.attributes);
-    if (item.url() === "/posts/" + item.get('id')) {
-      var showView = new FacebookApp.Views.ItemShow({model: item, user: this.model, lastComment: lastComment});
-    }
+    // if (item.url() === "/posts/" + item.get('id')) {
+    var showView = new FacebookApp.Views.ItemShow({model: item, user: this.model, lastComment: lastComment});
+    // } else if (item.url() === "/requests/") {
+    //   var showView = new FacebookApp.Views.ItemShow({model: item, user: this.model, lastComment: lastComment});
+    // }
+
 
     this.addSubview('.feed-items', showView, true);
   },
 
   renderItems: function() {
     this.emptySubviewContainer('.feed-items');
-    var newsfeedItems = new FacebookApp.Collections.NewsfeedItems([], {user: this.model});
-    newsfeedItems.add(this.model.newsfeedPosts().models);
-    newsfeedItems.add(this.model.newsfeedCommentedPosts().models);
+    var newsfeedItems = new FacebookApp.Collections.NewsfeedItems([], {user: FacebookApp.Models.currentUser});
+    newsfeedItems.add(this.model.feedPosts().models);
+    newsfeedItems.add(this.model.feedCommentedPosts().models);
+    newsfeedItems.add(this.model.feedAcceptances().models);
+
     newsfeedItems.sort();
-    console.log("newsfeed posts", this.model.newsfeedPosts());
-    console.log("newsfeed commented posts", this.model.newsfeedCommentedPosts());
+    console.log("newsfeed posts", this.model.feedPosts());
+    console.log("newsfeed commented posts", this.model.feedCommentedPosts());
+    console.log("newsfeed acceptances", this.model.feedAcceptances());
     console.log("newsfeed items", newsfeedItems);
 
     newsfeedItems.each(this.addItem.bind(this));

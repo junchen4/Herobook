@@ -12,16 +12,21 @@ FacebookApp.Routers.Router = Backbone.Router.extend({
   },
 
   routes: {
-    'newsfeed': 'newsFeed',
+    'feed': 'feed',
     'users/:id': 'show',
     'users/:id/info': 'info'
   },
 
-  newsFeed: function() {
-    var that = this;
-    var userFeedView = new FacebookApp.Views.NewsFeedShow({model: FacebookApp.Models.currentUser});
-    that._swapView(userFeedView);
+  feed: function() {
+    var feed = new FacebookApp.Models.Feed();
 
+    var that = this;
+    feed.fetch({
+      success: function() {
+        var userFeedView = new FacebookApp.Views.FeedShow({model: feed});
+        that._swapView(userFeedView);
+      }
+    });
   },
 
   show: function(id) {

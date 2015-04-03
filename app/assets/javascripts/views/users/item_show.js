@@ -20,7 +20,12 @@ FacebookApp.Views.ItemShow = Backbone.CompositeView.extend({
   render: function() {
     var content = this.template({post: this.model, user: this.user, lastComment: this.lastComment});
     this.$el.html(content);
-    this.renderPost();
+    if (item.url() === "/posts/" + item.get('id')) {
+      this.renderPost();
+    }
+    } else if (item.url() === "/requests/") {
+      var showView = new FacebookApp.Views.ItemShow({model: item, user: this.model, lastComment: lastComment});
+    }
     // this.renderCommentForm();
     // this.renderComments();
     return this;

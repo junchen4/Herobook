@@ -65,7 +65,7 @@ class User < ActiveRecord::Base
   #   :through => :requests,
   #   :source => :inverse_user
   # )
-  def newsfeed_posts
+  def feed_posts
     posts = []
 
     self.all_friends.each do |friend|
@@ -90,7 +90,7 @@ class User < ActiveRecord::Base
     posts
   end
 
-  def newsfeed_commented_posts
+  def feed_commented_posts
     posts = []
 
     self.comments.each do |comment|
@@ -105,6 +105,22 @@ class User < ActiveRecord::Base
 
     posts.uniq!
     posts
+  end
+
+  def feed_friend_acceptances
+    acceptances = []
+    self.requests.each do |request|
+      acceptances << request  if request.status == "accepted"
+    end
+
+    self.all_friends.each do |friend|
+      friend.requests.each do |request|
+        acceptances << request if request.status == "accepted"
+      end
+    end
+
+    acceptances.uniq!
+    acceptances
   end
 
   def friendStatus(user)

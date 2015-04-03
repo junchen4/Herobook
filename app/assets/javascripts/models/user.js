@@ -50,14 +50,6 @@ FacebookApp.Models.User = Backbone.Model.extend({
     return this._newsfeedCommentedPosts;
   },
 
-  // newsfeedItems: function() {
-  //   if(!this._newsfeedItems) {
-  //     this._newsfeedItems = new FacebookApp.Collections.NewsfeedItems([], {user: this});
-  //     this._newsfeedItems.add(this._newsfeedComments.models);
-  //     this._newsfeedItems.add(this._newsfeedPosts.models);
-  //   }
-  //   return this._newsfeedItems;
-  // },
 
 ///////////////////////////
 

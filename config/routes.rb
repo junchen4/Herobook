@@ -7,7 +7,7 @@ FinalProject::Application.routes.draw do
   resources :likes, only: [:new, :create, :show, :destroy]
   resource :session, only: [:new, :create, :show, :destroy]
   resources :requests
-  resources :newsfeeds
+  resources :feeds, only: [:new, :create, :show, :destroy]
 
   root to: "roots#root"
 end
