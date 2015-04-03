@@ -12,9 +12,9 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
   initialize: function(options) {
     this.user = options.user;
     this.listenTo(this.model, 'sync', this.render);
-    this.listenTo(this.model.likes(), 'add destroy', this.render);
+    this.listenTo(this.model.likes(), 'add remove', this.render);
     this.listenTo(this.model.comments(), 'add', this.addComment);
-    this.listenTo(this.model.comments(), 'destroy', this.removeComment);
+    this.listenTo(this.model.comments(), 'remove', this.removeComment);
     console.log(this.model.comments());
 
   },

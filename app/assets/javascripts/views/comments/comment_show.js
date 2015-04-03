@@ -52,12 +52,12 @@ FacebookApp.Views.CommentShow = Backbone.CompositeView.extend({
     event.preventDefault();
     var like = this.model.likes().findWhere({author_id: FacebookApp.Models.currentUser.get('id')});
     var that = this;
-    like.destroy();
-    //   success: function() {
-    //       that.model.set('likeStatus', "unliked");
-    //       that.render();
-    //   }
-    // });
+    like.destroy({
+      success: function() {
+          that.model.set('likeStatus', "unliked");
+          that.render();
+      }
+    });
   }
 
 })
