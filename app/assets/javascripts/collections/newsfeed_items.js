@@ -1,6 +1,5 @@
 FacebookApp.Collections.NewsfeedItems = Backbone.Collection.extend({
-  url: "/newsfeed",
-
+  
   model: FacebookApp.Models.NewsfeedItem,
 
   initialize: function(models, options) {

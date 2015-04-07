@@ -55,7 +55,13 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
   },
 
   addPost: function(post) {
-    var postShowView = new FacebookApp.Views.PostShow({model: post, user: this.model});
+    var lastComment = new FacebookApp.Models.Comment();
+
+    //Set the last comment in a post, if the last comment exists
+    if (post.comments().length !== 0) {
+      lastComment.set(post.comments().at(post.comments().length - 1).attributes);
+    }
+    var postShowView = new FacebookApp.Views.PostShow({model: post, user: this.model, isFeed: false, lastComment: lastComment});
     this.addSubview('.posts', postShowView, true);
   },
 

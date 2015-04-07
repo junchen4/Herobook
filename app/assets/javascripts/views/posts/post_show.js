@@ -11,16 +11,17 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
 
   initialize: function(options) {
     this.user = options.user;
+    this.isFeed = options.isFeed;
+    this.lastComment = options.lastComment;
     this.listenTo(this.model, 'sync', this.render);
     this.listenTo(this.model.likes(), 'add remove', this.render);
     this.listenTo(this.model.comments(), 'add', this.addComment);
     this.listenTo(this.model.comments(), 'remove', this.removeComment);
-    console.log(this.model.comments());
 
   },
 
   render: function() {
-    var content = this.template({post: this.model, user: this.user});
+    var content = this.template({post: this.model, user: this.user, isFeed: this.isFeed, lastComment: this.lastComment});
     this.$el.html(content);
     this.renderCommentForm();
     this.renderComments();
@@ -61,8 +62,8 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
         that.model.comments().add(comment, {merge: true}); //Add to the comments of the post
         FacebookApp.Models.currentUser.comments().add(comment, {merge: true});
         FacebookApp.Models.currentUser.posts().get(comment.get('post_id')).comments().add(comment, {merge: true});
-        FacebookApp.Models.currentUser.newsfeedCommentedPosts().add(that.model, {merge: true});
-        that.user.newsfeedCommentedPosts().add(that.model, {merge: true});
+        // FacebookApp.Models.currentUser.newsfeedCommentedPosts().add(that.model, {merge: true});
+        // that.user.newsfeedCommentedPosts().add(that.model, {merge: true});
       }
     });
   },
@@ -90,6 +91,8 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
         that.model.set('likeStatus', 'liked');
         FacebookApp.Models.currentUser.posts().get(like.get('likeable_id')).set('likeStatus', 'liked');
         that.render();
+
+        console.log("post's likes", that.model.likes());
       }
     });
   },
@@ -101,10 +104,15 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
     like.destroy({
       success: function() {
           that.model.set('likeStatus', 'unliked');
-          FacebookApp.Models.currentUser.posts().get(like.get('likeable_id')).likes().remove(like, {merge: true});
           FacebookApp.Models.currentUser.posts().get(like.get('likeable_id')).set('likeStatus', 'unliked');
-          FacebookApp.Models.currentUser.likes().remove(like, {merge: true});
+
+          FacebookApp.Models.currentUser.posts().get(like.get('likeable_id')).likes().remove(like);
+          FacebookApp.Models.currentUser.likes().remove(like);
+          that.model.likes().remove(like);
+
           that.render();
+          console.log("post's likes", that.model.likes());
+
       }
     });
   }

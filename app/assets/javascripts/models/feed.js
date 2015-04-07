@@ -8,12 +8,12 @@ FacebookApp.Models.Feed = Backbone.Model.extend({
     return this._feedPosts;
   },
 
-  feedCommentedPosts: function() {
-    if(!this._feedCommentedPosts) {
-      this._feedCommentedPosts = new FacebookApp.Collections.Posts([], {user: this});
-    }
-    return this._feedCommentedPosts;
-  },
+  // feedCommentedPosts: function() {
+  //   if(!this._feedCommentedPosts) {
+  //     this._feedCommentedPosts = new FacebookApp.Collections.Posts([], {user: this});
+  //   }
+  //   return this._feedCommentedPosts;
+  // },
 
   feedAcceptances: function () {
     if(!this._feedAcceptances) {
@@ -30,10 +30,10 @@ FacebookApp.Models.Feed = Backbone.Model.extend({
       delete response.feedPosts;
     }
 
-    if(response.feedCommentedPosts) {
-      this.feedCommentedPosts().set(response.feedCommentedPosts, {parse: true});
-      delete response.feedCommentedPosts;
-    }
+    // if(response.feedCommentedPosts) {
+    //   this.feedCommentedPosts().set(response.feedCommentedPosts, {parse: true});
+    //   delete response.feedCommentedPosts;
+    // }
 
     if(response.feedAcceptances) {
       this.feedAcceptances().set(response.feedAcceptances, {parse: true});

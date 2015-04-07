@@ -1,0 +1,77 @@
+<li class="post-feed-item" data-sort='<%=post.get('myDate')%>'>
+      <h1>
+        <% if( _.isEmpty(lastComment.attributes) !== false ) { %>
+          <% if(FacebookApp.Models.currentUser.get('id') !== post.get('author_id')) {%>
+            <a href="#/users/<%=post.get('author_id')%>"> <%= post.get('author').email %> </a>
+          <% } else {%>
+            <a href="#/users/<%=post.get('author_id')%>"> You </a>
+          <% } %>
+          <% if (post.get('receiver_id') !== post.get('author_id')) { %>
+              wrote on
+              <a href="#/users/<%=post.get('receiver_id')%>"> <%= post.get('receiver').email %> </a>
+          <% } else { %>
+            wrote a status update
+          <% } %>
+      <%} else {%>
+        <% if (FacebookApp.Models.currentUser.get('id') !== lastComment.get('author_id')) {%>
+          <a href="#/users/<%=lastComment.get('author_id')%>"> <%= lastComment.get('author').email %> </a>
+        <% } else {%>
+          <a href="#/users/<%=lastComment.get('author_id')%>"> You </a>
+        <% } %>
+
+        commented on this post
+      <% } %>
+    </h1>
+
+    <div class="post-feed-body">
+      <% if(FacebookApp.Models.currentUser.get('id') === user.get('id')) { %>
+        <% if(post.get('author_id') === post.get('receiver_id')) { %>
+            You posted:
+        <% } else if(post.get('author_id') === user.get('id')){%>
+            You wrote on <%= post.get('receiver_id') %>'s wall:
+        <% } else{ %>
+            <a href="#/users/<%=post.get('author_id')%>"><%= post.get('author').email %></a> wrote:
+        <% } %>
+      <% } else {%>
+        <% if(post.get('receiver_id') === post.get('author_id')) { %>
+          <a href="#/users/<%=post.get('author_id')%>"> <%= post.get('author').email %> </a>
+        <% } else if (post.get('author_id') === user.get('id')) { %>
+          <a href="#/users/<%=post.get('author_id')%>"> <%= post.get('author').email %> </a>
+          wrote on
+            <% if (post.get('receiver_id') === FacebookApp.Models.currentUser.get('id')) { %>
+              <a href="#/users/<%=FacebookApp.Models.currentUser.get('id')%>">your</a> wall:
+            <% } else { %>
+              <a href="#/users/<%=post.get('receiver_id')%>"> <%= post.get('receiver_id') %> </a>'s wall:
+            <% } %>
+        <% } else{%>
+            <% if(post.get('author_id') === FacebookApp.Models.currentUser.get('id')) { %>
+              <a href="#/users/<%=FacebookApp.Models.currentUser.get('id')%>">You</a> wrote:
+            <% } else { %>
+              <a href="#/users/<%=post.get('author_id')%>"><%=post.get('author').email%></a> wrote on
+              <a href="#/users/<%=post.get('receiver_id')%>"><%=post.get('receiver_id')%></a>'s wall:
+            <% } %>
+        <% } %>
+      <% } %>
+
+      <%= post.escape('body') %>
+      <br>
+      Posted on: <%= post.escape('myDate') %>
+    </div>
+    <%= post.likes().length %> likes
+    <br>
+    <button class="feed-delete-post" data-id="<%= post.get('id') %>">Remove</button>
+
+    <% if(post.get('likeStatus') === 'unliked') {%>
+      <button class="feed-like-post">Like</button>
+    <% } else{ %>
+      <button class="feed-unlike-post">Unlike</button>
+    <% } %>
+
+    <ul class="comments"></ul>
+
+    <section class="comment-form group"></div>
+
+    <br>
+    <br>
+
+</li>

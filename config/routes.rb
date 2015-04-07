@@ -8,6 +8,7 @@ FinalProject::Application.routes.draw do
   resource :session, only: [:new, :create, :show, :destroy]
   resources :requests
   resources :feeds, only: [:new, :create, :show, :destroy]
+  resources :current_user, only: [:show, :destroy]
 
   root to: "roots#root"
 end

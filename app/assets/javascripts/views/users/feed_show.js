@@ -1,19 +1,25 @@
 FacebookApp.Views.FeedShow = Backbone.CompositeView.extend({
   template: JST['users/feed_show'],
 
-  initialize: function() {
+  initialize: function(options) {
+    this.user = options.user;
     this.listenTo(this.model, 'sync', this.render);
-    this.listenTo(this.model.feedPosts(), 'add', this.addItem);
-    this.listenTo(this.model.feedPosts(), 'remove', this.removeItem);
-    this.listenTo(this.model.feedCommentedPosts(), 'add', this.addItem);
-    this.listenTo(this.model.feedCommentedPosts(), 'remove', this.removeItem);
+    this.listenTo(this.model.feedPosts(), 'add remove', this.render);
+    var that = this;
+    // this.model.feedPosts().each(function(post) {
+    //   that.listenTo(post.comments(), 'add remove change', that.render);
+    // });
+    // this.listenTo(this.model.feedPosts(), 'change', this.render);
+    // this.listenTo(this.model.feedCommentedPosts(), 'add', this.addItem);
+    // this.listenTo(this.model.feedCommentedPosts(), 'remove', this.removeItem);
   },
 
   render: function() {
-    var content = this.template({user: this.model});
+    var content = this.template({user: this.user, feed: this.model});
     this.$el.html(content);
     this.renderPostForm();
     this.renderItems();
+    // this.renderSortedItems();
     this.renderSearch();
     //this.renderRequests();
     return this;
@@ -36,38 +42,62 @@ FacebookApp.Views.FeedShow = Backbone.CompositeView.extend({
     this.removeSubview('.feed-items', subviewToRemove);
   },
 
-  addItem: function(item) {
+  addPostItem: function(item) {
     var lastComment = new FacebookApp.Models.Comment();
 
     //Set the last comment in a post, if the last comment exists
     if (item.comments().length !== 0) {
       lastComment.set(item.comments().at(item.comments().length - 1).attributes);
     }
-    console.log("last comment", lastComment.attributes);
-    // if (item.url() === "/posts/" + item.get('id')) {
-    var showView = new FacebookApp.Views.ItemShow({model: item, user: this.model, lastComment: lastComment});
-    // } else if (item.url() === "/requests/") {
-    //   var showView = new FacebookApp.Views.ItemShow({model: item, user: this.model, lastComment: lastComment});
-    // }
+    var showView = new FacebookApp.Views.PostShow({model: item, user: this.user, lastComment: lastComment, isFeed: true});
 
+    this.addSubview('.feed-items', showView, true);
+  },
 
+  addAcceptanceItem: function(item) {
+    var showView = new FacebookApp.Views.ItemAcceptanceShow({model: item, user: this.model});
     this.addSubview('.feed-items', showView, true);
   },
 
   renderItems: function() {
     this.emptySubviewContainer('.feed-items');
-    var newsfeedItems = new FacebookApp.Collections.NewsfeedItems([], {user: FacebookApp.Models.currentUser});
-    newsfeedItems.add(this.model.feedPosts().models);
-    newsfeedItems.add(this.model.feedCommentedPosts().models);
-    newsfeedItems.add(this.model.feedAcceptances().models);
+    //sort models by date to order chronologically in feed
+    var array = [];
+    array = array.concat(this.model.feedPosts().models).concat(this.model.feedAcceptances().models);
+    console.log("array", array);
+    array.sort(function(a,b) {
+      var compA = a.get('myDate');
+      var compB = b.get('myDate');
+      return (compA < compB) ? -1 : (compA > compB) ? 1 : 0;
+    });
 
-    newsfeedItems.sort();
-    console.log("newsfeed posts", this.model.feedPosts());
-    console.log("newsfeed commented posts", this.model.feedCommentedPosts());
-    console.log("newsfeed acceptances", this.model.feedAcceptances());
-    console.log("newsfeed items", newsfeedItems);
+    var that = this;
+    array.forEach(function(el) {
+      if (el.url() == "/posts/" + el.get('id')) {
+        that.addPostItem(el);
+      } else {
+        that.addAcceptanceItem(el);
+      }
+    });
 
-    newsfeedItems.each(this.addItem.bind(this));
+    // this.model.feedPosts().each(this.addPostItem.bind(this));
+    // this.model.feedAcceptances().each(this.addAcceptanceItem.bind(this));
+  },
+
+  renderSortedItems: function() {
+    var list = this.$('.feed-items');
+    var that = this;
+    var postItems = this.$('.post-feed-item').get();
+    var acceptanceItems = this.$('.acceptance-feed-item').get();
+    var listItems = postItems.concat(acceptanceItems);
+
+
+    listItems.sort(function(a,b) {
+      var compA = that.$(a).attr('data-sort');
+      var compB = that.$(b).attr('data-sort');
+      return (compA < compB) ? 1 : (compA > compB) ? -1 : 0;
+    });
+    $.each(listItems, function(idx, itm) {list.append(itm);});
   }
 
 })

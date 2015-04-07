@@ -90,22 +90,22 @@ class User < ActiveRecord::Base
     posts
   end
 
-  def feed_commented_posts
-    posts = []
-
-    self.comments.each do |comment|
-      posts << Post.find(comment.post_id)
-    end
-
-    self.all_friends.each do |friend|
-      friend.comments.each do |comment|
-        posts << Post.find(comment.post_id) if self.all_friends.include?(User.find(comment.post_id))
-      end
-    end
-
-    posts.uniq!
-    posts
-  end
+  # def feed_commented_posts
+  #   posts = []
+  #
+  #   self.comments.each do |comment|
+  #     posts << Post.find(comment.post_id)
+  #   end
+  #
+  #   self.all_friends.each do |friend|
+  #     friend.comments.each do |comment|
+  #       posts << Post.find(comment.post_id) if self.all_friends.include?(User.find(comment.post_id))
+  #     end
+  #   end
+  #
+  #   posts.uniq!
+  #   posts
+  # end
 
   def feed_friend_acceptances
     acceptances = []

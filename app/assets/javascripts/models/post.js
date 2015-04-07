@@ -1,4 +1,4 @@
-FacebookApp.Models.Post = Backbone.Model.extend({
+FacebookApp.Models.Post = FacebookApp.Models.NewsfeedItem.extend({
   urlRoot: '/posts',
 
   comments: function() {

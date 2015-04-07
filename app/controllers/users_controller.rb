@@ -46,7 +46,11 @@ class UsersController < ApplicationController
 
   end
 
+  def current
+    @current_user = current_user
 
+    render :current
+  end
 
   private
   def user_params

@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
       render :new
     else
       login(@current_user)
-      redirect_to "#/newsfeed"
+      redirect_to "#/feed"
     end
   end
 
@@ -27,5 +27,6 @@ class SessionsController < ApplicationController
     logout
     redirect_to new_session_url
   end
+  
 
 end

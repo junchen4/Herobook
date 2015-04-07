@@ -1,10 +1,10 @@
 FacebookApp.Views.ItemShow = Backbone.CompositeView.extend({
-  template: JST['users/item_show'],
+  template: JST['feed_items/item_show'],
 
   events: {
-    'click button.delete-post': 'destroyPost',
+    'click button.feed-delete-post': 'destroyPost',
     'click button.add-comment':'submitComment',
-    'click button.like-post':'likePost',
+    'click button.feed-like-post':'likePost',
     'click button.unlike-post':'unlikePost'
 
   },
@@ -14,43 +14,16 @@ FacebookApp.Views.ItemShow = Backbone.CompositeView.extend({
     this.lastComment = options.lastComment;
     this.listenTo(this.model, 'sync', this.render);
     this.listenTo(this.model.likes(), 'add remove', this.render);
-    this.listenTo(this.model.comments(), 'add remove', this.renderComments);
+    this.listenTo(this.model.comments(), 'add', this.addComment);
+    this.listenTo(this.model.comments(), 'remove', this.removeComment);
   },
 
   render: function() {
     var content = this.template({post: this.model, user: this.user, lastComment: this.lastComment});
     this.$el.html(content);
-    if (item.url() === "/posts/" + item.get('id')) {
-      this.renderPost();
-    }
-    } else if (item.url() === "/requests/") {
-      var showView = new FacebookApp.Views.ItemShow({model: item, user: this.model, lastComment: lastComment});
-    }
-    // this.renderCommentForm();
-    // this.renderComments();
+    this.renderCommentForm();
+    this.renderComments();
     return this;
-  },
-
-  renderPost: function() {
-    var postShowView = new FacebookApp.Views.PostShow({model: this.model, user: this.user});
-    this.$('.feed-post').html(postShowView.render().$el);
-  },
-
-  removePost: function(post) {
-    console.log("removing post", post);
-    var subviewToRemove = _.findWhere(this.subviews('.posts'), {model: post});
-    this.removeSubview('.posts', subviewToRemove);
-  },
-
-  addPost: function(post) {
-    console.log(post);
-    var postShowView = new FacebookApp.Views.PostShow({model: post, user: this.model});
-    this.addSubview('.posts', postShowView, true);
-  },
-
-  renderPosts: function() {
-    this.emptySubviewContainer('.posts');
-    this.model.posts().each(this.addPost.bind(this));
   },
 
   renderCommentForm: function() {
@@ -58,7 +31,10 @@ FacebookApp.Views.ItemShow = Backbone.CompositeView.extend({
     this.$('.comment-form').html(commentFormView.render().$el);
   },
 
-/////////////////////
+  removeComment: function(comment) {
+    var subviewToRemove = _.findWhere(this.subviews('.comments'), {model: comment});
+    this.removeSubview('.comments', subviewToRemove);
+  },
 
   addComment: function(comment) {
     var commentShowView = new FacebookApp.Views.CommentShow({model: comment, collection: this.model.comments(), user: this.user, post: this.model});
@@ -79,16 +55,24 @@ FacebookApp.Views.ItemShow = Backbone.CompositeView.extend({
     var comment = new FacebookApp.Models.Comment({'body': commentBody, 'post_id': this.model.get('id')});
     comment.save({}, {
       success: function() {
-        that.model.comments().add(comment, {merge: true}); //Add to the comments of the user who owns the current show page
+        that.model.comments().add(comment, {merge: true}); //Add to the comments of the post
         FacebookApp.Models.currentUser.comments().add(comment, {merge: true});
-        // FacebookApp.Collections.newsfeedItems.add(comment, {merge: true});
+        FacebookApp.Models.currentUser.posts().get(comment.get('post_id')).comments().add(comment, {merge: true});
+        // FacebookApp.Models.currentUser.newsfeedCommentedPosts().add(that.model, {merge: true});
+        // that.user.newsfeedCommentedPosts().add(that.model, {merge: true});
       }
     });
   },
 
   destroyPost: function(event) {
     event.preventDefault();
-    this.model.destroy();
+    var that = this;
+    this.model.destroy({
+      success: function() {
+        FacebookApp.Models.currentUser.posts().remove(that.model);
+        that.user.posts().remove(that.model);
+      }
+    });
   },
 
   likePost: function(event) {
@@ -99,7 +83,9 @@ FacebookApp.Views.ItemShow = Backbone.CompositeView.extend({
       success: function() {
         that.model.likes().add(like, {merge: true});
         FacebookApp.Models.currentUser.likes().add(like, {merge: true});
+        FacebookApp.Models.currentUser.posts().get(like.get('likeable_id')).likes().add(like, {merge: true});
         that.model.set('likeStatus', 'liked');
+        FacebookApp.Models.currentUser.posts().get(like.get('likeable_id')).set('likeStatus', 'liked');
         that.render();
       }
     });
@@ -111,11 +97,15 @@ FacebookApp.Views.ItemShow = Backbone.CompositeView.extend({
     var that = this;
     like.destroy({
       success: function() {
-          that.model.set('likeStatus', 'unliked');
+          FacebookApp.Models.currentUser.posts().get(like.get('likeable_id')).set('likeStatus', 'unliked');
+
+          FacebookApp.Models.currentUser.posts().get(like.get('likeable_id')).likes().remove(like);
+          FacebookApp.Models.currentUser.likes().remove(like);
+          that.model.likes().remove(like);
+
           that.render();
       }
     });
   }
-
 
 })
