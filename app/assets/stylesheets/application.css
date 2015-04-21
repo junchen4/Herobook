@@ -62,6 +62,11 @@
    display: block;
  }
 
+
+ .hidden {
+  display: none;
+}
+
 /* header and nav bar */
  .header {
    background: #3B5998;
@@ -95,6 +100,25 @@
    float: left;
    margin-right: 20px;
  }
+
+ #account-nav {
+  position: relative;
+ }
+
+.account-nav-links {
+  margin-top: 10px;
+  position: absolute;
+  width: 160px;
+}
+
+.account-nav-links li {
+  background: white;
+  color: #3B5998;
+  font-weight: 600;
+  padding: 4px 0;
+  float: none; 
+  border: 1px solid #6b727c;
+}
 
  .logout {
    background: #3b5998;
@@ -251,9 +275,11 @@ Users
  */
 
 .content-search {
+  width: 900px;
   position: absolute;
   top: 10px;
-  left: 450px;
+  left: auto;
+  right: auto;
 }
 
 .content-search input {
@@ -263,6 +289,7 @@ Users
 }
 
 .content-search li {
+  position: absolute;
   background: white;
   padding-top: 5px;
 }
@@ -410,7 +437,7 @@ Users
 .comment-form {
   float: left;
   position: absolute;
-  top: 0:
+  top: 0;
   right: 0;
   margin: 0 auto;
 }

@@ -1,6 +1,11 @@
 FacebookApp.Views.FeedShow = Backbone.CompositeView.extend({
   template: JST['users/feed_show'],
 
+  events: {
+    "click #account-nav": "toggleAccountNav",
+    "click": "hideAccountNav"
+  },
+
   initialize: function(options) {
     this.user = options.user;
     this.listenTo(this.model, 'sync', this.render);
@@ -24,6 +29,25 @@ FacebookApp.Views.FeedShow = Backbone.CompositeView.extend({
     //this.renderRequests();
     return this;
   },
+
+//////////
+
+  toggleAccountNav: function (event) {
+    if (!$('.account-nav-links').hasClass('hidden')) {
+      $('.account-nav-links').addClass('hidden');
+    } else {
+      $($(event.currentTarget).data('link')).removeClass('hidden');
+      event.stopPropagation();
+    }
+  },
+
+  hideAccountNav: function () {
+    if (!$('.account-nav-links').hasClass('hidden')) {
+      $('.account-nav-links').addClass('hidden');
+    }
+  },
+
+/////////
 
   renderSearch: function() {
     var searchShowView = new FacebookApp.Views.SearchShow();

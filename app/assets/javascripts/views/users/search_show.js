@@ -18,7 +18,6 @@ FacebookApp.Views.SearchShow = Backbone.CompositeView.extend({
   },
 
   handleInput: function(event) {
-    console.log("handling input");
     if(this.$input.val() == "") {
       this.renderResults([]);
       return;
@@ -35,7 +34,6 @@ FacebookApp.Views.SearchShow = Backbone.CompositeView.extend({
 
   renderResults: function(users) {
     this.$ul.empty();
-    console.log(users);
     for(var i = 0; i < users.length; i++) {
       var user = users[i];
 

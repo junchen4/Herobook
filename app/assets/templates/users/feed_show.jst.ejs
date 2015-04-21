@@ -5,18 +5,21 @@
       <a href="#/feed">facebook</a>
     </h1>
 
-
-
     <ul class="header-nav-links group">
       <li><a href="#/feed">Home</a></li>
-      <li><a href="#/users/<%=user.get('id')%>">Profile</a></li>
-      <li><a href="#">Account</a></li>
+      <li><a href="#/users/<%=user.escape('id')%>">Profile</a></li>
+      <li><a href="#" id="account-nav" data-link='.account-nav-links'>Account</a>
+            <ul class="account-nav-links hidden group">
+              <li><a href="#/feed">Settings</a></li>
+              <li><a href="#/feed">Logout</a></li>
+            </ul>
+      </li>
     </ul>
 
   </nav>
 </header>
 
-<section class="content-search"> </section>
+<section class="content-search"> </section> 
 
 
 <main class="content-newsfeed group">

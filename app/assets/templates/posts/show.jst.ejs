@@ -57,7 +57,7 @@
 
     <%= post.escape('body') %>
     <br>
-    Posted on: <%= post.escape('myDate') %>
+    Posted <%= post.get('myDate').getTime() %> ago
   </div>
   <%= post.likes().length %> likes
   <br>

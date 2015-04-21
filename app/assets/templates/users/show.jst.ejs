@@ -29,8 +29,8 @@
       <section class="request-buttons"></section>
 
       <ul class="content-profile-sidebar-links">
-        <li> <a href="#/users/<%=user.get('id')%>">Wall</a> </li>
-        <li> <a href="#/users/<%=user.get('id')%>/info">About</a> </li>
+        <li class="wall-tab"> <a data-tab=".wall">Wall</a> </li>
+        <li class="about-tab"> <a data-tab=".about">About</a> </li>
         <li> <a href="#/users/<%=user.get('id')%>/info">Friends</a> </li>
         <li> <a href="#/users/<%=user.get('id')%>/info">Photos</a> </li>
       </ul>
@@ -54,6 +54,8 @@
         <br>
         <ul class="posts"></ul>
     </section>
+
+
   </section>
 
 </main>

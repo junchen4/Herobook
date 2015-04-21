@@ -3,7 +3,8 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
 
   events: {
     'click .request-friend':'requestFriend',
-    'click button.remove-friend': 'removeFriend'
+    'click button.remove-friend': 'removeFriend',
+    'click .content-profile-sidebar-links a': 'changePanel'
   },
 
   // orderOptions: {
@@ -21,6 +22,8 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
       this.listenTo(this.model.requests(), 'add remove', this.renderRequests);
     }
     this.listenTo(this.model.friends(), 'add remove', this.renderFriendList);
+
+    this.infoShow = new FacebookApp.Views.InfoShow({model: this.model});
   },
 
   render: function() {
@@ -36,8 +39,31 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
     if (FacebookApp.Models.currentUser.get('id') !== this.model.get('id')) {
       this.renderRequestButtons();
     }
+
+    this.activePanel = ".wall";
+    this.$('.content-profile-main').append(this.infoShow.render().$el);
+
+    this.makeActive(this.activePanel);
     return this;
   },
+
+///////////
+
+  changePanel: function (event) {
+    event.preventDefault();
+    this.makeActive($(event.currentTarget).data("tab"));
+  },
+
+  makeActive: function (panel) {
+    console.log(panel);
+    this.activePanel = panel;
+    this.$(".content-profile-main > section").addClass("hidden");
+    this.$(panel).removeClass("hidden");
+    this.$(".content-profile-sidebar-links > li").removeClass("activated");
+    this.$(panel + "-tab").addClass("activated");
+  },
+
+/////////////
 
   renderSearch: function() {
     var searchShowView = new FacebookApp.Views.SearchShow();
