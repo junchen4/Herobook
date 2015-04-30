@@ -23,14 +23,14 @@ FacebookApp.Routers.Router = Backbone.Router.extend({
     var that = this;
     feed.fetch({
       success: function() {
-        FacebookApp.Models.currentUser.fetch({
-          success: function() {
+        // FacebookApp.Models.currentUser.fetch({
+        //   success: function() {
             var userFeedView = new FacebookApp.Views.FeedShow({model: feed, user: FacebookApp.Models.currentUser});
             that._swapView(userFeedView);
             console.log("current user id", FacebookApp.Models.currentUser.get('id'));
             console.log("current user", FacebookApp.Models.currentUser);
-      }
-    })
+      // }
+    // })
   }
 });
   },

@@ -1,11 +1,10 @@
 FacebookApp.Views.InfoShow = Backbone.CompositeView.extend({
   template: JST['users/info_show'],
 
-  // events: {
-  //   'click .request-friend':'requestFriend',
-  //   // 'click button.delete-post': 'destroyPost',
-  //   'click button.remove-friend': 'removeFriend'
-  // },
+  events: {
+    'click button.edit':'editInfo',
+    'click .save': 'saveInfo'
+  },
 
   tagName: "section",
 
@@ -26,8 +25,36 @@ FacebookApp.Views.InfoShow = Backbone.CompositeView.extend({
     return this;
   },
 
+  editInfo: function (event) {
+    event.preventDefault();
+    var attr = $(event.currentTarget).data("attr");
+    $("." + "show-" + attr).toggleClass("hidden");
+    $("." + "form-" + attr).toggleClass("hidden");
+  },
 
+  saveInfo: function(event) {
+    event.preventDefault();
+    var attr = $(event.currentTarget).data("attr");
+    console.log(attr);
+    $("." + "show-" + attr).toggleClass("hidden");
+    $("." + "form-" + attr).toggleClass("hidden");
+    if (attr === "about_me") {
+      var value = this.$('textarea.' + attr).val();
+    } else {
+      var value = this.$('input.' + attr).val();
+    }
+    console.log(value);
+    this.model.set(attr, value);
+    this.render();
+    var model = {"user": this.model.attributes};
+    console.log(this.model);
+    $.ajax({
+      url: "/users/" + this.model.get('id'),
+      type: "PUT",
+      dataType: "json",
+      data: model
+    });
+  }
 
 })
 
-// _.extend(FacebookApp.Views.UserShow.prototype, FacebookApp.Utils.OrdView);

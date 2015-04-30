@@ -17,7 +17,7 @@ class UsersController < ApplicationController
       redirect_to "#/users/#{@user.id}"
     else
       flash.now[:errors] = @user.errors.full_messages
-      render :new
+      render json: {error: "Errors saving"}, status: :unprocessable_entity
     end
   end
 
@@ -32,7 +32,14 @@ class UsersController < ApplicationController
   end
 
   def update
-
+    @user = User.find(params[:id])
+    
+    if @user.update_attributes(user_params)
+      render :show
+    else
+      flash.now[:errors] = @user.errors.full_messages
+      render json: {error: "Errors saving"}, status: :unprocessable_entity
+    end
   end
 
   def search
@@ -49,12 +56,12 @@ class UsersController < ApplicationController
   def current
     @current_user = current_user
 
-    render :current
+    render :current_user
   end
 
   private
   def user_params
-    params.require(:user).permit(:email, :password)
+    params.require(:user).permit(:email, :password, :first_name, :last_name, :hometown, :current_city, :employer, :education, :relationship_status, :sex, :about_me)
   end
 
 end

@@ -1,4 +1,4 @@
-json.extract! @user, :id, :email, :password_digest, :session_token, :created_at, :updated_at
+json.extract! @user, :id, :email, :first_name, :last_name, :sex, :relationship_status, :education, :employer, :hometown, :current_city, :about_me, :password_digest, :session_token, :created_at, :updated_at
 
 json.comments @user.comments do |comment|
 	json.extract! comment, :id, :body, :author_id, :post_id, :created_at, :updated_at
@@ -59,7 +59,8 @@ json.incomingRequests @user.incoming_requests do |request|
 end
 
 json.allFriends @all_friends do |friend|
-	json.extract! friend, :id, :email, :password_digest, :session_token, :created_at, :updated_at
+	json.extract! friend, :id, :email, :first_name, :last_name, :sex, :relationship_status, :education, :employer, :hometown, :current_city, :about_me, :password_digest, :session_token, :created_at, :updated_at	
+
 	json.comments friend.comments do |comment|
 		json.extract! comment, :id, :body, :author_id, :post_id, :created_at, :updated_at
 	end

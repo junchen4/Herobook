@@ -1,4 +1,4 @@
-<li class="post-feed-item" data-sort='<%=post.get('myDate')%>'>
+<div class="post-feed-item" data-sort='<%=post.get('myDate')%>'>
   <% if (isFeed) { %>
     <h1>
         <% if( _.isEmpty(lastComment.attributes) !== false ) { %>
@@ -57,7 +57,7 @@
 
     <%= post.escape('body') %>
     <br>
-    Posted <%= post.get('myDate').getTime() %> ago
+    Posted on <%= post.get('myDate') %> 
   </div>
   <%= post.likes().length %> likes
   <br>
@@ -68,11 +68,8 @@
   <% } else{ %>
     <button class="unlike-post">Unlike</button>
   <% } %>
+</div>
 
-  <ul class="comments"></ul>
+<div class="comments"></div>
 
-  <section class="comment-form group"></div>
-
-  <br>
-  <br>
-</li>
+<div class="comment-form group"></div>

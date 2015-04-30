@@ -1,4 +1,4 @@
-<li>
+<div class="comment">
   <%= comment.escape('body') %>
   <br>
   <div class="comment-added-by">
@@ -20,4 +20,4 @@
   <% } %>
 
   <button class="delete-comment" data-id="<%= comment.get('id') %>">Remove Comment</button>
-</li>
+</div>

@@ -6,11 +6,10 @@ class CurrentUsersController < ApplicationController
   end
 
   def create
-
   end
 
   def show
-    @current_user = current_user
+    @current_user = User.find(params[:id])
     @all_friends = current_user.all_friends
     if @current_user.nil?
       render json: {error: "No User Found"}, status: :unprocessable_entity

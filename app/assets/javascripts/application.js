@@ -23,3 +23,5 @@
 //= require_tree ./views
 //= require_tree ./routers
 //= require_tree .
+//= require jquery
+//= require bootstrap-sprockets

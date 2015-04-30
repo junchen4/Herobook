@@ -14,9 +14,12 @@
           <a href="#/users/<%=FacebookApp.Models.currentUser.get('id')%>">Profile</a>
         </li>
 
-        <li class="account">
-          <a href="#">Account</a>
-        </li>
+      <li><a id="account-nav" data-link='.account-nav-links'>Account </a>
+            <ul class="account-nav-links hidden group">
+              <li><a href="#/feed">Settings</a></li>
+              <li><a href="#/feed">Logout</a></li>
+            </ul>
+      </li>
     </ul>
   </section>
 </header>
@@ -52,7 +55,7 @@
       <label for="posts">"Wall"</label>
         <br>
         <br>
-        <ul class="posts"></ul>
+        <div class="posts"></div>
     </section>
 
 

@@ -8,10 +8,10 @@
     <ul class="header-nav-links group">
       <li><a href="#/feed">Home</a></li>
       <li><a href="#/users/<%=user.escape('id')%>">Profile</a></li>
-      <li><a href="#" id="account-nav" data-link='.account-nav-links'>Account</a>
+      <li><a id="account-nav" data-link='.account-nav-links'>Account</a>
             <ul class="account-nav-links hidden group">
               <li><a href="#/feed">Settings</a></li>
-              <li><a href="#/feed">Logout</a></li>
+              <li><a class="logout">Logout</a></li>
             </ul>
       </li>
     </ul>
@@ -33,7 +33,7 @@
     <section id="post-form"></section>
 
     <h1>Feed</h1>
-      <ul class="feed-items"></ul>
+      <div class="feed-items"></div>
   </section>
 
 </main>

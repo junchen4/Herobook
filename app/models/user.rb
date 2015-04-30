@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   validates :email, :password_digest, :session_token, presence: true
+  # validates :first_name, :last_name, :sex, :relationship_status, :education, :employer, :hometown, :current_city, :about_me
   validates :password, length: {minimum: 6, allow_nil: true}
   attr_reader :password
   after_initialize :ensure_session_token

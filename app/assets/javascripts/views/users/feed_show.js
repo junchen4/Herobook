@@ -3,20 +3,16 @@ FacebookApp.Views.FeedShow = Backbone.CompositeView.extend({
 
   events: {
     "click #account-nav": "toggleAccountNav",
-    "click": "hideAccountNav"
+    "click": "hideAccountNav",
+    "click .logout": "logout"
   },
 
   initialize: function(options) {
     this.user = options.user;
     this.listenTo(this.model, 'sync', this.render);
     this.listenTo(this.model.feedPosts(), 'add remove', this.render);
-    var that = this;
-    // this.model.feedPosts().each(function(post) {
-    //   that.listenTo(post.comments(), 'add remove change', that.render);
-    // });
-    // this.listenTo(this.model.feedPosts(), 'change', this.render);
-    // this.listenTo(this.model.feedCommentedPosts(), 'add', this.addItem);
-    // this.listenTo(this.model.feedCommentedPosts(), 'remove', this.removeItem);
+
+    setInterval(this.updateFeed.bind(this), 10000); //Update feed every 10 seconds
   },
 
   render: function() {
@@ -28,6 +24,10 @@ FacebookApp.Views.FeedShow = Backbone.CompositeView.extend({
     this.renderSearch();
     //this.renderRequests();
     return this;
+  },
+
+  updateFeed: function () {
+    this.model.fetch();
   },
 
 //////////
@@ -104,24 +104,15 @@ FacebookApp.Views.FeedShow = Backbone.CompositeView.extend({
       }
     });
 
-    // this.model.feedPosts().each(this.addPostItem.bind(this));
-    // this.model.feedAcceptances().each(this.addAcceptanceItem.bind(this));
   },
 
-  renderSortedItems: function() {
-    var list = this.$('.feed-items');
-    var that = this;
-    var postItems = this.$('.post-feed-item').get();
-    var acceptanceItems = this.$('.acceptance-feed-item').get();
-    var listItems = postItems.concat(acceptanceItems);
-
-
-    listItems.sort(function(a,b) {
-      var compA = that.$(a).attr('data-sort');
-      var compB = that.$(b).attr('data-sort');
-      return (compA < compB) ? 1 : (compA > compB) ? -1 : 0;
+  logout: function () {
+     $.ajax({
+      type: "DELETE",
+      url: "/session",
+      success: function () {
+        window.location.href = 'http://localhost:3000';
+      }
     });
-    $.each(listItems, function(idx, itm) {list.append(itm);});
   }
-
 })

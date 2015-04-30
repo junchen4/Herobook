@@ -5,7 +5,11 @@ class FeedsController < ApplicationController
   def new
     @current_user = current_user
 
-    render :new
+    if !@current_user.nil?
+      render :new
+    else 
+      render json: {error: "No user found"}, status: :unprocessable_entity  
+    end 
   end
 
   def show

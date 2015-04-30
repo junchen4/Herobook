@@ -4,14 +4,10 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
   events: {
     'click .request-friend':'requestFriend',
     'click button.remove-friend': 'removeFriend',
-    'click .content-profile-sidebar-links a': 'changePanel'
+    'click .content-profile-sidebar-links a': 'changePanel',
+    "click #account-nav": "toggleAccountNav",
+    "click": "hideAccountNav"
   },
-
-  // orderOptions: {
-  //   modelElement:
-  //   modelName: 'post',
-  //   subviewContainer: '#posts'
-  // },
 
   initialize: function() {
     console.log("shown user is", this.model);
@@ -23,7 +19,7 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
     }
     this.listenTo(this.model.friends(), 'add remove', this.renderFriendList);
 
-    this.infoShow = new FacebookApp.Views.InfoShow({model: this.model});
+    // setInterval(this.updatePosts.bind(this), 10000);
   },
 
   render: function() {
@@ -41,11 +37,35 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
     }
 
     this.activePanel = ".wall";
-    this.$('.content-profile-main').append(this.infoShow.render().$el);
+    var infoShow = new FacebookApp.Views.InfoShow({model: this.model});
+    this.$('.content-profile-main').append(infoShow.render().$el);
 
     this.makeActive(this.activePanel);
     return this;
   },
+
+  updatePosts: function () {
+    this.model.fetch();
+  },
+
+//////////
+
+  toggleAccountNav: function (event) {
+    if (!$('.account-nav-links').hasClass('hidden')) {
+      $('.account-nav-links').addClass('hidden');
+    } else {
+      $($(event.currentTarget).data('link')).removeClass('hidden');
+      event.stopPropagation();
+    }
+  },
+
+  hideAccountNav: function () {
+    if (!$('.account-nav-links').hasClass('hidden')) {
+      $('.account-nav-links').addClass('hidden');
+    }
+  },
+
+/////////
 
 ///////////
 
@@ -55,7 +75,6 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
   },
 
   makeActive: function (panel) {
-    console.log(panel);
     this.activePanel = panel;
     this.$(".content-profile-main > section").addClass("hidden");
     this.$(panel).removeClass("hidden");
@@ -178,4 +197,3 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
 
 })
 
-// _.extend(FacebookApp.Views.UserShow.prototype, FacebookApp.Utils.OrdView);

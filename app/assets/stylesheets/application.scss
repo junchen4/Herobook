@@ -8,9 +8,13 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
- *= require_self
- *= require_tree .
  */
+
+/*"bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"*/
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+
  html, body, header, nav, h1, a, ul, li,
  strong, main, section, img, div, h2, p,
  form, fieldset, label, input, textarea,
@@ -94,12 +98,16 @@
    margin-right: 10px;
  }
 
- .header-nav-links li {
-   font-size: 14px;
-   background: #3B5998;
-   float: left;
-   margin-right: 20px;
- }
+.header-nav-links li {
+ font-size: 14px;
+ background: #3B5998;
+ float: left;
+ margin-right: 20px;
+}
+
+.header-nav-links li a{
+ cursor: pointer;
+}
 
  #account-nav {
   position: relative;
@@ -118,14 +126,8 @@
   padding: 4px 0;
   float: none; 
   border: 1px solid #6b727c;
+  cursor: pointer;
 }
-
- .logout {
-   background: #3b5998;
-   color: white;
-   padding: 3px 4px;
-   border-radius: 8%;
- }
 
 .content-newsfeed {
   width: 900px;
@@ -205,6 +207,7 @@ label #form-password {
 
 .login-list input {
   border: solid 1px black;
+  background: white;
 }
 
 .form-login button {
@@ -240,16 +243,9 @@ label #form-password {
   font-weight: 500;
 }
 
-.signup-list > li {
+.signup-list li {
   background: #d4dae8;
-}
-
-.signup-list .form-email {
-  margin-top: 10px;
-}
-
-.signup-list .form-password {
-  margin-top: 10px;
+  margin-bottom: 40px;
 }
 
 .content-signup input {
@@ -276,10 +272,14 @@ Users
 
 .content-search {
   width: 900px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.users-search {
   position: absolute;
-  top: 10px;
-  left: auto;
-  right: auto;
+  left: 250px;
+  top: -38px;
 }
 
 .content-search input {
@@ -289,7 +289,6 @@ Users
 }
 
 .content-search li {
-  position: absolute;
   background: white;
   padding-top: 5px;
 }
@@ -363,7 +362,7 @@ Users
   padding-top: 50px;
 }
 
-.posts li{
+.posts .post-feed-item{
   position: relative;
   background: white;
   margin-top: 40px;
@@ -373,6 +372,29 @@ Users
 
 .friend-requests {
   border: solid 2px black;
+}
+
+/*About User*/
+
+#about-list li {
+  margin-bottom: 20px;
+}
+
+#about-list .field{
+  background: white;
+  padding: 2px;
+  border: solid 1px darkblue;
+}
+
+#about-list textarea {
+  background: white;
+  padding: 2px;
+}
+
+.save {
+  color: white;
+  background: #3b5998;
+  padding: 3px;
 }
 
 /* Posts */
@@ -394,15 +416,21 @@ Users
 }
 
 /* // Show post */
-.feed-items li {
+.feed-items .post-feed-item {
   border: solid 1px grey;
   padding-top: 10px;
-  padding-bottom: 10px;
   background: white;
-  margin-top: 20px;
+  margin-top: 40px;
 }
 
-.feed-items li h1 {
+.feed-items .acceptance-feed-item {
+  border: solid 1px grey;
+  padding-top: 10px;
+  background: white;
+  margin-top: 40px;
+}
+
+.feed-items h1 {
   font-weight: 800;
   margin-bottom: 15px;
   margin-left: 15px;
@@ -411,10 +439,11 @@ Users
   border-bottom: solid 1px #989898;
 }
 
-.feed-items li h1 a {
+.feed-items h1 a {
   color: #3b5998;
   font-weight: 600;
 }
+
 
 .post-body {
   width: 620px;
@@ -435,12 +464,16 @@ Users
 }
 
 .comment-form {
-  float: left;
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 0 auto;
+  width: 100%;
 }
+
+.comment-form input{
+  width: 250px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 5px;
+}
+
 
 .like-post {
   background: #3b5998;
@@ -465,13 +498,13 @@ Users
 /* Comments */
 
 
-.comments li {
+.comments .comment {
   border-top: solid 1px grey;
   border-bottom: solid 1px grey;
   background: #eceff6;
 }
 
-.comments li a {
+.comments .comment a {
   color: #3b5998;
   font-weight: 600;
 }

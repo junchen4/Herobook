@@ -1,6 +1,7 @@
 FinalProject::Application.routes.draw do
   resources :users do
     get "search", on: :collection
+    get "current", on: :collection
   end
   resources :posts
   resources :comments
@@ -8,7 +9,6 @@ FinalProject::Application.routes.draw do
   resource :session, only: [:new, :create, :show, :destroy]
   resources :requests
   resources :feeds, only: [:new, :create, :show, :destroy]
-  resources :current_user, only: [:show, :destroy]
 
   root to: "roots#root"
 end
