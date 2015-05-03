@@ -171,7 +171,7 @@
   float: right;
 }
 
-.login-list li{
+.login-list li {
   background: #3B5998;
   float: left;
 }
@@ -191,7 +191,7 @@
 }
 
 .form-login {
-  margin-right: 70px;
+  margin-right: 10px;
   height: 20px;
 }
 
@@ -212,7 +212,17 @@ label #form-password {
 
 .form-login button {
   background: dodgerblue;
-  padding: 2px;
+  padding: 3px;
+  font-size: 12px;
+  color: white;
+  border: solid 1px black;
+  margin-top: 14px;
+  cursor: pointer;
+}
+
+.guest-login-button {
+  background: dodgerblue;
+  padding: 3px;
   font-size: 12px;
   color: white;
   border: solid 1px black;
@@ -310,7 +320,9 @@ Users
 
 .content-profile {
   width: 900px;
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 30px;
 }
 
 .content-profile-sidebar {
@@ -336,7 +348,7 @@ Users
 }
 
 .content-profile-main {
-  border: solid 2px #eee;
+  border: solid 1px #eee;
   width: 650px;
   float: right;
 }
@@ -353,6 +365,24 @@ Users
   margin-right: 110px;
 }
 
+.cover-photo {
+  width: 900px;
+  margin: 0 auto;
+}
+
+.profile-photo {
+  width: 200px;
+  height: 200px;
+  position: relative;
+  top: 40px;
+  border-radius: 3px;
+}
+
+.profile-avatar {
+  width: 50px;
+  height: 50px;
+}
+
 .account {
   font-size: 14px;
   margin-right: 70px;
@@ -366,7 +396,7 @@ Users
   position: relative;
   background: white;
   margin-top: 40px;
-  border: solid 2px grey;
+  border: solid 1px grey;
 }
 
 
@@ -464,7 +494,9 @@ Users
 }
 
 .comment-form {
-  width: 100%;
+  border-left: solid 1px grey;
+  border-right: solid 1px grey;
+  border-bottom: solid 1px grey;
 }
 
 .comment-form input{
@@ -499,9 +531,9 @@ Users
 
 
 .comments .comment {
-  border-top: solid 1px grey;
-  border-bottom: solid 1px grey;
   background: #eceff6;
+  border-left: solid 1px grey;
+  border-right: solid 1px grey;
 }
 
 .comments .comment a {
@@ -509,18 +541,30 @@ Users
   font-weight: 600;
 }
 
+.comment-form {
+  background: #eceff6;
+  padding-top: 20px;
+}
+
+.form-comment {
+  margin: 0 auto;
+}
+
 .form-comment input{
-  float: right;
+  width: 400px;
+  margin-left: 120px;
+  padding: 5px;
   background: white;
   border: solid 1px grey;
+  border-radius: 5%;
 }
 
 .form-comment .add-comment {
   font-size: 12px;
   color: white;
   background: #3b5998;
-  float: right;
-  padding: 1px;
+  padding: 2px;
+  margin-left: 350px;
   margin-bottom: 3px;
 }
 

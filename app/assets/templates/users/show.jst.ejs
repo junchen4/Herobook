@@ -17,14 +17,35 @@
       <li><a id="account-nav" data-link='.account-nav-links'>Account </a>
             <ul class="account-nav-links hidden group">
               <li><a href="#/feed">Settings</a></li>
-              <li><a href="#/feed">Logout</a></li>
+              <li><a class="logout">Logout</a></li>
             </ul>
       </li>
     </ul>
   </section>
 </header>
 
+<!-- <form class="profile-photo-form">
+<input type="filepicker" name="user[profile_photo">
+<input type="submit">
+</form> -->
+
+
 <section class="content-search"> </section>
+
+<div class="photos">
+  <div class="cover-photo" style="background-image: url(<%= user.escape('cover_photo') %>);
+    background-size: cover;
+       background-position: center center;">
+
+    <div class="profile-photo"
+      style = "background-image: url(<%= user.escape('profile_photo') %>);
+      background-size: cover;
+         background-position: center center;">
+    </div>
+  </div>
+</div>
+  <button class="change-profile-photo">Change Profile Picture</button>
+  <button class="change-cover-photo">Change Cover Picture</button>
 
 <main class="content-profile group">
     <section class="content-profile-sidebar group">
@@ -34,7 +55,7 @@
       <ul class="content-profile-sidebar-links">
         <li class="wall-tab"> <a data-tab=".wall">Wall</a> </li>
         <li class="about-tab"> <a data-tab=".about">About</a> </li>
-        <li> <a href="#/users/<%=user.get('id')%>/info">Friends</a> </li>
+        <li class="friendlist-tab"> <a data-tab=".friendlist">Friends</a> </li>
         <li> <a href="#/users/<%=user.get('id')%>/info">Photos</a> </li>
       </ul>
 
@@ -52,8 +73,6 @@
 
     <section class="wall">
       <section id="post-form"></section>
-      <label for="posts">"Wall"</label>
-        <br>
         <br>
         <div class="posts"></div>
     </section>

@@ -6,12 +6,17 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
     'click button.remove-friend': 'removeFriend',
     'click .content-profile-sidebar-links a': 'changePanel',
     "click #account-nav": "toggleAccountNav",
-    "click": "hideAccountNav"
+    "click": "hideAccountNav",
+    "click .change-profile-photo": "changeProfilePhoto",
+    "click .change-cover-photo": "changeCoverPhoto",
+    "click .logout": "logout"
   },
 
-  initialize: function() {
+  initialize: function(options) {
     console.log("shown user is", this.model);
+    this.feed = options.feed;
     this.listenTo(this.model, 'sync', this.render);
+    this.listenTo(this.model.posts(), 'sync', this.renderPosts);
     this.listenTo(this.model.posts(), 'add', this.addPost);
     this.listenTo(this.model.posts(), 'remove', this.removePost);
     if (FacebookApp.Models.currentUser.get('id') === this.model.get('id')) {
@@ -19,7 +24,7 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
     }
     this.listenTo(this.model.friends(), 'add remove', this.renderFriendList);
 
-    // setInterval(this.updatePosts.bind(this), 10000);
+    setInterval(this.updatePosts.bind(this), 10000); //Update feed every 10 seconds
   },
 
   render: function() {
@@ -27,7 +32,7 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
     this.$el.html(content);
     this.renderPostForm();
     this.renderPosts();
-    this.renderFriendList();
+    // this.renderFriendList();
     this.renderSearch();
     if (FacebookApp.Models.currentUser.get('id') === this.model.get('id')) {
       this.renderRequests();
@@ -40,12 +45,15 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
     var infoShow = new FacebookApp.Views.InfoShow({model: this.model});
     this.$('.content-profile-main').append(infoShow.render().$el);
 
+    var friendListShow = new FacebookApp.Views.FriendListShow({model: this.model});
+    this.$('.content-profile-main').append(friendListShow.render().$el);
+
     this.makeActive(this.activePanel);
     return this;
   },
 
   updatePosts: function () {
-    this.model.fetch();
+    this.model.posts().fetch();
   },
 
 //////////
@@ -90,7 +98,7 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
   },
 
   renderPostForm: function() {
-    var postFormView = new FacebookApp.Views.PostForm({model: this.model});
+    var postFormView = new FacebookApp.Views.PostForm({user: this.model, feed: this.feed});
     this.$('#post-form').html(postFormView.render().$el);
   },
 ///////////////////
@@ -107,12 +115,13 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
       lastComment.set(post.comments().at(post.comments().length - 1).attributes);
     }
     var postShowView = new FacebookApp.Views.PostShow({model: post, user: this.model, isFeed: false, lastComment: lastComment});
-    this.addSubview('.posts', postShowView, true);
+    this.addSubview('.posts', postShowView, false);
   },
 
   renderPosts: function() {
     this.emptySubviewContainer('.posts');
     this.model.posts().each(this.addPost.bind(this));
+    console.log("posts", this.model.posts());
   },
 //////////////////
   addRequest: function(request, requestor) {
@@ -144,19 +153,19 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
     this.addSubview('.request-buttons', requestButtonView);
   },
 //////////////////
-  addFriendListLink: function(friend) {
-      var friendListShowView = new FacebookApp.Views.FriendListShow({
-                        model: friend,
-                        collection: this.model.friends(),
-                        user: this.model
-                        });
-      this.addSubview('.friend-list', friendListShowView);
-  },
+  // addFriendListLink: function(friend) {
+  //     var friendListShowView = new FacebookApp.Views.FriendListShow({
+  //                       model: friend,
+  //                       collection: this.model.friends(),
+  //                       user: this.model
+  //                       });
+  //     this.addSubview('.friend-list', friendListShowView);
+  // },
 
-  renderFriendList: function() {
-    this.emptySubviewContainer('.friend-list');
-    this.model.friends().each(this.addFriendListLink.bind(this));
-  },
+  // renderFriendList: function() {
+  //   this.emptySubviewContainer('.friend-list');
+  //   this.model.friends().each(this.addFriendListLink.bind(this));
+  // },
 
   requestFriend: function(event) {
     event.preventDefault();
@@ -193,6 +202,58 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
       all_requests[i].destroy();
     }
     this.model.set('friendStatus', 'none');
+  },
+
+  changeCoverPhoto: function (event) {
+    var that = this;
+
+    filepicker.pick(
+      {
+        mimetypes: ['image/*'],
+        services: ['COMPUTER']
+      },
+      function (blob) {
+        that.model.set('cover_photo', blob.url);
+        var model = {"user": that.model.attributes};
+        $.ajax({
+          url: "/users/" + that.model.get('id'),
+          type: "PUT",
+          dataType: "json",
+          data: model
+        });
+      }
+    );
+  },
+
+  changeProfilePhoto: function (event) {
+    var that = this;
+
+    filepicker.pick(
+      {
+        mimetypes: ['image/*'],
+        services: ['COMPUTER']
+      },
+      function (blob) {
+        that.model.set('profile_photo', blob.url);
+        var model = {"user": that.model.attributes};
+        $.ajax({
+          url: "/users/" + that.model.get('id'),
+          type: "PUT",
+          dataType: "json",
+          data: model
+        });
+      }
+    );
+  },
+
+logout: function () {
+     $.ajax({
+      type: "DELETE",
+      url: "/session",
+      success: function () {
+        window.location.href = 'http://localhost:3000';
+      }
+    });
   }
 
 })

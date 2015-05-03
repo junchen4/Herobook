@@ -33,3 +33,5 @@ FacebookApp.Models.Feed = Backbone.Model.extend({
 
 
 })
+
+FacebookApp.Models.feed = new FacebookApp.Models.Feed();

@@ -3,6 +3,7 @@ FacebookApp.Routers.Router = Backbone.Router.extend({
     this.$rootEl = options.$rootEl
     FacebookApp.Collections.users.fetch(); //what if this doesn't fetch users on time?
     FacebookApp.Models.currentUser = new FacebookApp.Models.CurrentUser();
+
     // FacebookApp.Models.currentUser.fetch({
     //   success: function() {
     //     console.log("current user", FacebookApp.Models.currentUser);
@@ -19,20 +20,19 @@ FacebookApp.Routers.Router = Backbone.Router.extend({
   },
 
   feed: function() {
-    var feed = new FacebookApp.Models.Feed();
     var that = this;
-    feed.fetch({
+    FacebookApp.Models.feed.fetch({
       success: function() {
         // FacebookApp.Models.currentUser.fetch({
         //   success: function() {
-            var userFeedView = new FacebookApp.Views.FeedShow({model: feed, user: FacebookApp.Models.currentUser});
+            var userFeedView = new FacebookApp.Views.FeedShow({model: FacebookApp.Models.feed, user: FacebookApp.Models.currentUser});
             that._swapView(userFeedView);
             console.log("current user id", FacebookApp.Models.currentUser.get('id'));
             console.log("current user", FacebookApp.Models.currentUser);
       // }
     // })
-  }
-});
+      }
+    });
   },
 
   show: function(id) {
@@ -43,10 +43,10 @@ FacebookApp.Routers.Router = Backbone.Router.extend({
         console.log("current user's ID is:  " + FacebookApp.Models.currentUser.get('id'));
 
 		    if(FacebookApp.Models.currentUser.get('id') == id) {
-		      var userShowView = new FacebookApp.Views.UserShow({model: FacebookApp.Models.currentUser});
+		      var userShowView = new FacebookApp.Views.UserShow({model: FacebookApp.Models.currentUser, feed: FacebookApp.Models.feed});
 		    }
 		    else {
-		      var userShowView = new FacebookApp.Views.UserShow({model: FacebookApp.Collections.users.getOrFetch(id)});
+		      var userShowView = new FacebookApp.Views.UserShow({model: FacebookApp.Collections.users.getOrFetch(id), feed: FacebookApp.Models.feed});
 		    }
 		    that._swapView(userShowView);
       }

@@ -14,23 +14,22 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
     this.isFeed = options.isFeed;
     this.lastComment = options.lastComment;
     this.listenTo(this.model, 'sync', this.render);
-    this.listenTo(this.model.likes(), 'add remove', this.render);
     this.listenTo(this.model.comments(), 'add', this.addComment);
-    this.listenTo(this.model.comments(), 'remove', this.removeComment);
-
+    this.listenTo(this.model.comments(), 'remove', this.removeComment); 
   },
 
   render: function() {
     var content = this.template({post: this.model, user: this.user, isFeed: this.isFeed, lastComment: this.lastComment});
     this.$el.html(content);
-    this.renderCommentForm();
     this.renderComments();
+    this.renderCommentForm();
     return this;
   },
 
   renderCommentForm: function() {
     var commentFormView = new FacebookApp.Views.CommentForm({model: this.model});
     this.$('.comment-form').html(commentFormView.render().$el);
+    // this.addSubview('.comments', commentFormView);
   },
 
 /////////////////////
@@ -91,8 +90,6 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
         that.model.set('likeStatus', 'liked');
         FacebookApp.Models.currentUser.posts().get(like.get('likeable_id')).set('likeStatus', 'liked');
         that.render();
-
-        console.log("post's likes", that.model.likes());
       }
     });
   },
@@ -111,8 +108,6 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
           that.model.likes().remove(like);
 
           that.render();
-          console.log("post's likes", that.model.likes());
-
       }
     });
   }

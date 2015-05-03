@@ -5,8 +5,13 @@ FacebookApp.Views.PostForm = Backbone.View.extend({
     'click button.add-post':'submitPost'
   },
 
+  initialize: function (options) {
+    this.user = options.user;
+    this.feed = options.feed;
+  },
+
   render: function() {
-    var content = this.template({user: this.model});
+    var content = this.template({user: this.user});
     this.$el.html(content);
     return this;
   },
@@ -18,13 +23,13 @@ FacebookApp.Views.PostForm = Backbone.View.extend({
     var post = new FacebookApp.Models.Post({
                     'author_id': FacebookApp.Models.currentUser.get('id'),
                     'body': postBody,
-                    'receiver_id': this.model.get('id')
+                    'receiver_id': this.user.get('id')
                     });
     post.save({},{
       success: function() {
         FacebookApp.Models.currentUser.posts().add(post, {merge: true});
-        that.model.posts().add(post, {merge: true});
-        FacebookApp.Models.currentUser.newsfeedPosts().add(post, {merge: true});
+        that.user.posts().add(post, {merge: true});
+        that.feed.feedPosts().add(post, {merge: true});
       }
     });
   }

@@ -1,4 +1,8 @@
 <div class="comment">
+  <div class="profile-avatar" style = "background-image: url(<%= user.escape('profile_photo') %>);
+    background-size: cover;
+       background-position: center center;">
+  </div> 
   <%= comment.escape('body') %>
   <br>
   <div class="comment-added-by">
@@ -11,7 +15,9 @@
   </div>
 
   <br>
-  <%= comment.likes().length %>
+  <% if (comment.likes().length > 0) { %>
+    <%= comment.likes().length %> likes
+  <% } %>  
   <br>
   <% if(comment.get('likeStatus') === 'unliked') {%>
     <button class="like-comment">Like Comment</button>

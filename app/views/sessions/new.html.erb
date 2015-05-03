@@ -9,18 +9,28 @@
 
       <ul class="login-list group">
           <li class="form-email"> <label id="form-email">Email</label>
-            <input id="form-email" type="email" name="user[email]" value="">
+            <input class="email-login" type="email" name="user[email]">
           </li>
 
           <li class="form-password"> <label id="form-password">Password</label>
-            <input id="form-password" type="password" name="user[password]" value="">
+            <input class="password-login" type="password" name="user[password]">
           </li>
 
           <li class="form-login">
-            <button>Log In</button>
+            <button class="login-button">Log In</button>
           </li>
+
       </ul>
     </form>
+
+    <form class="guest-login" action="<%=session_url%>" method="post">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      
+      <input type="hidden" name="user[email]" value="b@b.com">
+      <input type="hidden" name="user[password]" value="password">
+      <button class="guest-login-button">Guest Log In</button>
+    </form>
+
   </nav>
 </header>
 
@@ -51,3 +61,5 @@
   </section>
 
 </main>
+
+

@@ -1,0 +1,29 @@
+
+    <% if(FacebookApp.Models.currentUser.get('id') === user.get('id')) { %>
+      <% if(post.get('author_id') === post.get('receiver_id')) { %>
+          You posted:
+      <% } else if(post.get('author_id') === user.get('id')){%>
+          You <span class="glyphicon glyphicon-triangle-right"></span> <a href="#/users/<%=post.get('receiver_id')%>"> <%= post.get('receiver').first_name %> <%= post.get('receiver').last_name %></a>
+      <% } else{ %>
+          <a href="#/users/<%=post.get('author_id')%>"><%= post.get('author').first_name %> <%= post.get('author').last_name %></a> wrote:
+      <% } %>
+    <% } else {%>
+      <% if(post.get('receiver_id') === post.get('author_id')) { %>
+        <a href="#/users/<%=post.get('author_id')%>"> <%= post.get('author').first_name %> <%= post.get('author').last_name %></a>
+      <% } else if (post.get('author_id') === user.get('id')) { %>
+        <a href="#/users/<%=post.get('author_id')%>"><%=post.get('author').first_name%> <%=post.get('author').last_name%></a>
+        wrote on
+          <% if (post.get('receiver_id') === FacebookApp.Models.currentUser.get('id')) { %>
+            <a href="#/users/<%=FacebookApp.Models.currentUser.get('id')%>">your</a> wall:
+          <% } else { %>
+            <a href="#/users/<%=post.get('receiver_id')%>"> <%= post.get('receiver').first_name %> <%= post.get('receiver').last_name %></a>'s wall:
+          <% } %>
+      <% } else{%>
+          <% if(post.get('author_id') === FacebookApp.Models.currentUser.get('id')) { %>
+            <a href="#/users/<%=FacebookApp.Models.currentUser.get('id')%>">You</a> wrote:
+          <% } else { %>
+            <a href="#/users/<%=post.get('author_id')%>"><%=post.get('author').first_name%> <%=post.get('author').last_name%></a> wrote on
+            <a href="#/users/<%=post.get('receiver_id')%>"> <%= post.get('receiver').first_name %> <%= post.get('receiver').last_name %></a>'s wall:
+          <% } %>
+      <% } %>
+    <% } %>

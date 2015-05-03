@@ -43,8 +43,13 @@ class UsersController < ApplicationController
   end
 
   def search
-    if params[:query].present?
-      @users = User.where("email ~ ?", params[:query])
+    if params[:query].present? || params[:firstName].present? || params[:lastName].present?
+      if params[:isFullName] == "true"
+        @users = User.where("first_name ~ :firstName or last_name ~ :lastName or first_name ~ :firstNameCap or last_name ~ :lastNameCap ",{firstName: params[:firstName],
+          lastName: params[:lastName], firstNameCap: params[:firstName].capitalize, lastNameCap: params[:lastName].capitalize})
+      else
+        @users = User.where("first_name ~ :query or last_name ~ :query or first_name ~ :queryCap or last_name ~ :queryCap", {query: params[:query], queryCap: params[:query].capitalize})
+      end
     else
       @users = User.none
     end
@@ -61,7 +66,7 @@ class UsersController < ApplicationController
 
   private
   def user_params
-    params.require(:user).permit(:email, :password, :first_name, :last_name, :hometown, :current_city, :employer, :education, :relationship_status, :sex, :about_me)
+    params.require(:user).permit(:email, :password, :first_name, :last_name, :hometown, :current_city, :employer, :education, :relationship_status, :sex, :about_me, :profile_photo, :cover_photo)
   end
 
 end

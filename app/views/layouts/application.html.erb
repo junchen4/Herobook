@@ -4,6 +4,8 @@
   <title>MyFacebook</title>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application" %>
+  <script src="http://api.filepicker.io/v1/filepicker.js"></script>
+   <script> filepicker.setKey("AStUZUORtTSKmdQvBnqyYz"); </script>
   <%= csrf_meta_tags %>
 </head>
 
@@ -21,9 +23,6 @@
 
 <br>
 <br>
-<% if logged_in? %>
-    <%=link_to 'Logout', session_url, :method => :delete %>
-<% end %>
 
 </body>
 </html>

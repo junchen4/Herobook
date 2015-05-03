@@ -9,7 +9,8 @@ FacebookApp.Views.FeedShow = Backbone.CompositeView.extend({
 
   initialize: function(options) {
     this.user = options.user;
-    this.listenTo(this.model, 'sync', this.render);
+    this.listenTo(this.user, 'sync', this.render);
+    this.listenTo(this.model, 'sync', this.renderItems);
     this.listenTo(this.model.feedPosts(), 'add remove', this.render);
 
     setInterval(this.updateFeed.bind(this), 10000); //Update feed every 10 seconds
@@ -27,7 +28,7 @@ FacebookApp.Views.FeedShow = Backbone.CompositeView.extend({
   },
 
   updateFeed: function () {
-    this.model.fetch();
+    this.model.fetch()
   },
 
 //////////
@@ -55,7 +56,7 @@ FacebookApp.Views.FeedShow = Backbone.CompositeView.extend({
   },
 
   renderPostForm: function() {
-    var postFormView = new FacebookApp.Views.PostForm({model: this.model});
+    var postFormView = new FacebookApp.Views.PostForm({user: this.user, feed: this.model});
     this.$('#post-form').html(postFormView.render().$el);
   },
 
@@ -67,6 +68,7 @@ FacebookApp.Views.FeedShow = Backbone.CompositeView.extend({
   },
 
   addPostItem: function(item) {
+    console.log("item", item);
     var lastComment = new FacebookApp.Models.Comment();
 
     //Set the last comment in a post, if the last comment exists

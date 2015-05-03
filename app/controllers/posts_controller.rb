@@ -2,7 +2,8 @@ class PostsController < ApplicationController
   before_filter :require_logged_in
 
   def index
-    render json: Post.all
+    @posts = Post.all
+    render :index
   end
 
   def new

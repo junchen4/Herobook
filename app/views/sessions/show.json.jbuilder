@@ -1,4 +1,4 @@
-json.extract! @current_user, :id, :email, :first_name, :last_name, :sex, :relationship_status, :education, :employer, :hometown, :current_city, :about_me, :password_digest, :session_token, :created_at, :updated_at
+json.extract! @current_user, :id, :email, :first_name, :last_name, :sex, :relationship_status, :education, :employer, :hometown, :current_city, :about_me, :profile_photo, :cover_photo, :password_digest, :session_token, :created_at, :updated_at
 
 json.comments @current_user.comments do |comment|
 	json.extract! comment, :id, :body, :author_id, :post_id, :created_at, :updated_at
@@ -6,8 +6,8 @@ end
 
 json.authoredPosts @current_user.authored_posts do |post|
 	json.extract! post, :id, :body, :author_id, :receiver_id, :created_at, :updated_at
-	json.author post.find_author, :email
-	json.receiver post.find_receiver, :email
+	json.author post.find_author, :id, :email, :first_name, :last_name, :profile_photo, :cover_photo
+	json.receiver post.find_receiver, :id, :email, :first_name, :last_name, :profile_photo, :cover_photo
 	json.likesCount post.likes_count
 	json.likeStatus post.like_status(@current_user)
 	json.likes post.likes do |like|
@@ -15,7 +15,7 @@ json.authoredPosts @current_user.authored_posts do |post|
 	end
 	json.comments post.comments do |comment|
 		json.extract! comment, :id, :body, :author_id, :post_id, :created_at, :updated_at
-		json.author comment.find_author, :email
+		json.author comment.find_author, :id, :email, :first_name, :last_name, :profile_photo, :cover_photo
 		json.post comment.find_post, :id, :body, :author_id, :receiver_id, :created_at, :updated_at
 		json.likeStatus comment.like_status(@current_user)
 		json.likes comment.likes do |like|
@@ -26,8 +26,8 @@ end
 
 json.receivedPosts @current_user.received_posts do |post|
 	json.extract! post, :id, :body, :author_id, :receiver_id, :created_at, :updated_at
-	json.author post.find_author, :email
-	json.receiver post.find_receiver, :email
+	json.author post.find_author, :id, :email, :first_name, :last_name, :profile_photo, :cover_photo
+	json.receiver post.find_receiver, :id, :email, :first_name, :last_name, :profile_photo, :cover_photo
 	json.likesCount post.likes_count
 	json.likeStatus post.like_status(@current_user)
 
@@ -36,7 +36,7 @@ json.receivedPosts @current_user.received_posts do |post|
 	end
 	json.comments post.comments do |comment|
 		json.extract! comment, :id, :body, :author_id, :post_id, :created_at, :updated_at
-		json.author comment.find_author, :email
+		json.author comment.find_author, :id, :email, :first_name, :last_name, :profile_photo, :cover_photo
 		json.post comment.find_post, :id, :body, :author_id, :receiver_id, :created_at, :updated_at
 		json.likeStatus comment.like_status(@current_user)
 		json.likes comment.likes do |like|
@@ -47,16 +47,16 @@ end
 
 json.outgoingRequests @current_user.outgoing_requests do |request|
 	json.extract! request, :id, :requestor_id, :requestee_id, :created_at, :updated_at, :status
-	json.requestor request.find_requestor, :email
+	json.requestor request.find_requestor, :id, :email, :first_name, :last_name, :profile_photo, :cover_photo
 end
 
 json.incomingRequests @current_user.incoming_requests do |request|
 	json.extract! request, :id, :requestor_id, :requestee_id, :created_at, :updated_at, :status
-	json.requestor request.find_requestor, :email
+	json.requestor request.find_requestor, :id, :email, :first_name, :last_name, :profile_photo, :cover_photo
 end
 
 json.allFriends @all_friends do |friend|
-	json.extract! friend, :id, :email, :first_name, :last_name, :sex, :relationship_status, :education, :employer, :hometown, :current_city, :about_me, :password_digest, :session_token, :created_at, :updated_at
+	json.extract! friend, :id, :email, :first_name, :last_name, :sex, :relationship_status, :education, :employer, :hometown, :current_city, :about_me, :profile_photo, :cover_photo, :password_digest, :session_token, :created_at, :updated_at
 
 	json.comments friend.comments do |comment|
 		json.extract! comment, :id, :body, :author_id, :post_id, :created_at, :updated_at
@@ -64,8 +64,8 @@ json.allFriends @all_friends do |friend|
 
 	json.receivedPosts friend.received_posts do |post|
 		json.extract! post, :id, :body, :author_id, :receiver_id, :created_at, :updated_at
-		json.author post.find_author, :email
-		json.receiver post.find_receiver, :email
+		json.author post.find_author, :id, :email, :first_name, :last_name, :profile_photo, :cover_photo
+		json.receiver post.find_receiver, :id, :email, :first_name, :last_name, :profile_photo, :cover_photo
 		json.likesCount post.likes_count
 		json.likeStatus post.like_status(@current_user)
 
@@ -75,8 +75,8 @@ json.allFriends @all_friends do |friend|
 	end
 	json.authoredPosts friend.authored_posts do |post|
 		json.extract! post, :id, :body, :author_id, :receiver_id, :created_at, :updated_at
-		json.author post.find_author, :email
-		json.receiver post.find_receiver, :email
+		json.author post.find_author, :id, :email, :first_name, :last_name, :profile_photo, :cover_photo
+		json.receiver post.find_receiver, :id, :email, :first_name, :last_name, :profile_photo, :cover_photo
 		json.likesCount post.likes_count
 		json.likeStatus post.like_status(@current_user)
 
