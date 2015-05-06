@@ -1,24 +1,26 @@
 <div class="comment">
-  <div class="profile-avatar" style = "background-image: url(<%= user.escape('profile_photo') %>);
+  <div class="profile-avatar" style = "background-image: url(<%= comment.get('author').profile_photo %>);
     background-size: cover;
-       background-position: center center;">
+       background-position: cover;">
   </div> 
-  <%= comment.escape('body') %>
-  <br>
+  <div class="comment-body"> <%= comment.escape('body') %> </div>
   <div class="comment-added-by">
     Added by
     <% if(FacebookApp.Models.currentUser.get('id') === comment.get('author_id')) { %>
         <a href="#/users/<%=comment.get('author_id')%>"> you </a>
       <%} else { %>
-        <a href="#/users/<%=comment.get('author_id')%>"> <%= comment.get('author').email %> </a>
+        <a href="#/users/<%=comment.get('author_id')%>"> <%= comment.get('author').first_name %> <%= comment.get('author').last_name %></a>
       <% } %>
   </div>
 
-  <br>
-  <% if (comment.likes().length > 0) { %>
-    <%= comment.likes().length %> likes
-  <% } %>  
-  <br>
+  <div class="comment-likes-count">
+    <% if (comment.likes().length === 1) { %>
+      <%= comment.likes().length %> person likes this
+    <% } else if (comment.likes().length > 1) { %>
+      <%= comment.likes().length %> people like this
+    <% } %>  
+  </div>
+
   <% if(comment.get('likeStatus') === 'unliked') {%>
     <button class="like-comment">Like Comment</button>
   <% } else{ %>

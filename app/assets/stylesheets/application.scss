@@ -71,7 +71,15 @@
   display: none;
 }
 
+a:hover {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
 /* header and nav bar */
+
  .header {
    background: #3B5998;
    padding-top: 10px;
@@ -92,10 +100,10 @@
  }
 
  .header-nav-links {
-   float: right;
-   margin-top: 7px;
-   color: white;
-   margin-right: 10px;
+  float: right;
+  margin-top: 9px;
+  color: white;
+  margin-right: -19px;
  }
 
 .header-nav-links li {
@@ -142,6 +150,7 @@
 .content-newsfeed-main {
   width: 650px;
   float: right;
+  margin-top: 35px;
 }
 
 /* Sessions */
@@ -220,17 +229,24 @@ label #form-password {
   cursor: pointer;
 }
 
+.guest-login {
+  float: right;
+}
+
 .guest-login-button {
+  position: relative;
+  left: 446px;
   background: dodgerblue;
   padding: 3px;
   font-size: 12px;
+  font-weight: 600;
   color: white;
   border: solid 1px black;
   margin-top: 14px;
   cursor: pointer;
 }
 
-/* // Introduction and Sign Up
+/* // Sign Up
  */
 .content-login {
   margin: 0 auto;
@@ -245,7 +261,7 @@ label #form-password {
 .content-signup {
   margin-top: 15px;
   float: right;
-  margin-right: 215px;
+  margin-right: -160px;
 }
 
 .signup-logo {
@@ -256,6 +272,24 @@ label #form-password {
 .signup-list li {
   background: #d4dae8;
   margin-bottom: 40px;
+}
+
+#input-first-name {
+  width: 175px;
+  position: relative;
+  top: 35px;
+  right: 88px;}
+
+#input-last-name {
+  position: relative;
+  width: 175px;
+  top: 35px;
+  right: 163px;
+}
+
+#label-last-name {
+  position: relative;
+  right: 78px;
 }
 
 .content-signup input {
@@ -276,10 +310,13 @@ label #form-password {
   cursor: pointer;
 }
 
+
 /*
 Users
  */
 
+
+/*Search*/
 .content-search {
   width: 900px;
   margin: 0 auto;
@@ -295,7 +332,17 @@ Users
 .content-search input {
   background: white;
   border: solid 1px black;
-  border-radius: 8%;
+  border-radius: 5%;
+  position: relative;
+  left: 91px;
+  top: 4px;
+  padding: 4px;
+}
+
+.users-search-results {
+  position: relative;
+  top: 6px;
+  left: 91px;
 }
 
 .content-search li {
@@ -311,6 +358,7 @@ Users
   background: grey;
   padding-top: 5px;
 }
+/*End of search*/
 
 .content-profile-body {
   width: 100%;
@@ -322,12 +370,22 @@ Users
   width: 900px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 30px;
 }
 
 .content-profile-sidebar {
   float: left;
-  width: 150px;
+  width: 200px;
+  margin-top: 30px;
+}
+
+.content-profile-sidebar-links {
+  float: left;
+  width: 190px;
+  background: white;
+  font-weight: 700;
+  border-radius: 5%;
+  padding: 5px;
+  margin-top: 10px;
 }
 
 .content-profile-sidebar h1{
@@ -336,7 +394,11 @@ Users
 }
 
 .content-profile-sidebar-links li {
-  margin-bottom: 5px;
+  padding: 11px 0;
+}
+
+.content-profile-sidebar-links li:not(:last-child) {
+  border-bottom: solid 1px black;
 }
 
 .content-profile-sidebar-links li:hover {
@@ -348,9 +410,10 @@ Users
 }
 
 .content-profile-main {
-  border: solid 1px #eee;
   width: 650px;
   float: right;
+  margin-bottom: 60px;
+  margin-top: 25px;
 }
 
 .home {
@@ -367,6 +430,7 @@ Users
 
 .cover-photo {
   width: 900px;
+  height: 250px;
   margin: 0 auto;
 }
 
@@ -374,11 +438,30 @@ Users
   width: 200px;
   height: 200px;
   position: relative;
-  top: 40px;
-  border-radius: 3px;
+  top: 80px;
+  border-radius: 3%;
+}
+
+.change-profile-photo {
+  top: 180px;
+  left: 5px;
+}
+
+.change-cover-photo {
+  position: relative;
+  float: right;
+  bottom: 27px;
+  right: 5px;
+}
+
+.profile-name {
+  font-size: 34px;
+  font-weight: 700;
+  margin-left: 220px;
 }
 
 .profile-avatar {
+  display: inline-block;
   width: 50px;
   height: 50px;
 }
@@ -388,8 +471,11 @@ Users
   margin-right: 70px;
 }
 
+.wall {
+  margin-bottom: 100px;
+}
+
 .wall label {
-  padding-top: 50px;
 }
 
 .posts .post-feed-item{
@@ -399,9 +485,11 @@ Users
   border: solid 1px grey;
 }
 
-
+.friend-requests-label {
+  margin-top: 20px;
+}
 .friend-requests {
-  border: solid 2px black;
+  margin-bottom: 5px;
 }
 
 /*About User*/
@@ -427,15 +515,30 @@ Users
   padding: 3px;
 }
 
+/*Friends show*/
+.friend-show {
+  display: inline-block;
+  padding-left: 50px;
+  padding-bottom: 35px;
+  width: 250px;
+}
+
+
+
 /* Posts */
 
+.post-form {
+}
+
 .form-post {
-  background: #f7f7f7;
+  width: 639px;
 }
 
 .form-post input {
-  width: 600px;
+  width: 100%;
+  background: white;
   border: solid 1px #8b9dc3;
+  padding: 5px;
 }
 
 .add-post {
@@ -443,21 +546,35 @@ Users
   background: #3b5998;
   float: right;
   padding: 5px;
+  position: relative;
+  left: 11px;
 }
 
-/* // Show post */
+/* Feed show items (including post and acceptance)*/
 .feed-items .post-feed-item {
-  border: solid 1px grey;
+  border-top: solid 1px grey;
+  border-left: solid 1px grey;
+  border-right: solid 1px grey;
   padding-top: 10px;
   background: white;
   margin-top: 40px;
+}
+
+.post-content {
+  margin-top: 15px;
+  font-weight: 700;
 }
 
 .feed-items .acceptance-feed-item {
   border: solid 1px grey;
-  padding-top: 10px;
+  padding: 8px;
+  margin: 40px auto;
   background: white;
-  margin-top: 40px;
+}
+
+.acceptance-feed-item a {
+  color: #3b5998;
+  font-weight: 600;
 }
 
 .feed-items h1 {
@@ -474,10 +591,10 @@ Users
   font-weight: 600;
 }
 
-
 .post-body {
   width: 620px;
   margin-left: 15px;
+  margin-bottom: 5px;
 }
 
 .post-body a {
@@ -491,19 +608,7 @@ Users
   color: white;
   font-weight: 500;
   padding: 3px;
-}
-
-.comment-form {
-  border-left: solid 1px grey;
-  border-right: solid 1px grey;
-  border-bottom: solid 1px grey;
-}
-
-.comment-form input{
-  width: 250px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-top: 5px;
+  margin-bottom: 3px;
 }
 
 
@@ -527,6 +632,12 @@ Users
   cursor: pointer;
 }
 
+.post-likes-count {
+  position: relative;
+  top: 9px;
+  font-size: 13px;
+}
+
 /* Comments */
 
 
@@ -534,6 +645,16 @@ Users
   background: #eceff6;
   border-left: solid 1px grey;
   border-right: solid 1px grey;
+  border-top: solid 1px grey;
+}
+
+.comment-body {
+  display: inline-block;
+}
+
+.comment-added-by {
+  font-size: 12px;
+  margin-top: 10px;
 }
 
 .comments .comment a {
@@ -541,18 +662,20 @@ Users
   font-weight: 600;
 }
 
-.comment-form {
-  background: #eceff6;
-  padding-top: 20px;
-}
-
 .form-comment {
+  background: #eceff6;
   margin: 0 auto;
 }
 
+.comment-form {
+  border: solid 1px grey;
+}
+
 .form-comment input{
-  width: 400px;
-  margin-left: 120px;
+  width: 545px;
+  margin-left: 18px;
+  position: relative;
+  bottom: 10px;
   padding: 5px;
   background: white;
   border: solid 1px grey;
@@ -560,12 +683,12 @@ Users
 }
 
 .form-comment .add-comment {
-  font-size: 12px;
+  font-size: 13px;
   color: white;
   background: #3b5998;
-  padding: 2px;
-  margin-left: 350px;
-  margin-bottom: 3px;
+  padding: 3px;
+  margin-left: 567px;
+  margin-bottom: 6px;
 }
 
 .like-comment {
@@ -574,8 +697,8 @@ Users
   font-size: 12px;
   color: white;
   border: solid 1px black;
-  margin-top: 14px;
   cursor: pointer;
+  bottom: 15px;
 }
 
 .unlike-comment {
@@ -584,8 +707,8 @@ Users
   font-size: 12px;
   color: white;
   border: solid 1px black;
-  margin-top: 14px;
   cursor: pointer;
+  bottom: 15px;
 }
 
 .delete-comment {
@@ -594,11 +717,24 @@ Users
   font-size: 12px;
   color: white;
   border: solid 1px black;
-  margin-top: 14px;
   cursor: pointer;
+  bottom: 15px;
+}
+
+.comment-likes-count {
+  font-size: 13px;
 }
 
 /* Requests */
+.friend-requests a {
+  color: #3b5998;
+  font-weight: 600;
+}
+
+.request-buttons {
+  margin-top: 5px;
+}
+
 label {
   font-weight: 600;
 }

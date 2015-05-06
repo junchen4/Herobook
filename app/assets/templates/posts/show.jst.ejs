@@ -3,21 +3,25 @@
     <h1>
         <% if( _.isEmpty(lastComment.attributes) !== false ) { %>
           <% if(FacebookApp.Models.currentUser.get('id') !== post.get('author_id')) {%>
-            <a href="#/users/<%=post.get('author_id')%>"> <%= post.get('author').first_name %> <%= post.get('author').last_name %></a>
+            <a href="#/users/<%=post.escape('author_id')%>"> <%= post.get('author').first_name %> <%= post.get('author').last_name %></a>
           <% } else {%>
-            <a href="#/users/<%=post.get('author_id')%>"> You </a>
+            <a href="#/users/<%=post.escape('author_id')%>"> You </a>
           <% } %>
           <% if (post.get('receiver_id') !== post.get('author_id')) { %>
               wrote on
-              <a href="#/users/<%=post.get('receiver_id')%>"> <%= post.get('receiver').first_name %> <%= post.get('receiver').last_name %></a>'s wall
+              <% if(FacebookApp.Models.currentUser.get('id') === post.get('receiver_id')) { %>
+                <a href="#/users/<%=post.escape('receiver_id')%>"> Your </a>
+              <% } else { %>
+                <a href="#/users/<%=post.escape('receiver_id')%>"> <%= post.get('receiver').first_name %> <%= post.get('receiver').last_name %>'s</a> 
+              <% } %> wall
           <% } else { %>
             wrote a status update
           <% } %>
       <%} else {%>
         <% if (FacebookApp.Models.currentUser.get('id') !== lastComment.get('author_id')) {%>
-          <a href="#/users/<%=lastComment.get('author_id')%>"> <%= lastComment.get('author').first_name %> <%= lastComment.get('author').last_name %></a>
+          <a href="#/users/<%=lastComment.escape('author_id')%>"> <%= lastComment.get('author').first_name %> <%= lastComment.get('author').last_name %></a>
         <% } else {%>
-          <a href="#/users/<%=lastComment.get('author_id')%>"> You </a>
+          <a href="#/users/<%=lastComment.escape('author_id')%>"> You </a>
         <% } %>
 
         commented on this post
@@ -26,49 +30,69 @@
   <% } %>
 
   <div class="post-body">
-    <div class="profile-avatar" style = "background-image: url(<%= user.escape('profile_photo') %>);
-      background-size: cover;
-         background-position: center center;">
-    </div> 
-
     <% if(post.get('author_id') === post.get('receiver_id')) { %> <!-- if post is a "status" post -->
       <% if(post.get('author_id') === FacebookApp.Models.currentUser.get('id')) { %>
-        <a href="#/users/<%=FacebookApp.Models.currentUser.get('id')%>">You</a> wrote:
+        <div class="profile-avatar" style = "background-image: url(<%= post.get('author').profile_photo %>);
+      background-size: cover;
+         background-position: cover;">
+        </div> 
+        <a href="#/users/<%=FacebookApp.Models.currentUser.escape('id')%>">You</a>
       <% } else { %>
-        <a href="#/users/<%=post.get('author_id')%>"><%= post.get('author').first_name %> <%= post.get('author').last_name %></a> wrote:
+        <div class="profile-avatar" style = "background-image: url(<%= post.get('author').profile_photo %>);
+      background-size: cover;
+         background-position: cover;">
+        </div> 
+        <a href="#/users/<%=post.escape('author_id')%>"><%= post.get('author').first_name %> <%= post.get('author').last_name %></a> 
       <% } %>
     <% } else { %> <!-- else post is a normal post, X posts on Y's wall -->
       <% if(post.get('author_id') === FacebookApp.Models.currentUser.get('id')) { %>
-        <a href="#/users/<%=FacebookApp.Models.currentUser.get('id')%>">You</a>
+        <div class="profile-avatar" style = "background-image: url(<%= post.get('author').profile_photo %>);
+      background-size: cover;
+         background-position: cover;">
+        </div> 
+        <a href="#/users/<%=FacebookApp.Models.currentUser.escape('id')%>">You</a>
       <% } else { %>
-        <a href="#/users/<%=post.get('author_id')%>"><%=post.get('author').first_name%> <%=post.get('author').last_name%></a>
+        <div class="profile-avatar" style = "background-image: url(<%= post.get('author').profile_photo %>);
+      background-size: cover;
+         background-position: cover;">
+        </div> 
+        <a href="#/users/<%=post.escape('author_id')%>"><%=post.get('author').first_name%> <%=post.get('author').last_name%></a>
       <% } %>
       
       <span class="glyphicon glyphicon-triangle-right"></span>
       
       <% if(post.get('receiver_id') === FacebookApp.Models.currentUser.get('id')) { %>
+        <div class="profile-avatar" style = "background-image: url(<%= post.get('receiver').profile_photo %>);
+      background-size: cover;
+         background-position: cover;">
+        </div> 
         <a href="#/users/<%=FacebookApp.Models.currentUser.get('id')%>">You</a>
       <% } else { %>
-        <a href="#/users/<%=post.get('receiver_id')%>"><%=post.get('receiver').first_name%> <%=post.get('receiver').last_name%></a>
+        <div class="profile-avatar" style = "background-image: url(<%= post.get('receiver').profile_photo %>);
+      background-size: cover;
+         background-position: cover;">
+        </div> 
+        <a href="#/users/<%=post.escape('receiver_id')%>"><%=post.get('receiver').first_name%> <%=post.get('receiver').last_name%></a>
       <% } %>      
 
     <% } %>
 
-
     <div class="post-content"><%= post.escape('body') %> </div>
-    <br>
-    Posted on <%= post.get('myDate') %> 
   </div>
 
-  <% if (post.likes().length > 0) { %>
-    <%= post.likes().length %> likes
-  <% } %>
-  <br>
+  <div class="post-likes-count">
+    <% if (post.likes().length === 1) { %>
+      <%= post.likes().length %> person likes this
+    <% } else if (post.likes().length > 1) { %>
+      <%= post.likes().length %> people like this
+    <% } %>
+  </div>
+
   <button class="delete-post" data-id="<%= post.get('id') %>">Remove</button>
 
-  <% if(post.get('likeStatus') === 'unliked') {%>
+  <% if (post.get('likeStatus') == 'unliked') {%>
     <button class="like-post">Like</button>
-  <% } else{ %>
+  <% } else { %>
     <button class="unlike-post">Unlike</button>
   <% } %>
 </div>

@@ -1,4 +1,8 @@
 <form class="form-comment group">
+  <div class="profile-avatar" style = "background-image: url(<%= FacebookApp.Models.currentUser.escape('profile_photo') %>);
+    background-size: cover;
+       background-position: cover;">
+  </div> 
   <input type="text" name="comment[body]" placeholder="Add your comment...">
   <br>
   <button class="add-comment">Comment</button>

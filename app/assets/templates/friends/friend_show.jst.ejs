@@ -1,3 +1,5 @@
-<div class="friend-show">
-	<label class="friend-name"> <%=friend.escape('first_name') %> <%=friend.escape('last_name') %></label>
-</div>
+	 <div class="profile-avatar" style = "background-image: url(<%= friend.escape('profile_photo') %>);
+      background-size: cover;
+         background-position: center center;">
+      </div> 
+	<a href="#/users/<%=friend.escape('id')%>"><%=friend.escape('first_name')%> <%=friend.get('last_name')%></a>

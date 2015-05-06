@@ -7,10 +7,9 @@
 
     <ul class="header-nav-links group">
       <li><a href="#/feed">Home</a></li>
-      <li><a href="#/users/<%=user.escape('id')%>">Profile</a></li>
+      <li><a href="#/users/<%=FacebookApp.Models.currentUser.escape('id')%>"><%=FacebookApp.Models.currentUser.escape('first_name')%></a></li>
       <li><a id="account-nav" data-link='.account-nav-links'>Account</a>
             <ul class="account-nav-links hidden group">
-              <li><a href="#/feed">Settings</a></li>
               <li><a class="logout">Logout</a></li>
             </ul>
       </li>
@@ -19,21 +18,18 @@
   </nav>
 </header>
 
-<section class="content-search"> </section> 
+<div class="content-search"> </div> 
 
 
 <main class="content-newsfeed group">
 
   <section class="content-newsfeed-sidebar">
-    <h1> User: <%=user.escape('email')%> </h1>
   </section>
 
 
   <section class="content-newsfeed-main group">
     <section id="post-form"></section>
-
-    <h1>Feed</h1>
-      <div class="feed-items"></div>
+    <div class="feed-items"></div>
   </section>
 
 </main>

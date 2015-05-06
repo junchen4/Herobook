@@ -26,7 +26,7 @@
     <form class="guest-login" action="<%=session_url%>" method="post">
       <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
       
-      <input type="hidden" name="user[email]" value="b@b.com">
+      <input type="hidden" name="user[email]" value="srogers@url.com">
       <input type="hidden" name="user[password]" value="password">
       <button class="guest-login-button">Guest Log In</button>
     </form>
@@ -45,12 +45,19 @@
       <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
 
       <ul class="signup-list group">
-          <li class="form-email"> <label id="form-email">Email</label>
-            <input id="form-email" type="email" name="user[email]" value="">
+          <li class="form-name"> 
+            <label id="label-first-name">First Name</label>
+              <input id="input-first-name" type="text" name="user[first_name]" value="">
+            <label id="label-last-name">Last Name</label>
+              <input id="input-last-name" type="text" name="user[last_name]" value="">
           </li>
 
-          <li class="form-password"> <label id="form-password">Password</label>
-            <input id="form-password" type="password" name="user[password]" value="">
+          <li class="form-email"> <label id="label-email">Email</label>
+            <input id="input-email" type="email" name="user[email]" value="">
+          </li>
+
+          <li class="form-password"> <label id="label-password">Password</label>
+            <input id="input-password" type="password" name="user[password]" value="">
           </li>
 
           <li class="form-signup">

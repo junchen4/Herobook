@@ -2,7 +2,8 @@ class PostsController < ApplicationController
   before_filter :require_logged_in
 
   def index
-    @posts = Post.all
+    @User = User.find(params[:user_id])
+    @posts = @User.posts
     render :index
   end
 
@@ -41,7 +42,7 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
 
     if @post.update_attributes(post_params)
-      render json: @post
+      render :update
     else
       flash.now[:errors] = @post.errors.full_messages
       render :edit

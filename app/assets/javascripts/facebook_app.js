@@ -5,8 +5,11 @@ window.FacebookApp = {
   Routers: {},
   initialize: function() {
     var router = new FacebookApp.Routers.Router({$rootEl: $('#content')});
-    FacebookApp.Models.currentUser.fetch();
-    Backbone.history.start();
+    FacebookApp.Models.currentUser.fetch({
+    	success: function () {
+   			Backbone.history.start();
+    	}
+    });
   }
 }
 

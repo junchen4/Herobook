@@ -47,25 +47,21 @@ class User < ActiveRecord::Base
     :dependent => :destroy
   )
 
+  def posts
+    posts =[]
 
-  #"pending_requests" refers to requests that have been made to the current user
-  # has_many(
-  #   :pending_requests,
-  #   :class_name => "Request",
-  #   :foreign_key => :requestee_id
-  # )
-  #
-  # has_many(
-  #   :inverse_requests,
-  #   :class_name => "Friendship",
-  #   :foreign_key => :requestee_id
-  # )
-  #
-  # has_many(
-  #   :friends,
-  #   :through => :requests,
-  #   :source => :inverse_user
-  # )
+    self.authored_posts.each do |post|
+      posts << post
+    end
+
+    self.received_posts.each do |post|
+      posts << post
+    end
+
+    posts.uniq!
+    posts
+  end
+
   def feed_posts
     posts = []
 
@@ -90,23 +86,6 @@ class User < ActiveRecord::Base
     posts.uniq!
     posts
   end
-
-  # def feed_commented_posts
-  #   posts = []
-  #
-  #   self.comments.each do |comment|
-  #     posts << Post.find(comment.post_id)
-  #   end
-  #
-  #   self.all_friends.each do |friend|
-  #     friend.comments.each do |comment|
-  #       posts << Post.find(comment.post_id) if self.all_friends.include?(User.find(comment.post_id))
-  #     end
-  #   end
-  #
-  #   posts.uniq!
-  #   posts
-  # end
 
   def feed_friend_acceptances
     acceptances = []

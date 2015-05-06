@@ -11,7 +11,7 @@ FacebookApp.Views.SearchShow = Backbone.CompositeView.extend({
     this.$el.html(content);
 
     this.$input = this.$el.find("input[name=username]");
-    this.$ul = this.$el.find(".users");
+    this.$ul = this.$el.find(".users-search-results");
     this.$input.on("input", this.handleInput.bind(this));
 
     return this;

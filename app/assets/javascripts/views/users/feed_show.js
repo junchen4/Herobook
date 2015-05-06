@@ -10,6 +10,7 @@ FacebookApp.Views.FeedShow = Backbone.CompositeView.extend({
   initialize: function(options) {
     this.user = options.user;
     this.listenTo(this.user, 'sync', this.render);
+    this.listenTo(FacebookApp.Models.currentUser, 'sync', this.render);
     this.listenTo(this.model, 'sync', this.renderItems);
     this.listenTo(this.model.feedPosts(), 'add remove', this.render);
 
@@ -75,7 +76,11 @@ FacebookApp.Views.FeedShow = Backbone.CompositeView.extend({
     if (item.comments().length !== 0) {
       lastComment.set(item.comments().at(item.comments().length - 1).attributes);
     }
-    var showView = new FacebookApp.Views.PostShow({model: item, user: this.user, lastComment: lastComment, isFeed: true});
+
+    var author = FacebookApp.Collections.users.get(item.get('author_id'));
+    var receiver = FacebookApp.Collections.users.get(item.get('receiver_id'));
+
+    var showView = new FacebookApp.Views.PostShow({model: item, user: this.user, author: author, receiver: receiver, lastComment: lastComment, isFeed: true});
 
     this.addSubview('.feed-items', showView, true);
   },
@@ -90,7 +95,6 @@ FacebookApp.Views.FeedShow = Backbone.CompositeView.extend({
     //sort models by date to order chronologically in feed
     var array = [];
     array = array.concat(this.model.feedPosts().models).concat(this.model.feedAcceptances().models);
-    console.log("array", array);
     array.sort(function(a,b) {
       var compA = a.get('myDate');
       var compB = b.get('myDate');

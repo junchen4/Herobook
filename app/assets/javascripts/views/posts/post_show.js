@@ -12,8 +12,12 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
   initialize: function(options) {
     this.user = options.user;
     this.isFeed = options.isFeed;
+    this.author = options.author;
+    this.receiver = options.receiver;
     this.lastComment = options.lastComment;
+    this.transitioning = false;
     this.listenTo(this.model, 'sync', this.render);
+    this.listenTo(this.model.likes(), 'add remove', this.render);
     this.listenTo(this.model.comments(), 'add', this.addComment);
     this.listenTo(this.model.comments(), 'remove', this.removeComment); 
   },
@@ -29,7 +33,6 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
   renderCommentForm: function() {
     var commentFormView = new FacebookApp.Views.CommentForm({model: this.model});
     this.$('.comment-form').html(commentFormView.render().$el);
-    // this.addSubview('.comments', commentFormView);
   },
 
 /////////////////////
@@ -59,10 +62,6 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
     comment.save({}, {
       success: function() {
         that.model.comments().add(comment, {merge: true}); //Add to the comments of the post
-        FacebookApp.Models.currentUser.comments().add(comment, {merge: true});
-        FacebookApp.Models.currentUser.posts().get(comment.get('post_id')).comments().add(comment, {merge: true});
-        // FacebookApp.Models.currentUser.newsfeedCommentedPosts().add(that.model, {merge: true});
-        // that.user.newsfeedCommentedPosts().add(that.model, {merge: true});
       }
     });
   },
@@ -72,44 +71,50 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
     var that = this;
     this.model.destroy({
       success: function() {
-        FacebookApp.Models.currentUser.posts().remove(that.model);
-        that.user.posts().remove(that.model);
+        that.author.posts().remove(that.model);
+        that.receiver.posts().remove(that.model);
       }
     });
   },
 
   likePost: function(event) {
-    event.preventDefault();
-    var like = new FacebookApp.Models.Like({'author_id': FacebookApp.Models.currentUser.get('id'), 'likeable_id': this.model.get('id'), 'likeable_type': 'Post'});
-    var that = this;
-    like.save({}, {
-      success: function() {
-        that.model.likes().add(like, {merge: true});
-        FacebookApp.Models.currentUser.likes().add(like, {merge: true});
-        FacebookApp.Models.currentUser.posts().get(like.get('likeable_id')).likes().add(like, {merge: true});
-        that.model.set('likeStatus', 'liked');
-        FacebookApp.Models.currentUser.posts().get(like.get('likeable_id')).set('likeStatus', 'liked');
-        that.render();
-      }
-    });
+    if (this.transitioning === false) {
+      this.transitioning = true;
+      event.preventDefault();
+      var like = new FacebookApp.Models.Like({'author_id': FacebookApp.Models.currentUser.get('id'), 'likeable_id': this.model.get('id'), 'likeable_type': 'Post'});
+      var that = this;
+      this.model.set('likeStatus', 'liked');
+      this.author.posts().get(like.get('likeable_id')).set('likeStatus', 'liked');
+      this.receiver.posts().get(like.get('likeable_id')).set('likeStatus', 'liked');
+      like.save({}, {
+        success: function() {
+          that.model.likes().add(like, {merge: true});
+          that.author.posts().get(like.get('likeable_id')).likes().add(like, {merge: true});
+          that.receiver.posts().get(like.get('likeable_id')).likes().add(like, {merge: true});
+          that.transitioning = false;
+        }
+      });
+    }
   },
 
   unlikePost: function(event) {
-    event.preventDefault();
-    var like = this.model.likes().findWhere({author_id: FacebookApp.Models.currentUser.get('id')});
-    var that = this;
-    like.destroy({
-      success: function() {
-          that.model.set('likeStatus', 'unliked');
-          FacebookApp.Models.currentUser.posts().get(like.get('likeable_id')).set('likeStatus', 'unliked');
-
-          FacebookApp.Models.currentUser.posts().get(like.get('likeable_id')).likes().remove(like);
-          FacebookApp.Models.currentUser.likes().remove(like);
-          that.model.likes().remove(like);
-
-          that.render();
-      }
-    });
+    if (this.transitioning === false) {
+      this.transitioning = true; 
+      event.preventDefault();
+      var like = this.model.likes().findWhere({author_id: FacebookApp.Models.currentUser.get('id')});
+      var that = this;
+      this.model.set('likeStatus', 'unliked');
+      this.author.posts().get(like.get('likeable_id')).set('likeStatus', 'unliked');
+      this.receiver.posts().get(like.get('likeable_id')).set('likeStatus', 'unliked');
+      like.destroy({
+        success: function() {
+            that.model.likes().remove(like);
+            that.author.posts().get(like.get('likeable_id')).likes().remove(like);
+            that.receiver.posts().get(like.get('likeable_id')).likes().remove(like);
+            that.transitioning = false;
+        }
+      });
+    }
   }
 
 

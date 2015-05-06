@@ -9,7 +9,6 @@ FacebookApp.Views.RequestShow = Backbone.CompositeView.extend({
   initialize: function(options) {
     this.user = options.requestor;
     this.listenTo(this.model, 'sync', this.render);
-    // this.listenTo(this.collection, 'add remove', this.render);
   },
 
   render: function() {
@@ -21,7 +20,6 @@ FacebookApp.Views.RequestShow = Backbone.CompositeView.extend({
   acceptRequest: function(event) {
     event.preventDefault();
     var that = this;
-    console.log("acceptRequest User", this.user);
     this.model.save({}, {
       success: function() {
         //that.collection.add(that.model, {merge: true}); //Request is saved into the database, but friends needs to query from the database, so we add the users to each others' friends collections in order to render without a refresh

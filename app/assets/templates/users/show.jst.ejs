@@ -11,12 +11,11 @@
         </li>
 
         <li class="profile">
-          <a href="#/users/<%=FacebookApp.Models.currentUser.get('id')%>">Profile</a>
+          <a href="#/users/<%=FacebookApp.Models.currentUser.get('id')%>"><%=FacebookApp.Models.currentUser.escape('first_name')%></a>
         </li>
 
       <li><a id="account-nav" data-link='.account-nav-links'>Account </a>
             <ul class="account-nav-links hidden group">
-              <li><a href="#/feed">Settings</a></li>
               <li><a class="logout">Logout</a></li>
             </ul>
       </li>
@@ -24,57 +23,52 @@
   </section>
 </header>
 
-<!-- <form class="profile-photo-form">
-<input type="filepicker" name="user[profile_photo">
-<input type="submit">
-</form> -->
-
-
 <section class="content-search"> </section>
 
 <div class="photos">
-  <div class="cover-photo" style="background-image: url(<%= user.escape('cover_photo') %>);
+  <div class="cover-photo group" style="background-image: url(<%= user.escape('cover_photo') %>);
     background-size: cover;
        background-position: center center;">
 
     <div class="profile-photo"
       style = "background-image: url(<%= user.escape('profile_photo') %>);
       background-size: cover;
-         background-position: center center;">
+         background-position: cover;">
+
+      <% if (FacebookApp.Models.currentUser.get('id') === user.get('id')) { %>
+        <button class="change-profile-photo glyphicon glyphicon-camera" style="color:white"> </button>
+      <% } %>
     </div>
+    <header class="profile-name"><%=user.escape('first_name')%> <%=user.escape('last_name')%></header>
+    <% if (FacebookApp.Models.currentUser.get('id') === user.get('id')) { %>
+      <button class="change-cover-photo btn-sm btn-default">Update Cover</button>
+    <% } %>
   </div>
 </div>
-  <button class="change-profile-photo">Change Profile Picture</button>
-  <button class="change-cover-photo">Change Cover Picture</button>
 
 <main class="content-profile group">
     <section class="content-profile-sidebar group">
-      <h1> <%=user.escape('email')%>'s Profile Page </h1>
       <section class="request-buttons"></section>
 
       <ul class="content-profile-sidebar-links">
         <li class="wall-tab"> <a data-tab=".wall">Wall</a> </li>
         <li class="about-tab"> <a data-tab=".about">About</a> </li>
         <li class="friendlist-tab"> <a data-tab=".friendlist">Friends</a> </li>
-        <li> <a href="#/users/<%=user.get('id')%>/info">Photos</a> </li>
       </ul>
 
-
-        Friend Requests:
+      <% if (FacebookApp.Models.currentUser.get('id') === user.get('id')) { %>
+        <label class="friend-requests-label"> Friend Requests: </label>
         <ul class="friend-requests"></ul>
-        <br>
-        <br>
-        Friend List:
-        <ul class="friend-list"></ul>
-
+      <% } %>
     </section>
+
+
 
   <section class="content-profile-main group">
 
     <section class="wall">
-      <section id="post-form"></section>
-        <br>
-        <div class="posts"></div>
+      <div class="post-form"></div>
+      <div class="posts"></div>
     </section>
 
 

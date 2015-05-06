@@ -75,7 +75,7 @@ FacebookApp.Models.User = Backbone.Model.extend({
     }
 
     if(response.allFriends) {
-      this.friends().set(response.allFriends, {remove: false, parse: true});
+      this.friends().set(response.allFriends, {parse: true});
       delete response.allFriends;
     }
 

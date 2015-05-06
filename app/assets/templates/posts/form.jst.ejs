@@ -1,7 +1,5 @@
-<label><%= FacebookApp.Models.currentUser !== null && user.get('id') === FacebookApp.Models.currentUser.get('id') ? "Status Update" : "Post!" %>
   <form class="form-post">
-    <input type="text" name="post[body]">
-    <br>
-    <button class="add-post">Share</button>
+    <input type="text" name="post[body]" placeholder="What's on your mind?">
+	
+	<button class="add-post"><%= FacebookApp.Models.currentUser !== null && user.get('id') === FacebookApp.Models.currentUser.get('id') ? "Share" : "Post" %> </button>
   </form>
-</label>

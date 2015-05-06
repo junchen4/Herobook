@@ -26,7 +26,7 @@ FacebookApp.Models.Post = FacebookApp.Models.NewsfeedItem.extend({
       delete response.likes;
     }
 
-    var d = new Date(Date.parse(response.created_at));
+    var d = new Date(Date.parse(response.updated_at));
 
     response.myDate = d;
     return response;

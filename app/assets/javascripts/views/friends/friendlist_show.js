@@ -12,10 +12,10 @@ FacebookApp.Views.FriendListShow = Backbone.CompositeView.extend({
 
   initialize: function() {
     this.listenTo(this.model, 'sync', this.render);
+    this.listenTo(this.model.friends(), 'add remove', this.render);
   },
 
   render: function() {
-    console.log("rendering friendlist");
     var content = this.template({user: this.model});
     this.$el.html(content);
 
@@ -24,7 +24,6 @@ FacebookApp.Views.FriendListShow = Backbone.CompositeView.extend({
   },
 
   addFriendShow: function(friend) {
-    console.log("adding friend");
     var friendShowView = new FacebookApp.Views.FriendShow({model: friend});
     this.addSubview('.friends', friendShowView, false);
   },

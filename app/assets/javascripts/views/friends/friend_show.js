@@ -1,9 +1,9 @@
 FacebookApp.Views.FriendShow = Backbone.CompositeView.extend({
   template: JST['friends/friend_show'],
 
-  events: {
+  tagName: "div",
 
-  },
+  className: "friend-show",
 
   initialize: function() {
     this.listenTo(this.model, 'sync', this.render);

@@ -2,7 +2,8 @@ class UsersController < ApplicationController
   before_filter :require_logged_in, :except => [:new, :create]
 
   def index
-    render json: User.all
+    @Users = User.all
+    render :index
   end
 
   def new
@@ -16,8 +17,8 @@ class UsersController < ApplicationController
       login(@user)
       redirect_to "#/users/#{@user.id}"
     else
-      flash.now[:errors] = @user.errors.full_messages
-      render json: {error: "Errors saving"}, status: :unprocessable_entity
+      flash[:errors] = @user.errors.full_messages
+      redirect_to new_session_url
     end
   end
 
