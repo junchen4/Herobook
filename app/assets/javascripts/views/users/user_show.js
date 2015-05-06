@@ -250,7 +250,7 @@ logout: function () {
       type: "DELETE",
       url: "/session",
       success: function () {
-        window.location.href = 'http://localhost:3000';
+        window.location.href = 'http://my-facebook.herokuapp.com/';
       }
     });
   }
