@@ -1,6 +1,10 @@
 FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
   template: JST['posts/show'],
 
+  tagName: 'article',
+
+  className: 'post-feed-item',
+
   events: {
     'click button.delete-post': 'destroyPost',
     'click button.add-comment':'submitComment',

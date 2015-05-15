@@ -1,6 +1,10 @@
 FacebookApp.Views.PostForm = Backbone.View.extend({
   template: JST['posts/form'],
 
+  tagName: 'form',
+
+  className: 'form-post',
+
   events: {
     'click button.add-post':'submitPost'
   },

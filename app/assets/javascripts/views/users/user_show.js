@@ -24,7 +24,7 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
     this.listenTo(this.model.friends(), 'add remove', this.renderFriendList);
     this.listenTo(this.model, 'change:friendStatus', this.render);
 
-    setInterval(this.updatePosts.bind(this), 10000); //Update feed every 10 seconds
+    // setInterval(this.updatePosts.bind(this), 10000); //Update feed every 10 seconds
   },
 
   render: function() {
@@ -97,7 +97,7 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
 
   renderPostForm: function() {
     var postFormView = new FacebookApp.Views.PostForm({user: this.model, feed: this.feed});
-    this.$('.post-form').html(postFormView.render().$el);
+    this.$('.post-form-area').html(postFormView.render().$el);
   },
 ///////////////////
   removePost: function(post) {
