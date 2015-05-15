@@ -1,6 +1,10 @@
 FacebookApp.Views.ItemAcceptanceShow = Backbone.CompositeView.extend({
   template: JST['feed_items/item_acceptance_show'],
 
+  tagName: 'article',
+
+  className: 'acceptance-feed-item',
+
   events: {
     'click button.delete-post': 'destroyPost',
     'click button.add-comment':'submitComment',

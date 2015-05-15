@@ -14,10 +14,14 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
 
   initialize: function(options) {
     this.feed = options.feed;
+    this.posts = options.posts;
     this.listenTo(this.model, 'sync', this.render);
-    this.listenTo(this.model.posts(), 'sync', this.renderPosts);
-    this.listenTo(this.model.posts(), 'add', this.addPost);
-    this.listenTo(this.model.posts(), 'remove', this.removePost);
+    this.listenTo(this.posts, 'sync', this.renderPosts);
+    this.listenTo(this.posts, 'add', this.addPost);
+    this.listenTo(this.posts, 'remove', this.removePost);
+    // this.listenTo(this.model.posts(), 'sync', this.renderPosts);
+    // this.listenTo(this.model.posts(), 'add', this.addPost);
+    // this.listenTo(this.model.posts(), 'remove', this.removePost);
     if (FacebookApp.Models.currentUser.get('id') === this.model.get('id')) {
       this.listenTo(this.model.requests(), 'add remove', this.renderRequests);
     }
@@ -96,7 +100,7 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
   },
 
   renderPostForm: function() {
-    var postFormView = new FacebookApp.Views.PostForm({user: this.model, feed: this.feed});
+    var postFormView = new FacebookApp.Views.PostForm({user: this.model, posts: this.posts, feed: this.feed});
     this.$('.post-form').html(postFormView.render().$el);
   },
 ///////////////////
@@ -118,7 +122,7 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
       var author = FacebookApp.Collections.users.get(post.get('author_id'));
       var receiver = FacebookApp.Collections.users.get(post.get('receiver_id'));
 
-      var postShowView = new FacebookApp.Views.PostShow({model: post, user: this.model, author: author, receiver: receiver, isFeed: false, lastComment: lastComment});
+      var postShowView = new FacebookApp.Views.PostShow({model: post, posts: this.posts, user: this.model, author: author, receiver: receiver, isFeed: false, lastComment: lastComment});
       this.addSubview('.posts', postShowView, false);
     }
   },
@@ -126,7 +130,8 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
   renderPosts: function() {
     if (this.model.get('friendStatus') === "accepted") {
       this.emptySubviewContainer('.posts');
-      this.model.posts().each(this.addPost.bind(this));
+      // this.model.posts().each(this.addPost.bind(this));
+      this.posts.each(this.addPost.bind(this));
     }
   },
 //////////////////

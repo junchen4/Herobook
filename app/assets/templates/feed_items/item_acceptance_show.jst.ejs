@@ -1,34 +1,32 @@
-<div class="acceptance-feed-item" data-sort='<%=item.get('myDate')%>'>
-  <% if(item.get('requestor_id') === FacebookApp.Models.currentUser.get('id')) { %>
-    <div class="profile-avatar" style = "background-image: url(<%= item.get('requestor').profile_photo %>);
-  background-size: cover;
-     background-position: cover;">
-    </div> 
-    <a href="#/users/<%=FacebookApp.Models.currentUser.escape('id')%>">You</a>
-  <% } else { %>
-    <div class="profile-avatar" style = "background-image: url(<%= item.get('requestor').profile_photo %>);
-  background-size: cover;
-     background-position: cover;">
-    </div> 
-  	<a href="#/users/<%=item.escape('requestor_id')%>"><%= item.get('requestor').first_name %> <%= item.get('requestor').last_name %></a> 
-  <% } %>
+<% if(item.get('requestor_id') === FacebookApp.Models.currentUser.get('id')) { %>
+  <div class="profile-avatar" style = "background-image: url(<%= item.get('requestor').profile_photo %>);
+background-size: cover;
+   background-position: cover;">
+  </div> 
+  <a href="#/users/<%=FacebookApp.Models.currentUser.escape('id')%>">You</a>
+<% } else { %>
+  <div class="profile-avatar" style = "background-image: url(<%= item.get('requestor').profile_photo %>);
+background-size: cover;
+   background-position: cover;">
+  </div> 
+	<a href="#/users/<%=item.escape('requestor_id')%>"><%= item.get('requestor').first_name %> <%= item.get('requestor').last_name %></a> 
+<% } %>
 
-  and 
+and 
 
 <% if(item.get('requestee_id') === FacebookApp.Models.currentUser.get('id')) { %>
-    <div class="profile-avatar" style = "background-image: url(<%= item.get('requestee').profile_photo %>);
-  background-size: cover;
-     background-position: cover;">
-    </div> 
-    <a href="#/users/<%=FacebookApp.Models.currentUser.escape('id')%>">you</a>
-  <% } else { %>
-    <div class="profile-avatar" style = "background-image: url(<%= item.get('requestee').profile_photo %>);
-  background-size: cover;
-     background-position: cover;">
-    </div> 
-  	<a href="#/users/<%=item.escape('requestee_id')%>"><%= item.get('requestee').first_name %> <%= item.get('requestee').last_name %></a> 
-  <% } %>
+  <div class="profile-avatar" style = "background-image: url(<%= item.get('requestee').profile_photo %>);
+background-size: cover;
+   background-position: cover;">
+  </div> 
+  <a href="#/users/<%=FacebookApp.Models.currentUser.escape('id')%>">you</a>
+<% } else { %>
+  <div class="profile-avatar" style = "background-image: url(<%= item.get('requestee').profile_photo %>);
+background-size: cover;
+   background-position: cover;">
+  </div> 
+	<a href="#/users/<%=item.escape('requestee_id')%>"><%= item.get('requestee').first_name %> <%= item.get('requestee').last_name %></a> 
+<% } %>
 
-  are now friends.
+are now friends.
 
-</div>

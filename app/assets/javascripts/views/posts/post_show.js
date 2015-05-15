@@ -1,6 +1,10 @@
 FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
   template: JST['posts/show'],
 
+  tagName: 'article',
+
+  className: 'post-feed-item',
+
   events: {
     'click button.delete-post': 'destroyPost',
     'click button.add-comment':'submitComment',
@@ -11,6 +15,7 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
 
   initialize: function(options) {
     this.user = options.user;
+    this.posts = options.posts;
     this.isFeed = options.isFeed;
     this.author = options.author;
     this.receiver = options.receiver;
@@ -71,8 +76,9 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
     var that = this;
     this.model.destroy({
       success: function() {
-        that.author.posts().remove(that.model);
-        that.receiver.posts().remove(that.model);
+        // that.author.posts().remove(that.model);
+        // that.receiver.posts().remove(that.model);
+        that.posts.remove(that.model);
       }
     });
   },
@@ -84,13 +90,13 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
       var like = new FacebookApp.Models.Like({'author_id': FacebookApp.Models.currentUser.get('id'), 'likeable_id': this.model.get('id'), 'likeable_type': 'Post'});
       var that = this;
       this.model.set('likeStatus', 'liked');
-      this.author.posts().get(like.get('likeable_id')).set('likeStatus', 'liked');
-      this.receiver.posts().get(like.get('likeable_id')).set('likeStatus', 'liked');
+      // this.author.posts().get(like.get('likeable_id')).set('likeStatus', 'liked');
+      // this.receiver.posts().get(like.get('likeable_id')).set('likeStatus', 'liked');
       like.save({}, {
         success: function() {
           that.model.likes().add(like, {merge: true});
-          that.author.posts().get(like.get('likeable_id')).likes().add(like, {merge: true});
-          that.receiver.posts().get(like.get('likeable_id')).likes().add(like, {merge: true});
+          // that.author.posts().get(like.get('likeable_id')).likes().add(like, {merge: true});
+          // that.receiver.posts().get(like.get('likeable_id')).likes().add(like, {merge: true});
           that.transitioning = false;
         }
       });
@@ -104,13 +110,13 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
       var like = this.model.likes().findWhere({author_id: FacebookApp.Models.currentUser.get('id')});
       var that = this;
       this.model.set('likeStatus', 'unliked');
-      this.author.posts().get(like.get('likeable_id')).set('likeStatus', 'unliked');
-      this.receiver.posts().get(like.get('likeable_id')).set('likeStatus', 'unliked');
+      // this.author.posts().get(like.get('likeable_id')).set('likeStatus', 'unliked');
+      // this.receiver.posts().get(like.get('likeable_id')).set('likeStatus', 'unliked');
       like.destroy({
         success: function() {
             that.model.likes().remove(like);
-            that.author.posts().get(like.get('likeable_id')).likes().remove(like);
-            that.receiver.posts().get(like.get('likeable_id')).likes().remove(like);
+            // that.author.posts().get(like.get('likeable_id')).likes().remove(like);
+            // that.receiver.posts().get(like.get('likeable_id')).likes().remove(like);
             that.transitioning = false;
         }
       });

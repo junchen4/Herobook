@@ -26,12 +26,17 @@ FacebookApp.Routers.Router = Backbone.Router.extend({
   },
 
   show: function(id) {
-    var that = this;
     var user = FacebookApp.Collections.users.getOrFetch(id);
     console.log("shown user", this.user);
     console.log("current user's ID is:  " + FacebookApp.Models.currentUser.get('id'));
-		var userShowView = new FacebookApp.Views.UserShow({model: user, feed: FacebookApp.Models.feed});
-		that._swapView(userShowView);
+    var that = this;
+    FacebookApp.Collections.posts.fetch({
+      success: function () {
+        var userShowView = new FacebookApp.Views.UserShow({model: user, feed: FacebookApp.Models.feed, posts: FacebookApp.Collections.posts});
+        that._swapView(userShowView);   
+      }
+    , data: {user_id: id}})
+
   },
 
   info: function(id) {

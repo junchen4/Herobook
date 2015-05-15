@@ -22,7 +22,6 @@ FacebookApp.Views.FeedShow = Backbone.CompositeView.extend({
     this.$el.html(content);
     this.renderPostForm();
     this.renderItems();
-    // this.renderSortedItems();
     this.renderSearch();
     //this.renderRequests();
     return this;
@@ -58,7 +57,7 @@ FacebookApp.Views.FeedShow = Backbone.CompositeView.extend({
 
   renderPostForm: function() {
     var postFormView = new FacebookApp.Views.PostForm({user: this.user, feed: this.model});
-    this.$('#post-form').html(postFormView.render().$el);
+    this.$('#post-form-area').html(postFormView.render().$el);
   },
 
 //////////////////////////////////////////
