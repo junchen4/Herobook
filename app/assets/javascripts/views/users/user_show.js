@@ -19,16 +19,11 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
     this.listenTo(this.posts, 'sync', this.renderPosts);
     this.listenTo(this.posts, 'add', this.addPost);
     this.listenTo(this.posts, 'remove', this.removePost);
-    // this.listenTo(this.model.posts(), 'sync', this.renderPosts);
-    // this.listenTo(this.model.posts(), 'add', this.addPost);
-    // this.listenTo(this.model.posts(), 'remove', this.removePost);
     if (FacebookApp.Models.currentUser.get('id') === this.model.get('id')) {
       this.listenTo(this.model.requests(), 'add remove', this.renderRequests);
     }
     this.listenTo(this.model.friends(), 'add remove', this.renderFriendList);
     this.listenTo(this.model, 'change:friendStatus', this.render);
-
-    setInterval(this.updatePosts.bind(this), 10000); //Update feed every 10 seconds
   },
 
   render: function() {
@@ -54,10 +49,6 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
 
     this.makeActive(this.activePanel);
     return this;
-  },
-
-  updatePosts: function () {
-    this.model.posts().fetch({data: {user_id: this.model.get('id')}});
   },
 
 //////////
@@ -122,7 +113,7 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
       var author = FacebookApp.Collections.users.get(post.get('author_id'));
       var receiver = FacebookApp.Collections.users.get(post.get('receiver_id'));
 
-      var postShowView = new FacebookApp.Views.PostShow({model: post, posts: this.posts, user: this.model, author: author, receiver: receiver, isFeed: false, lastComment: lastComment});
+      var postShowView = new FacebookApp.Views.PostShow({model: post, posts: this.posts, user: this.model, feed: this.feed, author: author, receiver: receiver, isFeed: false, lastComment: lastComment});
       this.addSubview('.posts', postShowView, false);
     }
   },
@@ -130,7 +121,6 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
   renderPosts: function() {
     if (this.model.get('friendStatus') === "accepted") {
       this.emptySubviewContainer('.posts');
-      // this.model.posts().each(this.addPost.bind(this));
       this.posts.each(this.addPost.bind(this));
     }
   },

@@ -13,6 +13,7 @@ FacebookApp.Views.PostForm = Backbone.View.extend({
     this.user = options.user;
     this.posts = options.posts;
     this.feed = options.feed;
+    this.isFeed = options.isFeed;
   },
 
   render: function() {
@@ -23,19 +24,20 @@ FacebookApp.Views.PostForm = Backbone.View.extend({
 
   submitPost: function(event) {
     event.preventDefault();
-    var that = this;
     var postBody = this.$('input').val();
     var post = new FacebookApp.Models.Post({
                     'author_id': FacebookApp.Models.currentUser.get('id'),
                     'body': postBody,
                     'receiver_id': this.user.get('id')
                     });
+    var that = this;
     post.save({},{
       success: function() {
-        // FacebookApp.Models.currentUser.posts().add(post, {merge: true});
-        // that.user.posts().add(post, {merge: true});
-        that.posts.add(post, {merge: true});
-        that.feed.feedPosts().add(post, {merge: true});
+        if (!that.isFeed) { 
+          that.posts.add(post, {merge: true});
+        } else {
+          that.feed.feedPosts().add(post, {merge: true});
+        }
       }
     });
   }

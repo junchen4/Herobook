@@ -12,26 +12,28 @@ FacebookApp.Views.FeedShow = Backbone.CompositeView.extend({
     this.listenTo(this.user, 'sync', this.render);
     this.listenTo(FacebookApp.Models.currentUser, 'sync', this.render);
     this.listenTo(this.model, 'sync', this.renderItems);
+    this.listenTo(this.model, 'sync', this.listenComments);
     this.listenTo(this.model.feedPosts(), 'add remove', this.render);
-
-    setInterval(this.updateFeed.bind(this), 10000); //Update feed every 10 seconds
   },
 
   render: function() {
+    console.log("rendering feed");
     var content = this.template({user: this.user, feed: this.model});
     this.$el.html(content);
     this.renderPostForm();
     this.renderItems();
     this.renderSearch();
-    //this.renderRequests();
     return this;
   },
 
-  updateFeed: function () {
-    this.model.fetch()
-  },
-
 //////////
+
+  listenComments: function () { //Updates feed-post's title based on last comment
+    var that = this;
+    this.model.feedPosts().each(function (post) {
+      that.listenTo(post.comments(), 'add remove', that.render);
+    })
+  },
 
   toggleAccountNav: function (event) {
     if (!$('.account-nav-links').hasClass('hidden')) {
@@ -56,7 +58,7 @@ FacebookApp.Views.FeedShow = Backbone.CompositeView.extend({
   },
 
   renderPostForm: function() {
-    var postFormView = new FacebookApp.Views.PostForm({user: this.user, feed: this.model});
+    var postFormView = new FacebookApp.Views.PostForm({user: this.user, feed: this.model, isFeed: true});
     this.$('#post-form-area').html(postFormView.render().$el);
   },
 
@@ -68,7 +70,6 @@ FacebookApp.Views.FeedShow = Backbone.CompositeView.extend({
   },
 
   addPostItem: function(item) {
-    console.log("item", item);
     var lastComment = new FacebookApp.Models.Comment();
 
     //Set the last comment in a post, if the last comment exists
@@ -76,10 +77,7 @@ FacebookApp.Views.FeedShow = Backbone.CompositeView.extend({
       lastComment.set(item.comments().at(item.comments().length - 1).attributes);
     }
 
-    var author = FacebookApp.Collections.users.get(item.get('author_id'));
-    var receiver = FacebookApp.Collections.users.get(item.get('receiver_id'));
-
-    var showView = new FacebookApp.Views.PostShow({model: item, user: this.user, author: author, receiver: receiver, lastComment: lastComment, isFeed: true});
+    var showView = new FacebookApp.Views.PostShow({model: item, user: this.user, feed: this.model, lastComment: lastComment, isFeed: true});
 
     this.addSubview('.feed-items', showView, true);
   },
