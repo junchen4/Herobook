@@ -8,8 +8,8 @@ Herobook.Routers.Router = Backbone.Router.extend({
   routes: {
     '': 'feed',
     'feed': 'feed',
-    'users/:id': 'show',
-    'users/:id/info': 'info'
+    'users/:id': 'show'
+    // 'users/:id/info': 'info'
   },
 
   feed: function() {
@@ -26,11 +26,11 @@ Herobook.Routers.Router = Backbone.Router.extend({
     this._swapView(userShowView);   
   },
 
-  info: function(id) {
-    var user = Herobook.Collections.users.getOrFetch(id);
-    var userInfoView = new Herobook.Views.InfoShow({model: user});
-    this._swapView(userInfoView);
-  },
+  // info: function(id) {
+  //   var user = Herobook.Collections.users.getOrFetch(id);
+  //   var userInfoView = new Herobook.Views.InfoShow({model: user});
+  //   this._swapView(userInfoView);
+  // },
 
   _swapView: function(view) {
     this._currentView && this._currentView.remove();

@@ -14,11 +14,6 @@ Herobook.Views.FeedShow = Backbone.CompositeView.extend({
     this.listenTo(this.model, 'sync', this.renderItems);
     this.listenTo(this.model, 'sync', this.listenComments);
     this.listenTo(this.model.feedPosts(), 'add remove', this.render);
-<<<<<<< HEAD
-
-    // setInterval(this.updateFeed.bind(this), 10000); //Update feed every 10 seconds
-=======
->>>>>>> posts
   },
 
   render: function() {
@@ -63,11 +58,7 @@ Herobook.Views.FeedShow = Backbone.CompositeView.extend({
   },
 
   renderPostForm: function() {
-<<<<<<< HEAD
-    var postFormView = new FacebookApp.Views.PostForm({user: this.user, feed: this.model});
-=======
     var postFormView = new Herobook.Views.PostForm({user: this.user, feed: this.model, isFeed: true});
->>>>>>> posts
     this.$('#post-form-area').html(postFormView.render().$el);
   },
 
@@ -79,37 +70,21 @@ Herobook.Views.FeedShow = Backbone.CompositeView.extend({
   },
 
   addPostItem: function(item) {
-<<<<<<< HEAD
-    var lastComment = new FacebookApp.Models.Comment();
-=======
     var lastComment = new Herobook.Models.Comment();
->>>>>>> posts
 
     //Set the last comment in a post, if the last comment exists
     if (item.comments().length !== 0) {
       lastComment.set(item.comments().at(item.comments().length - 1).attributes);
     }
 
-<<<<<<< HEAD
-    var author = FacebookApp.Collections.users.get(item.get('author_id'));
-    var receiver = FacebookApp.Collections.users.get(item.get('receiver_id'));
-
-    var postShowView = new FacebookApp.Views.PostShow({model: item, user: this.user, author: author, receiver: receiver, lastComment: lastComment, isFeed: true});
-=======
     var showView = new Herobook.Views.PostShow({model: item, user: this.user, feed: this.model, lastComment: lastComment, isFeed: true});
->>>>>>> posts
 
-    this.addSubview('.feed-items', postShowView, true);
+    this.addSubview('.feed-items', showView, true);
   },
 
   addAcceptanceItem: function(item) {
-<<<<<<< HEAD
-    var acceptanceShowView = new FacebookApp.Views.ItemAcceptanceShow({model: item, user: this.model});
-    this.addSubview('.feed-items', acceptanceShowView, true);
-=======
     var showView = new Herobook.Views.ItemAcceptanceShow({model: item, user: this.model});
     this.addSubview('.feed-items', showView, true);
->>>>>>> posts
   },
 
   renderItems: function() {

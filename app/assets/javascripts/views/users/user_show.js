@@ -24,11 +24,6 @@ Herobook.Views.UserShow = Backbone.CompositeView.extend({
     }
     this.listenTo(this.model.friends(), 'add remove', this.renderFriendList);
     this.listenTo(this.model, 'change:friendStatus', this.render);
-<<<<<<< HEAD
-
-    // setInterval(this.updatePosts.bind(this), 10000); //Update feed every 10 seconds
-=======
->>>>>>> posts
   },
 
   render: function() {
@@ -96,13 +91,8 @@ Herobook.Views.UserShow = Backbone.CompositeView.extend({
   },
 
   renderPostForm: function() {
-<<<<<<< HEAD
-    var postFormView = new FacebookApp.Views.PostForm({user: this.model, feed: this.feed});
-    this.$('.post-form-area').html(postFormView.render().$el);
-=======
     var postFormView = new Herobook.Views.PostForm({user: this.model, posts: this.posts, feed: this.feed});
-    this.$('.post-form').html(postFormView.render().$el);
->>>>>>> posts
+    this.$('.post-form-area').html(postFormView.render().$el);
   },
 ///////////////////
   removePost: function(post) {
@@ -204,7 +194,6 @@ Herobook.Views.UserShow = Backbone.CompositeView.extend({
 
   changeCoverPhoto: function (event) {
     var that = this;
-
     filepicker.pick(
       {
         mimetypes: ['image/*'],
@@ -228,7 +217,6 @@ Herobook.Views.UserShow = Backbone.CompositeView.extend({
 
   changeProfilePhoto: function (event) {
     var that = this;
-
     filepicker.pick(
       {
         mimetypes: ['image/*'],
@@ -255,10 +243,9 @@ logout: function () {
       type: "DELETE",
       url: "/session",
       success: function () {
-        window.location.href = 'http://my-facebook.herokuapp.com/';
+        window.location.href = 'http://my-herobook.herokuapp.com/';
       }
     });
   }
 
 })
-
