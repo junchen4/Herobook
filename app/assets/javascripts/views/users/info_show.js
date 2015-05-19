@@ -1,4 +1,4 @@
-FacebookApp.Views.InfoShow = Backbone.CompositeView.extend({
+Herobook.Views.InfoShow = Backbone.CompositeView.extend({
   template: JST['users/info_show'],
 
   events: {
@@ -13,7 +13,7 @@ FacebookApp.Views.InfoShow = Backbone.CompositeView.extend({
 
   initialize: function() {
     this.listenTo(this.model, 'sync', this.render);
-    if (FacebookApp.Models.currentUser.get('id') === this.model.get('id')) {
+    if (Herobook.Models.currentUser.get('id') === this.model.get('id')) {
       this.listenTo(this.model.requests(), 'add remove', this.renderRequests);
     }
     this.listenTo(this.model.friends(), 'add remove', this.renderFriendList);

@@ -1,7 +1,7 @@
-FacebookApp.Collections.Likes = Backbone.Collection.extend({
+Herobook.Collections.Likes = Backbone.Collection.extend({
   url: '/likes',
 
-  model: FacebookApp.Models.Like,
+  model: Herobook.Models.Like,
 
   initialize: function(models, options) {
     this.user = options.user;
@@ -13,7 +13,7 @@ FacebookApp.Collections.Likes = Backbone.Collection.extend({
       var like = this.get(id)
 
       if(!like) {
-        like = new FacebookApp.Models.like({id: id});
+        like = new Herobook.Models.like({id: id});
         var collections = this;
         like.fetch({
           success: function() {

@@ -1,4 +1,4 @@
-FacebookApp.Views.PostForm = Backbone.View.extend({
+Herobook.Views.PostForm = Backbone.View.extend({
   template: JST['posts/form'],
 
   tagName: 'form',
@@ -25,8 +25,8 @@ FacebookApp.Views.PostForm = Backbone.View.extend({
   submitPost: function(event) {
     event.preventDefault();
     var postBody = this.$('input').val();
-    var post = new FacebookApp.Models.Post({
-                    'author_id': FacebookApp.Models.currentUser.get('id'),
+    var post = new Herobook.Models.Post({
+                    'author_id': Herobook.Models.currentUser.get('id'),
                     'body': postBody,
                     'receiver_id': this.user.get('id')
                     });

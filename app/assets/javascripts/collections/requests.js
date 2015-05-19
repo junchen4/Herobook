@@ -1,7 +1,7 @@
-FacebookApp.Collections.Requests = Backbone.Collection.extend({
+Herobook.Collections.Requests = Backbone.Collection.extend({
   url: '/requests',
 
-  model: FacebookApp.Models.Request,
+  model: Herobook.Models.Request,
 
   initialize: function(models, options) {
     this.user = options.user;
@@ -11,7 +11,7 @@ FacebookApp.Collections.Requests = Backbone.Collection.extend({
       var request = this.get(id)
 
       if(!request) {
-        request = new FacebookApp.Models.Request({id: id});
+        request = new Herobook.Models.Request({id: id});
         var collections = this;
         request.fetch({
           success: function() {

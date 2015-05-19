@@ -1,4 +1,4 @@
-FacebookApp.Views.CommentForm = Backbone.View.extend({
+Herobook.Views.CommentForm = Backbone.View.extend({
   template: JST['comments/form'],
 
   // initialize: function() {

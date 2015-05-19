@@ -1,9 +1,9 @@
-<% if(item.get('requestor_id') === FacebookApp.Models.currentUser.get('id')) { %>
+<% if(item.get('requestor_id') === Herobook.Models.currentUser.get('id')) { %>
   <div class="profile-avatar" style = "background-image: url(<%= item.get('requestor').profile_photo %>);
 background-size: cover;
    background-position: cover;">
   </div> 
-  <a href="#/users/<%=FacebookApp.Models.currentUser.escape('id')%>">You</a>
+  <a href="#/users/<%=Herobook.Models.currentUser.escape('id')%>">You</a>
 <% } else { %>
   <div class="profile-avatar" style = "background-image: url(<%= item.get('requestor').profile_photo %>);
 background-size: cover;
@@ -14,12 +14,12 @@ background-size: cover;
 
 and 
 
-<% if(item.get('requestee_id') === FacebookApp.Models.currentUser.get('id')) { %>
+<% if(item.get('requestee_id') === Herobook.Models.currentUser.get('id')) { %>
   <div class="profile-avatar" style = "background-image: url(<%= item.get('requestee').profile_photo %>);
 background-size: cover;
    background-position: cover;">
   </div> 
-  <a href="#/users/<%=FacebookApp.Models.currentUser.escape('id')%>">you</a>
+  <a href="#/users/<%=Herobook.Models.currentUser.escape('id')%>">you</a>
 <% } else { %>
   <div class="profile-avatar" style = "background-image: url(<%= item.get('requestee').profile_photo %>);
 background-size: cover;

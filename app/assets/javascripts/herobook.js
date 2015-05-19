@@ -1,11 +1,11 @@
-window.FacebookApp = {
+window.Herobook = {
   Models: {},
   Collections: {},
   Views: {},
   Routers: {},
   initialize: function() {
-    var router = new FacebookApp.Routers.Router({$rootEl: $('#content')});
-    FacebookApp.Models.currentUser.fetch({
+    var router = new Herobook.Routers.Router({$rootEl: $('#content')});
+    Herobook.Models.currentUser.fetch({
     	success: function () {
    			Backbone.history.start();
     	}

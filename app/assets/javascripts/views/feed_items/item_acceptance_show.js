@@ -1,4 +1,4 @@
-FacebookApp.Views.ItemAcceptanceShow = Backbone.CompositeView.extend({
+Herobook.Views.ItemAcceptanceShow = Backbone.CompositeView.extend({
   template: JST['feed_items/item_acceptance_show'],
 
   tagName: 'article',

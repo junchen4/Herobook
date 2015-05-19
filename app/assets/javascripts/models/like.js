@@ -1,4 +1,4 @@
-FacebookApp.Models.Like = Backbone.Model.extend({
+Herobook.Models.Like = Backbone.Model.extend({
   urlRoot: '/likes'
 
 })

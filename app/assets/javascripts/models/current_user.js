@@ -1,3 +1,3 @@
-FacebookApp.Models.CurrentUser = FacebookApp.Models.User.extend({
+Herobook.Models.CurrentUser = Herobook.Models.User.extend({
   url: "/session"
 })

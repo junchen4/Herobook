@@ -1,16 +1,16 @@
-FacebookApp.Models.Post = FacebookApp.Models.NewsfeedItem.extend({
+Herobook.Models.Post = Herobook.Models.NewsfeedItem.extend({
   urlRoot: '/posts',
 
   comments: function() {
     if(!this._comments) {
-      this._comments = new FacebookApp.Collections.Comments([], {post: this});
+      this._comments = new Herobook.Collections.Comments([], {post: this});
     }
     return this._comments;
   },
 
   likes: function() {
     if(!this._likes) {
-      this._likes = new FacebookApp.Collections.Likes([], {post: this});
+      this._likes = new Herobook.Collections.Likes([], {post: this});
     }
     return this._likes;
   },

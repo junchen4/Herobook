@@ -1,12 +1,12 @@
-FacebookApp.Collections.Users = Backbone.Collection.extend({
+Herobook.Collections.Users = Backbone.Collection.extend({
   url: '/users',
 
-  model: FacebookApp.Models.User,
+  model: Herobook.Models.User,
 
   getOrFetch: function(id) {
       var user = this.get(id)
       if(!user) {
-        user = new FacebookApp.Models.User({id: id});
+        user = new Herobook.Models.User({id: id});
         var collections = this;
         user.fetch({
           success: function () {
@@ -26,4 +26,4 @@ FacebookApp.Collections.Users = Backbone.Collection.extend({
   }
 })
 
-FacebookApp.Collections.users = new FacebookApp.Collections.Users();
+Herobook.Collections.users = new Herobook.Collections.Users();

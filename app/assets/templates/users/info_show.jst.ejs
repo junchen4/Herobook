@@ -1,7 +1,7 @@
 <ul id="about-list">
 	<li class="sex">
 		<label>Sex</label>
-	    <% if(FacebookApp.Models.currentUser.get('id') === user.get('id')) { %>
+	    <% if(Herobook.Models.currentUser.get('id') === user.get('id')) { %>
 			<button type="button" class="btn btn-xs edit" data-attr="sex">
         	<span class="glyphicon glyphicon-pencil"></span>
         </button>
@@ -26,7 +26,7 @@
 
 
 	<li class="relationship-status"> <label>Relationship Status</label>
-		<% if(FacebookApp.Models.currentUser.get('id') === user.get('id')) { %>
+		<% if(Herobook.Models.currentUser.get('id') === user.get('id')) { %>
 			<button type="button" class="btn btn-xs edit" data-attr="relationship_status">
         		<span class="glyphicon glyphicon-pencil"></span>
         	</button>
@@ -50,7 +50,7 @@
 
 	<li class="education"> 
 		<label>Education</label>
-	    <% if(FacebookApp.Models.currentUser.get('id') === user.get('id')) { %>
+	    <% if(Herobook.Models.currentUser.get('id') === user.get('id')) { %>
 			<button type="button" class="btn btn-xs edit" data-attr="education">
         		<span class="glyphicon glyphicon-pencil"></span>
         	</button>
@@ -66,7 +66,7 @@
 
 	<li class="employer"> 
 		<label>Employer</label>
-	    <% if(FacebookApp.Models.currentUser.get('id') === user.get('id')) { %>
+	    <% if(Herobook.Models.currentUser.get('id') === user.get('id')) { %>
 			<button type="button" class="btn btn-xs edit" data-attr="employer">
         		<span class="glyphicon glyphicon-pencil"></span>
         	</button>
@@ -83,7 +83,7 @@
 
 	<li class="hometown"> 
 		<label>Hometown</label> 
-	    <% if(FacebookApp.Models.currentUser.get('id') === user.get('id')) { %>
+	    <% if(Herobook.Models.currentUser.get('id') === user.get('id')) { %>
 			<button type="button" class="btn btn-xs edit" data-attr="hometown">
         		<span class="glyphicon glyphicon-pencil"></span>
         	</button>
@@ -101,7 +101,7 @@
 
 	<li class="current-city"> 
 		<label>Current City</label> 
-	    <% if(FacebookApp.Models.currentUser.get('id') === user.get('id')) { %>
+	    <% if(Herobook.Models.currentUser.get('id') === user.get('id')) { %>
 			<button type="button" class="btn btn-xs edit" data-attr="current_city">
         		<span class="glyphicon glyphicon-pencil"></span>
         	</button>
@@ -118,7 +118,7 @@
 	
 	<li class="about-me"> 
 		<label> About Me </label> 		
-	    <% if(FacebookApp.Models.currentUser.get('id') === user.get('id')) { %>
+	    <% if(Herobook.Models.currentUser.get('id') === user.get('id')) { %>
 			<button type="button" class="btn btn-xs edit" data-attr="about_me">
         		<span class="glyphicon glyphicon-pencil"></span>
         	</button>

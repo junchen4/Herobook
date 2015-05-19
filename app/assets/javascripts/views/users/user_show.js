@@ -1,4 +1,4 @@
-FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
+Herobook.Views.UserShow = Backbone.CompositeView.extend({
   template: JST['users/show'],
 
   events: {
@@ -19,7 +19,7 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
     this.listenTo(this.posts, 'sync', this.renderPosts);
     this.listenTo(this.posts, 'add', this.addPost);
     this.listenTo(this.posts, 'remove', this.removePost);
-    if (FacebookApp.Models.currentUser.get('id') === this.model.get('id')) {
+    if (Herobook.Models.currentUser.get('id') === this.model.get('id')) {
       this.listenTo(this.model.requests(), 'add remove', this.renderRequests);
     }
     this.listenTo(this.model.friends(), 'add remove', this.renderFriendList);
@@ -33,18 +33,18 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
     this.renderPosts();
   
     this.renderSearch();
-    if (FacebookApp.Models.currentUser.get('id') === this.model.get('id')) {
+    if (Herobook.Models.currentUser.get('id') === this.model.get('id')) {
       this.renderRequests();
       console.log("requests",this.model.requests());
     }
-    if (FacebookApp.Models.currentUser.get('id') !== this.model.get('id')) {
+    if (Herobook.Models.currentUser.get('id') !== this.model.get('id')) {
       this.renderRequestButtons();
     }
     this.activePanel = ".wall";
-    var infoShow = new FacebookApp.Views.InfoShow({model: this.model});
+    var infoShow = new Herobook.Views.InfoShow({model: this.model});
     this.$('.content-profile-main').append(infoShow.render().$el);
 
-    var friendListShow = new FacebookApp.Views.FriendListShow({model: this.model});
+    var friendListShow = new Herobook.Views.FriendListShow({model: this.model});
     this.$('.content-profile-main').append(friendListShow.render().$el);
 
     this.makeActive(this.activePanel);
@@ -86,12 +86,12 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
 /////////////
 
   renderSearch: function() {
-    var searchShowView = new FacebookApp.Views.SearchShow();
+    var searchShowView = new Herobook.Views.SearchShow();
     this.$('.content-search').html(searchShowView.render().$el);
   },
 
   renderPostForm: function() {
-    var postFormView = new FacebookApp.Views.PostForm({user: this.model, posts: this.posts, feed: this.feed});
+    var postFormView = new Herobook.Views.PostForm({user: this.model, posts: this.posts, feed: this.feed});
     this.$('.post-form').html(postFormView.render().$el);
   },
 ///////////////////
@@ -104,16 +104,16 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
 
   addPost: function(post) {
     if (this.model.get('friendStatus') === "accepted") {
-      var lastComment = new FacebookApp.Models.Comment();
+      var lastComment = new Herobook.Models.Comment();
 
       //Set the last comment in a post, if the last comment exists
       if (post.comments().length !== 0) {
         lastComment.set(post.comments().at(post.comments().length - 1).attributes);
       }
-      var author = FacebookApp.Collections.users.get(post.get('author_id'));
-      var receiver = FacebookApp.Collections.users.get(post.get('receiver_id'));
+      var author = Herobook.Collections.users.get(post.get('author_id'));
+      var receiver = Herobook.Collections.users.get(post.get('receiver_id'));
 
-      var postShowView = new FacebookApp.Views.PostShow({model: post, posts: this.posts, user: this.model, feed: this.feed, author: author, receiver: receiver, isFeed: false, lastComment: lastComment});
+      var postShowView = new Herobook.Views.PostShow({model: post, posts: this.posts, user: this.model, feed: this.feed, author: author, receiver: receiver, isFeed: false, lastComment: lastComment});
       this.addSubview('.posts', postShowView, false);
     }
   },
@@ -127,8 +127,8 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
 //////////////////
   addRequest: function(request) {
     var that = this;
-    var requestor = FacebookApp.Collections.users.get(request.get('requestor_id')); 
-    var requestShowView = new FacebookApp.Views.RequestShow({
+    var requestor = Herobook.Collections.users.get(request.get('requestor_id')); 
+    var requestShowView = new Herobook.Views.RequestShow({
                       requestor: requestor,
                       model: request,
                       collection: that.model.requests(),
@@ -144,7 +144,7 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
 //////////////////
   renderRequestButtons: function(request) {
     this.emptySubviewContainer('.request-buttons');
-    var requestButtonView = new FacebookApp.Views.RequestButton({
+    var requestButtonView = new Herobook.Views.RequestButton({
       model: request,
       collection: this.model.requests(),
       user: this.model
@@ -156,8 +156,8 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
   requestFriend: function(event) {
     event.preventDefault();
     var that = this;
-    var request = new FacebookApp.Models.Request({
-                    'requestor_id': FacebookApp.Models.currentUser.get('id'),
+    var request = new Herobook.Models.Request({
+                    'requestor_id': Herobook.Models.currentUser.get('id'),
                     'requestee_id': this.model.id,
                     'status': 'pending'
                     });
@@ -174,13 +174,13 @@ FacebookApp.Views.UserShow = Backbone.CompositeView.extend({
     $target = $(event.currentTarget);
     var id = $target.attr('data-id');
     //Remove from each others' friends collections
-    this.model.friends().remove(FacebookApp.Models.currentUser);
-    FacebookApp.Models.currentUser.friends().remove(this.model);
+    this.model.friends().remove(Herobook.Models.currentUser);
+    Herobook.Models.currentUser.friends().remove(this.model);
     //And then delete the request from the database by finding all incoming/outgoing requests
     //They "repeat" because the requestor and requestee ID's are mirrors of each other in incoming
     //and outgoing requests
-    var all_requests = (this.model.requests().where({requestor_id: FacebookApp.Models.currentUser.get('id'), requestee_id: this.model.get('id')})).concat(
-      this.model.requests().where({requestee_id: FacebookApp.Models.currentUser.get('id'), requestor_id: this.model.get('id')})
+    var all_requests = (this.model.requests().where({requestor_id: Herobook.Models.currentUser.get('id'), requestee_id: this.model.get('id')})).concat(
+      this.model.requests().where({requestee_id: Herobook.Models.currentUser.get('id'), requestor_id: this.model.get('id')})
     );
     var that = this;
     for(var i = 0; i < all_requests.length; i++) {
