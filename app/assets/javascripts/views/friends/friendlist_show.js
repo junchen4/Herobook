@@ -1,4 +1,4 @@
-FacebookApp.Views.FriendListShow = Backbone.CompositeView.extend({
+Herobook.Views.FriendListShow = Backbone.CompositeView.extend({
   template: JST['friends/friendlist_show'],
 
   events: {
@@ -24,7 +24,7 @@ FacebookApp.Views.FriendListShow = Backbone.CompositeView.extend({
   },
 
   addFriendShow: function(friend) {
-    var friendShowView = new FacebookApp.Views.FriendShow({model: friend});
+    var friendShowView = new Herobook.Views.FriendShow({model: friend});
     this.addSubview('.friends', friendShowView, false);
   },
 

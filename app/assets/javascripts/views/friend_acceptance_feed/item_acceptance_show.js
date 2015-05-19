@@ -1,5 +1,14 @@
+<<<<<<< HEAD:app/assets/javascripts/views/feed_items/item_acceptance_show.js
 FacebookApp.Views.ItemAcceptanceShow = Backbone.CompositeView.extend({
-  template: JST['friend_acceptance_feed/item_acceptance_show'],
+  template: JST['feed_items/item_acceptance_show'],
+
+  tagName: 'article',
+
+  className: 'acceptance-feed-item',
+=======
+Herobook.Views.ItemAcceptanceShow = Backbone.CompositeView.extend({
+  template: JST['feed_items/item_acceptance_show'],
+>>>>>>> posts:app/assets/javascripts/views/feed_items/item_acceptance_show.js
 
   tagName: 'article',
 

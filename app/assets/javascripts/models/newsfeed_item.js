@@ -1,3 +1,3 @@
-FacebookApp.Models.NewsfeedItem = Backbone.Model.extend({
+Herobook.Models.NewsfeedItem = Backbone.Model.extend({
 
 })

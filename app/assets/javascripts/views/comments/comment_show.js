@@ -1,4 +1,4 @@
-FacebookApp.Views.CommentShow = Backbone.CompositeView.extend({
+Herobook.Views.CommentShow = Backbone.CompositeView.extend({
   template: JST['comments/show'],
 
   events: {
@@ -38,7 +38,7 @@ FacebookApp.Views.CommentShow = Backbone.CompositeView.extend({
     if (this.transitioning === false) {
       this.transitioning = true; 
       event.preventDefault();
-      var like = new FacebookApp.Models.Like({'author_id': FacebookApp.Models.currentUser.get('id'), 'likeable_id': this.model.get('id'), 'likeable_type': 'Comment'});
+      var like = new Herobook.Models.Like({'author_id': Herobook.Models.currentUser.get('id'), 'likeable_id': this.model.get('id'), 'likeable_type': 'Comment'});
       var that = this;
       this.model.set('likeStatus', "liked");
       like.save({}, {
@@ -54,7 +54,7 @@ FacebookApp.Views.CommentShow = Backbone.CompositeView.extend({
     if (this.transitioning === false) {
       this.transitioning = true; 
       event.preventDefault();
-      var like = this.model.likes().findWhere({author_id: FacebookApp.Models.currentUser.get('id')});
+      var like = this.model.likes().findWhere({author_id: Herobook.Models.currentUser.get('id')});
       var that = this;
       this.model.set('likeStatus', "unliked");
       like.destroy({

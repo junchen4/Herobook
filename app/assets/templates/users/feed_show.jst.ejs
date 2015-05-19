@@ -7,7 +7,7 @@
 
     <ul class="header-nav-links group">
       <li><a href="#/feed">Home</a></li>
-      <li><a href="#/users/<%=FacebookApp.Models.currentUser.escape('id')%>"><%=FacebookApp.Models.currentUser.escape('first_name')%></a></li>
+      <li><a href="#/users/<%=Herobook.Models.currentUser.escape('id')%>"><%=Herobook.Models.currentUser.escape('first_name')%></a></li>
       <li><a id="account-nav" data-link='.account-nav-links'>Account</a>
             <ul class="account-nav-links hidden group">
               <li><a class="logout">Logout</a></li>
@@ -29,7 +29,11 @@
 
   <section class="content-newsfeed-main group">
     <div id="post-form-area"></div>
+<<<<<<< HEAD
     <section class="feed-items"></section>
+=======
+    <div class="feed-items"></div>
+>>>>>>> posts
   </section>
 
 </main>

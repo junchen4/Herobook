@@ -1,16 +1,16 @@
-FacebookApp.Models.Feed = Backbone.Model.extend({
+Herobook.Models.Feed = Backbone.Model.extend({
   urlRoot: "/feeds/new",
 
   feedPosts: function() {
     if(!this._feedPosts) {
-      this._feedPosts = new FacebookApp.Collections.Posts([], {user: this});
+      this._feedPosts = new Herobook.Collections.Posts([], {user: this});
     }
     return this._feedPosts;
   },
 
   feedAcceptances: function () {
     if(!this._feedAcceptances) {
-      this._feedAcceptances = new FacebookApp.Collections.Requests([], {user: this});
+      this._feedAcceptances = new Herobook.Collections.Requests([], {user: this});
     }
     return this._feedAcceptances;
   },
@@ -34,4 +34,4 @@ FacebookApp.Models.Feed = Backbone.Model.extend({
 
 })
 
-FacebookApp.Models.feed = new FacebookApp.Models.Feed();
+Herobook.Models.feed = new Herobook.Models.Feed();

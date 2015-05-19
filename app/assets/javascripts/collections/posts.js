@@ -1,21 +1,21 @@
-FacebookApp.Collections.Posts = Backbone.Collection.extend({
+Herobook.Collections.Posts = Backbone.Collection.extend({
   url: '/posts',
 
-  model: FacebookApp.Models.Post,
+  model: Herobook.Models.Post,
 
   comparator: function(model) {
     return -model.get('myDate');
   },
 
   initialize: function(models, options) {
-    this.user = options.user;
+    // this.user = options.user;
   },
 
   getOrFetch: function(id) {
       var post = this.get(id)
 
       if(!post) {
-        post = new FacebookApp.Models.post({id: id});
+        post = new Herobook.Models.post({id: id});
         var collections = this;
         post.fetch({
           success: function() {
@@ -29,3 +29,5 @@ FacebookApp.Collections.Posts = Backbone.Collection.extend({
       return post;
   }
 })
+
+Herobook.Collections.posts = new Herobook.Collections.Posts()

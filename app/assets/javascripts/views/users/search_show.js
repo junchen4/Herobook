@@ -1,4 +1,4 @@
-FacebookApp.Views.SearchShow = Backbone.CompositeView.extend({
+Herobook.Views.SearchShow = Backbone.CompositeView.extend({
   template: JST['users/search_show'],
 
   initialize: function() {

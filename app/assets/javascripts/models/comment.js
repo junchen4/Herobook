@@ -1,9 +1,9 @@
-FacebookApp.Models.Comment = Backbone.Model.extend({
+Herobook.Models.Comment = Backbone.Model.extend({
   urlRoot: '/comments',
 
   likes: function() {
     if(!this._likes) {
-      this._likes = new FacebookApp.Collections.Likes([], {comment: this});
+      this._likes = new Herobook.Collections.Likes([], {comment: this});
     }
     return this._likes;
   },

@@ -1,4 +1,4 @@
-FacebookApp.Views.RequestButton = Backbone.CompositeView.extend({
+Herobook.Views.RequestButton = Backbone.CompositeView.extend({
   template: JST['request_buttons/show'],
 
   initialize: function(options) {

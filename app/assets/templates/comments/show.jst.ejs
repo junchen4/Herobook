@@ -6,7 +6,7 @@
   <div class="comment-body"> <%= comment.escape('body') %> </div>
   <div class="comment-added-by">
     Added by
-    <% if(FacebookApp.Models.currentUser.get('id') === comment.get('author_id')) { %>
+    <% if(Herobook.Models.currentUser.get('id') === comment.get('author_id')) { %>
         <a href="#/users/<%=comment.get('author_id')%>"> you </a>
       <%} else { %>
         <a href="#/users/<%=comment.get('author_id')%>"> <%= comment.get('author').first_name %> <%= comment.get('author').last_name %></a>

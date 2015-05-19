@@ -1,4 +1,4 @@
-FacebookApp.Views.FriendShow = Backbone.CompositeView.extend({
+Herobook.Views.FriendShow = Backbone.CompositeView.extend({
   template: JST['friends/friend_show'],
 
   tagName: "div",

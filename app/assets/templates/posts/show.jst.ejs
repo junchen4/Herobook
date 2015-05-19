@@ -1,14 +1,22 @@
 <% if (isFeed) { %>
   <h1>
       <% if( _.isEmpty(lastComment.attributes) !== false ) { %>
+<<<<<<< HEAD
         <% if(FacebookApp.Models.currentUser.get('id') !== post.get('author_id')) {%>
+=======
+        <% if(Herobook.Models.currentUser.get('id') !== post.get('author_id')) {%>
+>>>>>>> posts
           <a href="#/users/<%=post.escape('author_id')%>"> <%= post.get('author').first_name %> <%= post.get('author').last_name %></a>
         <% } else {%>
           <a href="#/users/<%=post.escape('author_id')%>"> You </a>
         <% } %>
         <% if (post.get('receiver_id') !== post.get('author_id')) { %>
             wrote on
+<<<<<<< HEAD
             <% if(FacebookApp.Models.currentUser.get('id') === post.get('receiver_id')) { %>
+=======
+            <% if(Herobook.Models.currentUser.get('id') === post.get('receiver_id')) { %>
+>>>>>>> posts
               <a href="#/users/<%=post.escape('receiver_id')%>"> Your </a>
             <% } else { %>
               <a href="#/users/<%=post.escape('receiver_id')%>"> <%= post.get('receiver').first_name %> <%= post.get('receiver').last_name %>'s</a> 
@@ -17,7 +25,11 @@
           wrote a status update
         <% } %>
     <%} else {%>
+<<<<<<< HEAD
       <% if (FacebookApp.Models.currentUser.get('id') !== lastComment.get('author_id')) {%>
+=======
+      <% if (Herobook.Models.currentUser.get('id') !== lastComment.get('author_id')) {%>
+>>>>>>> posts
         <a href="#/users/<%=lastComment.escape('author_id')%>"> <%= lastComment.get('author').first_name %> <%= lastComment.get('author').last_name %></a>
       <% } else {%>
         <a href="#/users/<%=lastComment.escape('author_id')%>"> You </a>
@@ -30,12 +42,20 @@
 
 <div class="post-body">
   <% if(post.get('author_id') === post.get('receiver_id')) { %> <!-- if post is a "status" post -->
+<<<<<<< HEAD
     <% if(post.get('author_id') === FacebookApp.Models.currentUser.get('id')) { %>
+=======
+    <% if(post.get('author_id') === Herobook.Models.currentUser.get('id')) { %>
+>>>>>>> posts
       <div class="profile-avatar" style = "background-image: url(<%= post.get('author').profile_photo %>);
     background-size: cover;
        background-position: cover;">
       </div> 
+<<<<<<< HEAD
       <a href="#/users/<%=FacebookApp.Models.currentUser.escape('id')%>">You</a>
+=======
+      <a href="#/users/<%=Herobook.Models.currentUser.escape('id')%>">You</a>
+>>>>>>> posts
     <% } else { %>
       <div class="profile-avatar" style = "background-image: url(<%= post.get('author').profile_photo %>);
     background-size: cover;
@@ -44,12 +64,20 @@
       <a href="#/users/<%=post.escape('author_id')%>"><%= post.get('author').first_name %> <%= post.get('author').last_name %></a> 
     <% } %>
   <% } else { %> <!-- else post is a normal post, X posts on Y's wall -->
+<<<<<<< HEAD
     <% if(post.get('author_id') === FacebookApp.Models.currentUser.get('id')) { %>
+=======
+    <% if(post.get('author_id') === Herobook.Models.currentUser.get('id')) { %>
+>>>>>>> posts
       <div class="profile-avatar" style = "background-image: url(<%= post.get('author').profile_photo %>);
     background-size: cover;
        background-position: cover;">
       </div> 
+<<<<<<< HEAD
       <a href="#/users/<%=FacebookApp.Models.currentUser.escape('id')%>">You</a>
+=======
+      <a href="#/users/<%=Herobook.Models.currentUser.escape('id')%>">You</a>
+>>>>>>> posts
     <% } else { %>
       <div class="profile-avatar" style = "background-image: url(<%= post.get('author').profile_photo %>);
     background-size: cover;
@@ -60,12 +88,20 @@
     
     <span class="glyphicon glyphicon-triangle-right"></span>
     
+<<<<<<< HEAD
     <% if(post.get('receiver_id') === FacebookApp.Models.currentUser.get('id')) { %>
+=======
+    <% if(post.get('receiver_id') === Herobook.Models.currentUser.get('id')) { %>
+>>>>>>> posts
       <div class="profile-avatar" style = "background-image: url(<%= post.get('receiver').profile_photo %>);
     background-size: cover;
        background-position: cover;">
       </div> 
+<<<<<<< HEAD
       <a href="#/users/<%=FacebookApp.Models.currentUser.get('id')%>">You</a>
+=======
+      <a href="#/users/<%=Herobook.Models.currentUser.get('id')%>">You</a>
+>>>>>>> posts
     <% } else { %>
       <div class="profile-avatar" style = "background-image: url(<%= post.get('receiver').profile_photo %>);
     background-size: cover;

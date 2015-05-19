@@ -1,4 +1,4 @@
-<% if(request.get('status') === 'pending' && (request.get('requestor_id') !== FacebookApp.Models.currentUser.get('id'))) {%>
+<% if(request.get('status') === 'pending' && (request.get('requestor_id') !== Herobook.Models.currentUser.get('id'))) {%>
   <li>
 	<a href="#/users/<%=request.escape('requestor_id')%>"><%= request.get('requestor').first_name %> <%= request.get('requestor').last_name %></a>    
      wants to add you as a friend

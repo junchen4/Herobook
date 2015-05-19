@@ -1,4 +1,4 @@
-FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
+Herobook.Views.PostShow = Backbone.CompositeView.extend({
   template: JST['posts/show'],
 
   tagName: 'article',
@@ -10,14 +10,13 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
     'click button.add-comment':'submitComment',
     'click button.like-post':'likePost',
     'click button.unlike-post':'unlikePost'
-
   },
 
   initialize: function(options) {
     this.user = options.user;
+    this.posts = options.posts;
+    this.feed = options.feed;
     this.isFeed = options.isFeed;
-    this.author = options.author;
-    this.receiver = options.receiver;
     this.lastComment = options.lastComment;
     this.transitioning = false;
     this.listenTo(this.model, 'sync', this.render);
@@ -35,7 +34,7 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
   },
 
   renderCommentForm: function() {
-    var commentFormView = new FacebookApp.Views.CommentForm({model: this.model});
+    var commentFormView = new Herobook.Views.CommentForm({model: this.model});
     this.$('.comment-form').html(commentFormView.render().$el);
   },
 
@@ -47,7 +46,7 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
   },
 
   addComment: function(comment) {
-    var commentShowView = new FacebookApp.Views.CommentShow({model: comment, collection: this.model.comments(), user: this.user, post: this.model});
+    var commentShowView = new Herobook.Views.CommentShow({model: comment, collection: this.model.comments(), user: this.user, post: this.model});
     this.addSubview('.comments', commentShowView);
   },
 
@@ -60,9 +59,9 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
 
   submitComment: function(event) {
     event.preventDefault();
-    var that = this;
     var commentBody = this.$('input').val();
-    var comment = new FacebookApp.Models.Comment({'body': commentBody, 'post_id': this.model.get('id')});
+    var comment = new Herobook.Models.Comment({'body': commentBody, 'post_id': this.model.get('id')});
+    var that = this;
     comment.save({}, {
       success: function() {
         that.model.comments().add(comment, {merge: true}); //Add to the comments of the post
@@ -75,8 +74,11 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
     var that = this;
     this.model.destroy({
       success: function() {
-        that.author.posts().remove(that.model);
-        that.receiver.posts().remove(that.model);
+        if (!that.isFeed) {
+          that.posts.remove(that.model);
+        } else {
+          that.feed.feedPosts().remove(that.model);
+        }
       }
     });
   },
@@ -85,16 +87,12 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
     if (this.transitioning === false) {
       this.transitioning = true;
       event.preventDefault();
-      var like = new FacebookApp.Models.Like({'author_id': FacebookApp.Models.currentUser.get('id'), 'likeable_id': this.model.get('id'), 'likeable_type': 'Post'});
+      var like = new Herobook.Models.Like({'author_id': Herobook.Models.currentUser.get('id'), 'likeable_id': this.model.get('id'), 'likeable_type': 'Post'});
       var that = this;
       this.model.set('likeStatus', 'liked');
-      this.author.posts().get(like.get('likeable_id')).set('likeStatus', 'liked');
-      this.receiver.posts().get(like.get('likeable_id')).set('likeStatus', 'liked');
       like.save({}, {
         success: function() {
           that.model.likes().add(like, {merge: true});
-          that.author.posts().get(like.get('likeable_id')).likes().add(like, {merge: true});
-          that.receiver.posts().get(like.get('likeable_id')).likes().add(like, {merge: true});
           that.transitioning = false;
         }
       });
@@ -105,16 +103,12 @@ FacebookApp.Views.PostShow = Backbone.CompositeView.extend({
     if (this.transitioning === false) {
       this.transitioning = true; 
       event.preventDefault();
-      var like = this.model.likes().findWhere({author_id: FacebookApp.Models.currentUser.get('id')});
+      var like = this.model.likes().findWhere({author_id: Herobook.Models.currentUser.get('id')});
       var that = this;
       this.model.set('likeStatus', 'unliked');
-      this.author.posts().get(like.get('likeable_id')).set('likeStatus', 'unliked');
-      this.receiver.posts().get(like.get('likeable_id')).set('likeStatus', 'unliked');
       like.destroy({
         success: function() {
             that.model.likes().remove(like);
-            that.author.posts().get(like.get('likeable_id')).likes().remove(like);
-            that.receiver.posts().get(like.get('likeable_id')).likes().remove(like);
             that.transitioning = false;
         }
       });

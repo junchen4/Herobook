@@ -1,4 +1,4 @@
-FacebookApp.Models.Request = FacebookApp.Models.NewsfeedItem.extend({
+Herobook.Models.Request = Herobook.Models.NewsfeedItem.extend({
   urlRoot: "/requests",
 
   parse: function(response) {

@@ -1,7 +1,7 @@
-FacebookApp.Collections.Comments = Backbone.Collection.extend({
+Herobook.Collections.Comments = Backbone.Collection.extend({
   url: '/comments',
 
-  model: FacebookApp.Models.Comment,
+  model: Herobook.Models.Comment,
 
   initialize: function(models, options) {
     this.user = options.user;
@@ -12,7 +12,7 @@ FacebookApp.Collections.Comments = Backbone.Collection.extend({
       var comment = this.get(id)
 
       if(!comment) {
-        comment = new FacebookApp.Models.Comment({id: id});
+        comment = new Herobook.Models.Comment({id: id});
         var collections = this;
         comment.fetch({
           success: function() {
