@@ -114,7 +114,7 @@ Herobook.Views.FeedShow = Backbone.CompositeView.extend({
       type: "DELETE",
       url: "/session",
       success: function () {
-        window.location.href = 'http://my-facebook.herokuapp.com/';
+        window.location.href = 'http://herobook.space/';
       }
     });
   }
