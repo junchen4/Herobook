@@ -60,7 +60,7 @@ Herobook.Models.User = Backbone.Model.extend({
     }
 
     if(response.receivedPosts) {
-      this.posts().set(response.receivedPosts, {remove: false, parse: true});
+      this.posts().set(response.receivedPosts, {parse: true});
       delete response.receivedPosts;
     }
 

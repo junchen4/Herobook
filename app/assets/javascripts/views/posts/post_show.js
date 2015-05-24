@@ -115,5 +115,4 @@ Herobook.Views.PostShow = Backbone.CompositeView.extend({
     }
   }
 
-
 })

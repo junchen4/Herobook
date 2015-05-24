@@ -13,6 +13,7 @@ Users may:
 * Update personal information
 * Upload photos to update profile picture and cover photo
 * View friends
+* View friends' posts and friendship acceptances on feed
 * Search for all users
 
 ## Technologies
