@@ -14,6 +14,7 @@ Herobook.Views.FeedShow = Backbone.CompositeView.extend({
     this.listenTo(this.model, 'sync', this.renderItems);
     this.listenTo(this.model, 'sync', this.listenComments);
     this.listenTo(this.model.feedPosts(), 'add remove', this.render);
+    this.listenTo(this.model.feedAcceptances(), 'add remove', this.render);
   },
 
   render: function() {
@@ -83,7 +84,7 @@ Herobook.Views.FeedShow = Backbone.CompositeView.extend({
   },
 
   addAcceptanceItem: function(item) {
-    var showView = new Herobook.Views.ItemAcceptanceShow({model: item, user: this.model});
+    var showView = new Herobook.Views.ItemAcceptanceShow({model: item, user: this.user, feed: this.model, isFeed: true});
     this.addSubview('.feed-items', showView, true);
   },
 

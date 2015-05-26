@@ -33,13 +33,13 @@
  }
 
  /* --- ELEMENTS --- */
-
- body {
-   font-family: sans-serif;
-   font-size: 16px;
-   line-height: 1.1666666666666;
-   background: #d4dae8;
- }
+body {
+  font-family: sans-serif;
+  font-size: 16px;
+  line-height: 1.1666666666666;
+  background: #d4dae8;
+  background-image: image-url('universe.jpg');
+}
 
  ul {
    list-style: none;
@@ -69,6 +69,10 @@
 
  .hidden {
   display: none;
+}
+
+ .disappeared {
+  opacity: 0;
 }
 
 a:hover {
@@ -115,6 +119,7 @@ a:hover {
 
 .header-nav-links li a{
  cursor: pointer;
+ padding-left: 28px;
 }
 
  #account-nav {
@@ -132,9 +137,13 @@ a:hover {
   color: #3B5998;
   font-weight: 600;
   padding: 4px 0;
-  float: none; 
   border: 1px solid #6b727c;
   cursor: pointer;
+  width: 110px;
+}
+
+.account-nav-links li:hover {
+  background: lightgrey;
 }
 
 .content-newsfeed {
@@ -153,7 +162,12 @@ a:hover {
   margin-top: 35px;
 }
 
-/* Sessions */
+/* New session */ 
+.errors {
+  background: rgb(107, 117, 131);
+  color: white;
+}
+
 .header-login {
   background: #3B5998;
   padding-top: 12px;
@@ -235,11 +249,11 @@ label #form-password {
 
 .guest-login-button {
   position: relative;
-  left: 446px;
+  left: 458px;
   background: dodgerblue;
   padding: 3px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 800;
   color: white;
   border: solid 1px black;
   margin-top: 14px;
@@ -251,11 +265,19 @@ label #form-password {
 .content-login {
   margin: 0 auto;
   width: 900px;
-  background: #d4dae8;
 }
 
 .content-introduction {
   float: left;
+}
+
+.content-introduction .intro {
+  top: 80px;
+  position: relative;
+  font-size: 21px;
+  left: -53px;
+  font-style: italic;
+  font-weight: 600;
 }
 
 .content-signup {
@@ -270,7 +292,6 @@ label #form-password {
 }
 
 .signup-list li {
-  background: #d4dae8;
   margin-bottom: 40px;
 }
 
@@ -358,7 +379,7 @@ Users
   background: grey;
   padding-top: 5px;
 }
-/*End of search*/
+/*Profile*/
 
 .content-profile-body {
   width: 100%;
@@ -483,10 +504,12 @@ Users
   background: white;
   margin-top: 40px;
   border: solid 1px grey;
+  transition: opacity 1s;
 }
 
 .friend-requests-label {
   margin-top: 20px;
+  margin-bottom: 10px;
 }
 .friend-requests {
   margin-bottom: 5px;
@@ -494,6 +517,10 @@ Users
 
 .friend-requests li {
   margin-bottom: 15px;
+}
+
+.friend-requests a {
+  color: rgb(231, 236, 250);  
 }
 
 /*About User*/
@@ -531,9 +558,6 @@ Users
 
 /* Posts */
 
-.post-form {
-}
-
 .form-post {
   width: 639px;
 }
@@ -562,6 +586,7 @@ Users
   padding-top: 10px;
   background: white;
   margin-top: 40px;
+  transition: opacity 1s;
 }
 
 .post-content {
@@ -574,11 +599,24 @@ Users
   padding: 8px;
   margin: 40px auto;
   background: white;
+  transition: opacity 1s;
 }
 
 .acceptance-feed-item a {
   color: #3b5998;
   font-weight: 600;
+}
+
+.acceptance-feed-item .delete-acceptance {
+  float: right;
+  padding: 0;
+  opacity: 0.2;
+  transition: opacity 0.5s;
+}
+
+.acceptance-feed-item .delete-acceptance:hover {
+  cursor: pointer;
+  opacity: 1;
 }
 
 .feed-items h1 {
@@ -730,10 +768,6 @@ Users
 }
 
 /* Requests */
-.friend-requests a {
-  color: #3b5998;
-  font-weight: 600;
-}
 
 .request-buttons {
   margin-top: 5px;

@@ -71,16 +71,22 @@ Herobook.Views.PostShow = Backbone.CompositeView.extend({
 
   destroyPost: function(event) {
     event.preventDefault();
-    var that = this;
-    this.model.destroy({
-      success: function() {
-        if (!that.isFeed) {
-          that.posts.remove(that.model);
-        } else {
-          that.feed.feedPosts().remove(that.model);
+    $article = $(event.currentTarget).parent(); //post disappears transition
+    $article.addClass('disappeared'); //post disappears transition
+
+    setTimeout(function () {
+      var that = this;
+      this.model.destroy({
+        success: function() {
+          if (!that.isFeed) {
+            that.posts.remove(that.model);
+          } else {
+            that.feed.feedPosts().remove(that.model);
+          }
         }
-      }
-    });
+      });
+    }.bind(this), 900);
+
   },
 
   likePost: function(event) {

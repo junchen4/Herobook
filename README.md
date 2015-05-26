@@ -25,6 +25,7 @@ Users may:
 ## Todos (future features)
 
 * Photo albums
+* Notifications
 * Friend tagging
 * Messaging
 * Topic and group following

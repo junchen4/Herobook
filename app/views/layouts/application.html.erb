@@ -21,18 +21,17 @@
 
 <body>
 
-<% if flash[:errors] %>
-  <ul>
-    <% flash[:errors].each do |error| %>
-    <li> <%= error %> </li>
-    <% end %>
-  </ul>
-<% end %>
+<div class="errors">
+  <% if flash[:errors] %>
+    <ul>
+      <% flash[:errors].each do |error| %>
+      <li> <%= error %> </li>
+      <% end %>
+    </ul>
+  <% end %>
+</div>
 
 <%= yield %>
-
-<br>
-<br>
 
 </body>
 </html>
