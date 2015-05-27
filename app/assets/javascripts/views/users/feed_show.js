@@ -15,15 +15,16 @@ Herobook.Views.FeedShow = Backbone.CompositeView.extend({
     this.listenTo(this.model, 'sync', this.listenComments);
     this.listenTo(this.model.feedPosts(), 'add remove', this.render);
     this.listenTo(this.model.feedAcceptances(), 'add remove', this.render);
+    this.listenTo(Herobook.Collections.notifications, 'add remove change:viewed', this.renderNotifications);
   },
 
   render: function() {
-    console.log("rendering feed");
     var content = this.template({user: this.user, feed: this.model});
     this.$el.html(content);
     this.renderPostForm();
     this.renderItems();
     this.renderSearch();
+    this.renderNotifications();
     return this;
   },
 
@@ -65,6 +66,35 @@ Herobook.Views.FeedShow = Backbone.CompositeView.extend({
 
 //////////////////////////////////////////
 
+  addNotification: function(notification) {
+    var showView = new Herobook.Views.NotificationShow({model: notification});
+    this.addSubview('.notifications', showView);
+  },
+
+  renderNotifications: function() {
+    this.emptySubviewContainer('.notifications');
+
+    //sort models by date to ensure order chronologically in feed
+    var array = [];
+    array = array.concat(Herobook.Collections.notifications.models);
+    array.sort(function(a,b) {
+      var compA = a.get('myDate');
+      var compB = b.get('myDate');
+      return (compA < compB) ? -1 : (compA > compB) ? 1 : 0;
+    });
+
+
+    var that = this;
+    array.forEach(function(el) {
+        if (el.get('viewed') == 'false') {
+          that.addNotification(el);
+        }
+    });
+
+  },
+
+///////////////////////////////////////////
+
   removeItem: function(item) {
     var subviewToRemove = _.findWhere(this.subviews('.feed-items'), {model: item});
     this.removeSubview('.feed-items', subviewToRemove);
@@ -90,7 +120,7 @@ Herobook.Views.FeedShow = Backbone.CompositeView.extend({
 
   renderItems: function() {
     this.emptySubviewContainer('.feed-items');
-    //sort models by date to order chronologically in feed
+    //sort models by date to ensure order chronologically in feed
     var array = [];
     array = array.concat(this.model.feedPosts().models).concat(this.model.feedAcceptances().models);
     array.sort(function(a,b) {

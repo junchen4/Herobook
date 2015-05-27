@@ -1,26 +1,25 @@
-<header class="header group">
-
+<header class="header">
   <nav class="header-nav group">
+
     <h1 class="header-logo">
       <a href="#/feed">herobook</a>
     </h1>
 
     <ul class="header-nav-links group">
-        <li class="home">
-          <a href="#/feed">Home</a>
-        </li>
-
-        <li class="profile">
-          <a href="#/users/<%=Herobook.Models.currentUser.get('id')%>"><%=Herobook.Models.currentUser.escape('first_name')%></a>
-        </li>
-
-      <li><a id="account-nav" data-link='.account-nav-links'>Account </a>
+      <li class="notifications">Notifications 
+        <div class="notification-count"> 
+        </div>
+      </li>
+      <li><a href="#/feed">Home</a></li>
+      <li><a href="#/users/<%=Herobook.Models.currentUser.escape('id')%>"><%=Herobook.Models.currentUser.escape('first_name')%></a></li>
+      <li><a id="account-nav" data-link='.account-nav-links'>Account</a>
             <ul class="account-nav-links hidden group">
               <li><a class="logout">Logout</a></li>
             </ul>
       </li>
     </ul>
-  </section>
+
+  </nav>
 </header>
 
 <section class="content-search"> </section>
@@ -75,3 +74,13 @@
   </section>
 
 </main>
+
+<script>
+    var count = 0;
+    Herobook.Collections.notifications.forEach(function (el) {
+      if (el.get('viewed') == 'false') {
+        count += 1;
+      }
+    });
+    $('.notification-count').append(count);
+</script>

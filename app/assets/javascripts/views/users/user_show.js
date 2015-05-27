@@ -24,6 +24,7 @@ Herobook.Views.UserShow = Backbone.CompositeView.extend({
     }
     this.listenTo(this.model.friends(), 'add remove', this.renderFriendList);
     this.listenTo(this.model, 'change:friendStatus', this.render);
+    this.listenTo(Herobook.Collections.notifications, 'add remove change:viewed', this.renderNotifications);
   },
 
   render: function() {
@@ -31,6 +32,7 @@ Herobook.Views.UserShow = Backbone.CompositeView.extend({
     this.$el.html(content);
     this.renderPostForm();
     this.renderPosts();
+    this.renderNotifications();
   
     this.renderSearch();
     if (Herobook.Models.currentUser.get('id') === this.model.get('id')) {
@@ -94,7 +96,39 @@ Herobook.Views.UserShow = Backbone.CompositeView.extend({
     var postFormView = new Herobook.Views.PostForm({user: this.model, posts: this.posts, feed: this.feed});
     this.$('.post-form-area').html(postFormView.render().$el);
   },
+
 ///////////////////
+
+  addNotification: function(notification) {
+    var count = this.notificationsUnviewed();
+    var showView = new Herobook.Views.NotificationShow({model: notification, count: count});
+    this.addSubview('.notifications', showView, true);
+  },
+
+  renderNotifications: function() {
+    this.emptySubviewContainer('.notifications');
+
+    //sort models by date to ensure order chronologically in feed
+    var array = [];
+    array = array.concat(Herobook.Collections.notifications.models);
+    array.sort(function(a,b) {
+      var compA = a.get('myDate');
+      var compB = b.get('myDate');
+      return (compA < compB) ? -1 : (compA > compB) ? 1 : 0;
+    });
+
+
+    var that = this;
+    array.forEach(function(el) {
+      if (el.get('status') == 'false') {
+        that.addNotification(el);
+      }    
+    });
+  },
+
+///////////////////////////////////////////
+
+
   removePost: function(post) {
     if (this.model.get('friendStatus') === "accepted") {
       var subviewToRemove = _.findWhere(this.subviews('.posts'), {model: post});

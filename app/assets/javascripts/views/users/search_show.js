@@ -23,6 +23,7 @@ Herobook.Views.SearchShow = Backbone.CompositeView.extend({
       return;
     }
 
+
     var isFullName = false;
     var firstName = "";
     var lastName = "";

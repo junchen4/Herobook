@@ -6,6 +6,10 @@
     </h1>
 
     <ul class="header-nav-links group">
+      <li class="notifications">Notifications 
+        <div class="notification-count"> 
+        </div>
+      </li>
       <li><a href="#/feed">Home</a></li>
       <li><a href="#/users/<%=Herobook.Models.currentUser.escape('id')%>"><%=Herobook.Models.currentUser.escape('first_name')%></a></li>
       <li><a id="account-nav" data-link='.account-nav-links'>Account</a>
@@ -34,3 +38,13 @@
   </section>
 
 </main>
+
+<script>
+    var count = 0;
+    Herobook.Collections.notifications.forEach(function (el) {
+      if (el.get('viewed') == 'false') {
+        count += 1;
+      }
+    });
+    $('.notification-count').append(count);
+</script>
