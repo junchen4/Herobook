@@ -14,6 +14,8 @@ Herobook.Views.PostForm = Backbone.View.extend({
     this.posts = options.posts;
     this.feed = options.feed;
     this.isFeed = options.isFeed;
+    //this.picurl is set by filepicker method. use this.picurl to show/not show photo in post
+    //in submitPost method below, set picture_url to this.picurl
   },
 
   render: function() {

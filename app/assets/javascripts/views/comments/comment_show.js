@@ -32,6 +32,17 @@ Herobook.Views.CommentShow = Backbone.CompositeView.extend({
         that.post.comments().remove(that.model);
       }
     });
+
+    //Remove notification
+    Herobook.Collections.notifications.forEach(function (notification) {
+      if ((notification.get('class_name') == 'Comment' && notification.get('receiver_id') == that.model.get('id')) || (notification.get('class_name') == 'Comment Like' && notification.get('receiver_id') == that.model.get('id'))) {
+        notification.destroy({
+          success: function () {
+            Herobook.Collections.notifications.remove(notification);
+          }
+        });
+      }
+    });
   },
 
   likeComment: function() {
@@ -60,6 +71,17 @@ Herobook.Views.CommentShow = Backbone.CompositeView.extend({
       like.destroy({
         success: function() {
             that.transitioning = false;
+        }
+      });
+
+      //Remove notification
+      Herobook.Collections.notifications.forEach(function (notification) {
+        if (notification.get('class_name') == 'Comment Like' && notification.get('receiver_id') == that.model.get('id')) {
+          notification.destroy({
+            success: function () {
+              Herobook.Collections.notifications.remove(notification);
+            }
+          });
         }
       });
     }

@@ -1,0 +1,9 @@
+<script>
+    var count = 0;
+    Herobook.Collections.notifications.forEach(function (el) {
+      if (el.get('viewed') == 'false') {
+        count += 1;
+      }
+    });
+    $('.notification-count label').append(count);
+</script>

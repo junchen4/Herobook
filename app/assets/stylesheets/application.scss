@@ -121,21 +121,63 @@ a:hover {
  cursor: pointer;
 }
 
+.notification-area {
+  bottom: 3px;
+  position: relative;
+}
+
 .notification-count {
   display: inline-block;
+  background: rgb(231, 44, 44);
+  border-radius: 46%;
+  padding: 3px;
 }
 
-.notifications article{
-  width: 200px;
-  display: none;
+.notifications {
   position: absolute;
-  padding-top: 15px;
+  display: none;
   background: white;
-  color: black
+  width: 200px;
+  color: black;
+  border: solid 1px black;
+  z-index: 10;
+  padding-left: 9px;
 }
 
-.notifications:hover article{
+.notifications article {
+  padding: 10px 0;
+}
+
+.notifications article:not(:last-child){
+  border-bottom: solid 1px black;
+}
+
+.notification-area:hover .notifications{
   display: block;
+}
+
+.notifications article a {
+  color: #3b5998;
+  font-weight: 600;
+}
+
+.notifications .notification-body {
+  margin: 5px auto;
+  font-style: italic;
+}
+
+.notifications .view-notification-post {
+  margin-top: 7px;
+  color: #1559D2;
+  display: inline-block;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.notifications .view-notification {
+  cursor: pointer;
+  padding: 0;
+  margin-left: 8px;
 }
 
  #account-nav {
@@ -544,7 +586,8 @@ Users
 }
 
 .friend-requests a {
-  color: rgb(231, 236, 250);  
+  color: #1E1191;
+  font-weight: 600;
 }
 
 /*About User*/
@@ -746,6 +789,7 @@ Users
   background: white;
   border: solid 1px grey;
   border-radius: 5%;
+  z-index: 1;
 }
 
 .form-comment .add-comment {
@@ -827,4 +871,40 @@ label {
   color: white;
   padding: 3px 4px;
   border-radius: 8%;
+}
+
+/*Post Modal*/
+.post-modal {
+    position: fixed;
+    width: 655px;
+    right: 0;
+    top: 75px;
+    left: 289px;
+    background: rgb(255, 255, 255);
+    border: solid 2px gray;
+    overflow-y: scroll;
+    z-index: 15;
+    min-height: 100px;
+    max-height: 600px;
+}
+
+.post-modal .remove-modal {
+  float: right;
+  cursor: pointer;
+  padding: 0;
+}
+
+.post-modal .post-feed-item {
+  padding-top: 20px;
+}
+
+/*Overlay*/
+.overlay{
+  position: fixed;
+  background: rgba(0,0,0,0.5); 
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9;
 }

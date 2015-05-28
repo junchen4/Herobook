@@ -1,4 +1,31 @@
-Notification show here!
+<% if (notification.get('class_name') == 'Post') { %>
+	<a href="#/users/<%=notification.escape('author_id')%>"> <%= notification.get('author').first_name %> <%= notification.get('author').last_name %></a>
+            wrote on
+    <% if(Herobook.Models.currentUser.get('id') === notification.get('receiver_id')) {%>
+      <a href="#/users/<%=notification.escape('receiver_id')%>"> Your </a>
+    <% } else { %>
+      <a href="#/users/<%=notification.escape('receiver_id')%>"> <%= notification.get('receiver').first_name %> <%= notification.get('receiver').last_name %>'s</a> 
+     <% } %> wall
+
+     <div class="notification-body">"<%=notification.get('post').body%>"</div>
+
+     <div class="view-notification-post" data-post=<%=notification.escape('post_id')%>>View</div>
+
+<% } else if (notification.get('class_name') == 'Comment') { %>
+	<a href="#/users/<%=notification.escape('author_id')%>"> <%= notification.get('author').first_name %> <%= notification.get('author').last_name %></a>
+	 wrote a comment
+     <div class="view-notification-post" data-post=<%=notification.escape('post_id')%>>View</div>
+<% } else if (notification.get('class_name') == 'Request') { %>
+	<a href="#/users/<%=notification.escape('receiver_id')%>"> <%= notification.get('receiver').first_name %> <%= notification.get('receiver').last_name %></a>
+	 accepted your friend request
+<% } else if (notification.get('class_name') == 'Post Like') { %>
+	<a href="#/users/<%=notification.escape('author_id')%>"> <%= notification.get('author').first_name %> <%= notification.get('author').last_name %></a>
+	 liked your post
+     <div class="view-notification-post" data-post=<%=notification.escape('post_id')%>>View</div>
+<% } else if (notification.get('class_name') == 'Comment Like') { %>
+	<a href="#/users/<%=notification.escape('author_id')%>"> <%= notification.get('author').first_name %> <%= notification.get('author').last_name %></a>
+	 liked your comment
+     <div class="view-notification-post" data-post=<%=notification.escape('post_id')%>>View</div>
+<% } %>
 
 <span class="view-notification glyphicon glyphicon-remove btn-sm"></span>
-

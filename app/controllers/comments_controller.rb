@@ -2,7 +2,8 @@ class CommentsController < ApplicationController
   before_filter :require_logged_in
 
   def index
-    render json: Comment.all
+    @comments = Comment.all
+    render :index
   end
 
   def new

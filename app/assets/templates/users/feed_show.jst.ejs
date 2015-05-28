@@ -6,9 +6,10 @@
     </h1>
 
     <ul class="header-nav-links group">
-      <li class="notifications">Notifications 
+      <li class="notification-area">Notifications 
         <div class="notification-count"> 
         </div>
+        <div class="notifications"> </div>
       </li>
       <li><a href="#/feed">Home</a></li>
       <li><a href="#/users/<%=Herobook.Models.currentUser.escape('id')%>"><%=Herobook.Models.currentUser.escape('first_name')%></a></li>
@@ -39,12 +40,11 @@
 
 </main>
 
-<script>
-    var count = 0;
-    Herobook.Collections.notifications.forEach(function (el) {
-      if (el.get('viewed') == 'false') {
-        count += 1;
-      }
-    });
-    $('.notification-count').append(count);
-</script>
+<div class="overlay hidden"> </div>
+
+<div class="post-modal hidden"> 
+  <div class="post-modal-remove-area">
+    <span class="remove-modal glyphicon glyphicon-remove btn-lg"></span>
+  </div>
+</div>
+

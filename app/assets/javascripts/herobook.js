@@ -8,10 +8,11 @@ window.Herobook = {
 
     $.ajax({
       type: "get",
-      url: "/notifications/save_notifications"
+      url: "/notifications/save_notifications",
+      success: function () {
+        Herobook.Collections.notifications.fetch();
+      }
     });
-    Herobook.Collections.notifications.fetch();
-
     Herobook.Models.currentUser.fetch({
     	success: function () {
    			Backbone.history.start();

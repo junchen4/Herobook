@@ -4,7 +4,10 @@ Herobook.Views.FeedShow = Backbone.CompositeView.extend({
   events: {
     "click #account-nav": "toggleAccountNav",
     "click": "hideAccountNav",
-    "click .logout": "logout"
+    "click .logout": "logout",
+    "click .view-notification-post": 'renderPostModal',
+    "click .remove-modal": "removeModal",
+    "click .post-modal .delete-post": "removeModal"
   },
 
   initialize: function(options) {
@@ -13,9 +16,10 @@ Herobook.Views.FeedShow = Backbone.CompositeView.extend({
     this.listenTo(Herobook.Models.currentUser, 'sync', this.render);
     this.listenTo(this.model, 'sync', this.renderItems);
     this.listenTo(this.model, 'sync', this.listenComments);
-    this.listenTo(this.model.feedPosts(), 'add remove', this.render);
-    this.listenTo(this.model.feedAcceptances(), 'add remove', this.render);
-    this.listenTo(Herobook.Collections.notifications, 'add remove change:viewed', this.renderNotifications);
+    this.listenTo(this.model.feedPosts(), 'add remove', this.renderItems);
+    this.listenTo(this.model.feedAcceptances(), 'add remove', this.renderItems);
+    this.listenTo(Herobook.Collections.notifications, 'add remove change:viewed sync', this.renderNotifications);
+    this.listenTo(Herobook.Collections.notifications, 'add remove change:viewed sync', this.renderNotificationCount);  
   },
 
   render: function() {
@@ -25,6 +29,7 @@ Herobook.Views.FeedShow = Backbone.CompositeView.extend({
     this.renderItems();
     this.renderSearch();
     this.renderNotifications();
+    this.renderNotificationCount();
     return this;
   },
 
@@ -33,8 +38,16 @@ Herobook.Views.FeedShow = Backbone.CompositeView.extend({
   listenComments: function () { //Updates feed-post's title based on last comment
     var that = this;
     this.model.feedPosts().each(function (post) {
-      that.listenTo(post.comments(), 'add remove', that.render);
+      that.listenTo(post.comments(), 'add remove', that.renderItems);
     })
+  },
+
+  removeModal: function (event) {
+    event.preventDefault();
+    $('.post-modal').addClass('hidden');
+    $(".overlay").addClass("hidden");
+    $('.post-modal article').remove();
+    this.renderItems();
   },
 
   toggleAccountNav: function (event) {
@@ -66,9 +79,34 @@ Herobook.Views.FeedShow = Backbone.CompositeView.extend({
 
 //////////////////////////////////////////
 
+  renderNotificationCount: function() {
+    this.emptySubviewContainer('.notification-count');
+    
+    var showView = new Herobook.Views.NotificationCountShow();
+    this.addSubview('.notification-count', showView);
+  },
+////////////////////////////////
+
+  renderPostModal: function (event) {
+    event.preventDefault();
+    $target = $(event.currentTarget);
+    var post = this.model.feedPosts().get($target.data('post'));
+    $('.post-modal').toggleClass('hidden');
+    $('.overlay').toggleClass('hidden');
+
+    var lastComment = new Herobook.Models.Comment();
+    //Set the last comment in a post, if the last comment exists
+    if (post.comments().length !== 0) {
+      lastComment.set(post.comments().at(post.comments().length - 1).attributes);
+    }
+
+    var postShow = new Herobook.Views.PostShow({model: post, user: this.user, isFeed: true, isModal: true, feed: this.model, lastComment: lastComment});
+    $('.post-modal').append(postShow.render().$el);    
+  },
+
   addNotification: function(notification) {
     var showView = new Herobook.Views.NotificationShow({model: notification});
-    this.addSubview('.notifications', showView);
+    this.addSubview('.notifications', showView, true);
   },
 
   renderNotifications: function() {
@@ -108,7 +146,7 @@ Herobook.Views.FeedShow = Backbone.CompositeView.extend({
       lastComment.set(item.comments().at(item.comments().length - 1).attributes);
     }
 
-    var showView = new Herobook.Views.PostShow({model: item, user: this.user, feed: this.model, lastComment: lastComment, isFeed: true});
+    var showView = new Herobook.Views.PostShow({model: item, user: this.user, feed: this.model, lastComment: lastComment, isFeed: true, isModal: false});
 
     this.addSubview('.feed-items', showView, true);
   },

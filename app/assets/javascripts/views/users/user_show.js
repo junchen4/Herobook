@@ -9,7 +9,10 @@ Herobook.Views.UserShow = Backbone.CompositeView.extend({
     "click": "hideAccountNav",
     "click .change-profile-photo": "changeProfilePhoto",
     "click .change-cover-photo": "changeCoverPhoto",
-    "click .logout": "logout"
+    "click .logout": "logout",
+    "click .view-notification-post": 'renderPostModal',
+    "click .remove-modal": "removeModal",
+    "click .post-modal .delete-post": "removeModal"
   },
 
   initialize: function(options) {
@@ -24,7 +27,8 @@ Herobook.Views.UserShow = Backbone.CompositeView.extend({
     }
     this.listenTo(this.model.friends(), 'add remove', this.renderFriendList);
     this.listenTo(this.model, 'change:friendStatus', this.render);
-    this.listenTo(Herobook.Collections.notifications, 'add remove change:viewed', this.renderNotifications);
+    this.listenTo(Herobook.Collections.notifications, 'add remove change:viewed sync', this.renderNotifications);
+    this.listenTo(Herobook.Collections.notifications, 'add remove change:viewed sync', this.renderNotificationCount);  
   },
 
   render: function() {
@@ -33,11 +37,11 @@ Herobook.Views.UserShow = Backbone.CompositeView.extend({
     this.renderPostForm();
     this.renderPosts();
     this.renderNotifications();
+    this.renderNotificationCount();
   
     this.renderSearch();
     if (Herobook.Models.currentUser.get('id') === this.model.get('id')) {
       this.renderRequests();
-      console.log("requests",this.model.requests());
     }
     if (Herobook.Models.currentUser.get('id') !== this.model.get('id')) {
       this.renderRequestButtons();
@@ -70,6 +74,14 @@ Herobook.Views.UserShow = Backbone.CompositeView.extend({
     }
   },
 
+ removeModal: function (event) {
+    event.preventDefault();
+    $('.post-modal').addClass('hidden');
+    $('.overlay').toggleClass('hidden');
+    $('.post-modal article').remove();
+    this.renderPosts();
+  },
+
 ///////////
 
   changePanel: function (event) {
@@ -99,9 +111,35 @@ Herobook.Views.UserShow = Backbone.CompositeView.extend({
 
 ///////////////////
 
+  renderNotificationCount: function() {
+    this.emptySubviewContainer('.notification-count');
+    
+    var showView = new Herobook.Views.NotificationCountShow();
+    this.addSubview('.notification-count', showView);
+
+  },
+////////////////////////////////
+
+  renderPostModal: function (event) {
+    event.preventDefault();
+    $target = $(event.currentTarget);
+    var post = Herobook.Collections.posts.get($target.data('post'));
+    $('.post-modal').toggleClass('hidden');
+    $('.overlay').toggleClass('hidden');
+
+    var lastComment = new Herobook.Models.Comment();
+    //Set the last comment in a post, if the last comment exists
+    if (post.comments().length !== 0) {
+      lastComment.set(post.comments().at(post.comments().length - 1).attributes);
+    }
+
+    var postShow = new Herobook.Views.PostShow({model: post, user: this.model, posts: this.posts, isFeed: false, isModal: true, feed: this.model, lastComment: lastComment});
+    $('.post-modal').append(postShow.render().$el);    
+  },
+
   addNotification: function(notification) {
-    var count = this.notificationsUnviewed();
-    var showView = new Herobook.Views.NotificationShow({model: notification, count: count});
+    console.log("notifc", notification);
+    var showView = new Herobook.Views.NotificationShow({model: notification});
     this.addSubview('.notifications', showView, true);
   },
 
@@ -117,13 +155,13 @@ Herobook.Views.UserShow = Backbone.CompositeView.extend({
       return (compA < compB) ? -1 : (compA > compB) ? 1 : 0;
     });
 
-
     var that = this;
     array.forEach(function(el) {
-      if (el.get('status') == 'false') {
-        that.addNotification(el);
-      }    
+        if (el.get('viewed') == 'false') {
+          that.addNotification(el);
+        }
     });
+
   },
 
 ///////////////////////////////////////////
@@ -137,6 +175,7 @@ Herobook.Views.UserShow = Backbone.CompositeView.extend({
   },
 
   addPost: function(post) {
+    console.log("post", post);
     if (this.model.get('friendStatus') === "accepted") {
       var lastComment = new Herobook.Models.Comment();
 
@@ -144,10 +183,8 @@ Herobook.Views.UserShow = Backbone.CompositeView.extend({
       if (post.comments().length !== 0) {
         lastComment.set(post.comments().at(post.comments().length - 1).attributes);
       }
-      var author = Herobook.Collections.users.get(post.get('author_id'));
-      var receiver = Herobook.Collections.users.get(post.get('receiver_id'));
 
-      var postShowView = new Herobook.Views.PostShow({model: post, posts: this.posts, user: this.model, feed: this.feed, author: author, receiver: receiver, isFeed: false, lastComment: lastComment});
+      var postShowView = new Herobook.Views.PostShow({model: post, posts: this.posts, user: this.model, feed: this.feed, isFeed: false, isModal: false, lastComment: lastComment});
       this.addSubview('.posts', postShowView, false);
     }
   },
@@ -224,6 +261,17 @@ Herobook.Views.UserShow = Backbone.CompositeView.extend({
         }
       });
     }
+
+    //Remove notification
+    Herobook.Collections.notifications.forEach(function (notification) {
+      if (notification.get('class_name') == 'Request' && notification.get('receiver_id') == that.model.get('id')) {
+        notification.destroy({
+          success: function () {
+            Herobook.Collections.notifications.remove(notification);
+          }
+        });
+      }
+    });
   },
 
   changeCoverPhoto: function (event) {

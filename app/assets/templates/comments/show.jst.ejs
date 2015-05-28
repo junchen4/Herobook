@@ -23,7 +23,7 @@
 
   <% if(comment.get('likeStatus') === 'unliked') {%>
     <button class="like-comment">Like Comment</button>
-  <% } else{ %>
+  <% } else if(comment.get('likeStatus') === 'liked'){ %>
     <button class="unlike-comment">Unlike Comment</button>
   <% } %>
 

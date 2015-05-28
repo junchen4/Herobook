@@ -18,6 +18,7 @@ Herobook.Views.PostShow = Backbone.CompositeView.extend({
     this.feed = options.feed;
     this.isFeed = options.isFeed;
     this.lastComment = options.lastComment;
+    this.isModal = options.isModal;
     this.transitioning = false;
     this.listenTo(this.model, 'sync', this.render);
     this.listenTo(this.model.likes(), 'add remove', this.render);
@@ -26,7 +27,7 @@ Herobook.Views.PostShow = Backbone.CompositeView.extend({
   },
 
   render: function() {
-    var content = this.template({post: this.model, user: this.user, isFeed: this.isFeed, lastComment: this.lastComment});
+    var content = this.template({post: this.model, user: this.user, isFeed: this.isFeed, lastComment: this.lastComment, isModal: this.isModal});
     this.$el.html(content);
     this.renderComments();
     this.renderCommentForm();
@@ -76,14 +77,27 @@ Herobook.Views.PostShow = Backbone.CompositeView.extend({
 
     setTimeout(function () {
       var that = this;
+      var modelID = this.model.get('id');
       this.model.destroy({
         success: function() {
           if (!that.isFeed) {
             that.posts.remove(that.model);
           } else {
             that.feed.feedPosts().remove(that.model);
-          }
+          }         
         }
+      });
+
+      //Remove notification
+      var notesToDestroy = Herobook.Collections.notifications.where({post_id: modelID});
+      console.log("number of notes to destroy", notesToDestroy.length);
+      notesToDestroy.forEach(function (notification) {
+        notification.destroy({
+          success: function () {
+            Herobook.Collections.notifications.remove(notification);
+            console.log("removing notification:", notification);
+          }
+        });
       });
     }.bind(this), 900);
 
@@ -116,6 +130,17 @@ Herobook.Views.PostShow = Backbone.CompositeView.extend({
         success: function() {
             that.model.likes().remove(like);
             that.transitioning = false;
+        }
+      });
+
+      //Remove notification
+      Herobook.Collections.notifications.forEach(function (notification) {
+        if (notification.get('class_name') == 'Post Like' && notification.get('post_id') == that.model.get('id')) {
+          notification.destroy({
+            success: function () {
+              Herobook.Collections.notifications.remove(notification);
+            }
+          });
         }
       });
     }

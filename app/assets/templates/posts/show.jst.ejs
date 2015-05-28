@@ -1,4 +1,4 @@
-<% if (isFeed) { %>
+<% if (isFeed && isModal == false) { %>
   <h1>
       <% if( _.isEmpty(lastComment.attributes) !== false ) { %>
         <% if(Herobook.Models.currentUser.get('id') !== post.get('author_id')) {%>

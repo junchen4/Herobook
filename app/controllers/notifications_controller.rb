@@ -1,27 +1,31 @@
+require 'byebug'
+
 class NotificationsController < ApplicationController
 before_filter :require_logged_in
 
   def index
-  	@notifications = Notification.all
+  	@notifications = Notification.where(user_id: current_user.id)
     render :index
   end
 
   def save_notifications 
+    user_posts_id = current_user.posts.map {|post| post.id}
+    user_comments_id = current_user.comments.map {|comment| comment.id}
+
     @post_notifications = Post.where(["author_id != ? and receiver_id = ?", current_user.id, current_user.id])
     @acceptance_notifications = Request.where(["requestor_id = ? and status = ?", current_user.id, "accepted"])
     
-    user_posts_id = current_user.posts.map {|post| post.id}
     @comment_notifications = Comment.where(["author_id != ? and post_id in (?)", current_user.id, user_posts_id])
     @post_like_notifications = Like.where(["author_id != ? and likeable_type = ? and likeable_id in (?)", current_user.id, "Post", user_posts_id])
     
-    @comment_like_notifications = Like.where(["author_id != ? and likeable_type = ?", current_user.id, "Comment"])
-    @comment_like_notifications.select! {|like| user_posts_id.include?(like.comment.post_id)}
+    @comment_like_notifications = Like.where(["author_id != ? and likeable_type = ? and likeable_id in (?) ", current_user.id, "Comment", user_comments_id])
 
     @post_notifications.each do |post|
       params = {class_name: "Post", author_id: post.author_id, receiver_id: post.receiver_id, post_id: post.id}
       notification = Notification.where(params)
       if notification.length == 0
       	notification = Notification.new(params)
+        notification.user_id = current_user.id
       	if !notification.save
       		render json: {error: "invalid"}, status: :unprocessable_entity
       	end
@@ -33,6 +37,7 @@ before_filter :require_logged_in
       notification = Notification.where(params)
       if notification.length == 0
       	notification = Notification.new(params)
+        notification.user_id = current_user.id
       	if !notification.save
       		render json: {error: "invalid"}, status: :unprocessable_entity
       	end
@@ -40,10 +45,11 @@ before_filter :require_logged_in
     end   
 
     @comment_notifications.each do |comment|
-      params = {class_name: "Comment", author_id: comment.author_id, post_id: comment.post_id}
+      params = {class_name: "Comment", author_id: comment.author_id, receiver_id: comment.id, post_id: comment.post_id} #receiver_id here refers to the comment id
       notification = Notification.where(params)
       if notification.length == 0
       	notification = Notification.new(params)
+        notification.user_id = current_user.id
       	if !notification.save
       		render json: {error: "invalid"}, status: :unprocessable_entity
       	end
@@ -55,6 +61,7 @@ before_filter :require_logged_in
       notification = Notification.where(params)
       if notification.length == 0
       	notification = Notification.new(params)
+        notification.user_id = current_user.id
       	if !notification.save
       		render json: {error: "invalid"}, status: :unprocessable_entity
       	end
@@ -62,10 +69,12 @@ before_filter :require_logged_in
     end  
 
     @comment_like_notifications.each do |like|
-      params = {class_name: "Comment Like", author_id: like.author_id, receiver_id: like.likeable_id} #receiver_id here represents the comment's id
+      post_id = like.likeable.post_id
+      params = {class_name: "Comment Like", author_id: like.author_id, receiver_id: like.likeable_id, post_id: post_id} #receiver_id here represents the comment's id
       notification = Notification.where(params)
       if notification.length == 0
       	notification = Notification.new(params)
+        notification.user_id = current_user.id
       	if !notification.save
       		render json: {error: "invalid"}, status: :unprocessable_entity
       	end
