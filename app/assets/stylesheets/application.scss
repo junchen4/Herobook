@@ -468,7 +468,7 @@ Users
 .content-profile-sidebar-links {
   float: left;
   width: 190px;
-  background: white;
+  background: #F3EDED;
   font-weight: 700;
   border-radius: 5%;
   padding: 5px;
@@ -592,6 +592,12 @@ Users
 
 /*About User*/
 
+.about {
+  background: #E3E9F3;
+  border-radius: 1%;
+  padding: 15px;
+}
+
 #about-list li {
   margin-bottom: 20px;
 }
@@ -614,11 +620,16 @@ Users
 }
 
 /*Friends show*/
-.friend-show {
+.friendlist .friend-show {
   display: inline-block;
   padding-left: 50px;
   padding-bottom: 35px;
   width: 250px;
+}
+
+.friendlist .friend-show a{
+  color: #C7C0C0;
+  font-weight: 600;
 }
 
 
