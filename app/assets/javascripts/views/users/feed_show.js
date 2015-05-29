@@ -121,14 +121,17 @@ Herobook.Views.FeedShow = Backbone.CompositeView.extend({
       return (compA < compB) ? -1 : (compA > compB) ? 1 : 0;
     });
 
-
     var that = this;
+    var allViewed = true;
     array.forEach(function(el) {
         if (el.get('viewed') == 'false') {
+          allViewed = false;
           that.addNotification(el);
         }
     });
-
+    if (allViewed) {
+      $('.notifications').html("You have no notifications");
+    }
   },
 
 ///////////////////////////////////////////

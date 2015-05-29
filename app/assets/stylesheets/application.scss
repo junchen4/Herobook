@@ -674,14 +674,14 @@ Users
   font-weight: 600;
 }
 
-.acceptance-feed-item .delete-acceptance {
+.acceptance-feed-item .hide-acceptance {
   float: right;
   padding: 0;
   opacity: 0.2;
   transition: opacity 0.5s;
 }
 
-.acceptance-feed-item .delete-acceptance:hover {
+.acceptance-feed-item .hide-acceptance:hover {
   cursor: pointer;
   opacity: 1;
 }

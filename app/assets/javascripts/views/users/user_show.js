@@ -156,16 +156,20 @@ Herobook.Views.UserShow = Backbone.CompositeView.extend({
     });
 
     var that = this;
+    var allViewed = true;
     array.forEach(function(el) {
         if (el.get('viewed') == 'false') {
+          allViewed = false;
           that.addNotification(el);
         }
     });
+    if (allViewed) {
+      $('.notifications').html("You have no notifications");
+    }
 
   },
 
 ///////////////////////////////////////////
-
 
   removePost: function(post) {
     if (this.model.get('friendStatus') === "accepted") {

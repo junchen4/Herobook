@@ -45,6 +45,7 @@ Herobook.Views.CommentShow = Backbone.CompositeView.extend({
     });
   },
 
+
   likeComment: function() {
     if (this.transitioning === false) {
       this.transitioning = true; 

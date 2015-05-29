@@ -6,7 +6,7 @@ Herobook.Views.ItemAcceptanceShow = Backbone.CompositeView.extend({
   className: 'acceptance-feed-item group',
 
   events: {
-    'click .delete-acceptance': 'destroyAcceptance'
+     'click .hide-acceptance': 'hideAcceptance'
   },
 
   initialize: function(options) {
@@ -22,25 +22,14 @@ Herobook.Views.ItemAcceptanceShow = Backbone.CompositeView.extend({
     return this;
   },
 
-  destroyAcceptance: function(event) {
+  hideAcceptance: function(event) {
     event.preventDefault();
     $article = $(event.currentTarget).parent(); //item disappears transition
     $article.addClass('disappeared'); //item disappears transition
 
     setTimeout(function () {
-      var that = this;
-      this.model.destroy({
-        success: function() {
-          if (!that.isFeed) {
-            that.posts.remove(that.model);
-          } else {
-            that.feed.feedPosts().remove(that.model);
-          }
-        }
-      });
+      $('.acceptance-feed-item').addClass('hidden');
     }.bind(this), 900);
-
   }
-
 
 })
