@@ -1,6 +1,8 @@
 # Herobook
 
-[Herobook](http://herobook.space/) is a social networking site.
+[Herobook](http://herobook.space/) is a social networking site. 
+
+*For demonstration purposes, guest login is recommended.*
 
 ## Features
 
@@ -12,6 +14,7 @@ Users may:
 * Request, accept, or decline friendships
 * Update personal information
 * Upload photos to update profile picture and cover photo
+* View notifications for posts, comments, post likes, comment likes, and friend acceptances
 * View friends
 * View friends' posts and friendship acceptances on feed
 * Search for all users
@@ -23,9 +26,7 @@ Users may:
 * **Styling**: Custom CSS.
 
 ## Todos (future features)
-
+* Photo posting
 * Photo albums
-* Notifications
 * Friend tagging
 * Messaging
-* Topic and group following
