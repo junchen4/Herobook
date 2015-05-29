@@ -28,7 +28,7 @@ Herobook.Views.ItemAcceptanceShow = Backbone.CompositeView.extend({
     $article.addClass('disappeared'); //item disappears transition
 
     setTimeout(function () {
-      $('.acceptance-feed-item').addClass('hidden');
+      this.$el.addClass('hidden');
     }.bind(this), 900);
   }
 
