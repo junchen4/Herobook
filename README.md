@@ -1,6 +1,6 @@
 # Herobook
 
-[Herobook](http://herobook.space/) is a social networking site. 
+[Herobook](http://my-herobook.herokuapp.com/) is a social networking site. 
 
 *For demonstration purposes, guest login is recommended.*
 
